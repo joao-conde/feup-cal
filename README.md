@@ -1,5 +1,6 @@
 # feup-cal
-Repositório de CAL <br><br>
+Projects for the Conception and Analysis of Algorithms (CAL) class of the Master in Informatics and Computer Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP). 
+<br><br>
 
 ### Tema 1: À procura de estacionamento
 Numa cidade, existem diversos locais de estacionamento público: lugares em estrada (parquímetro) ou garagens. O valor do estacionamento varia de local para local.
