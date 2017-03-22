@@ -190,7 +190,7 @@ void exercicio3()
 	    linestream >> X;
 	    std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
 	    linestream >> Y;
-	    gv->addNode(idNo,X,Y);
+	    gv->addNode(idNo,X,-Y);
 
 	}
 
