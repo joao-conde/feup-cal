@@ -1,0 +1,7 @@
+1;1;Garagem Santo Antonio;1;1
+2;8;Irmaos Rocha;2.5;0
+3;4;Garagem Comercio do Porto; 4.2;1
+4;20;Parque das Cardosas;4.7;0
+5;11;Mapfre Parking;3;0
+6;15;Garagem Atlantico;8;1
+7;22;Garagem Bombarda;2.8;1

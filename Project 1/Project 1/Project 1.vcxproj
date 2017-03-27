@@ -146,17 +146,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Local.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="ParkingLot.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Street.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Edge.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Local.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ParkingLot.h" />
     <ClInclude Include="Street.h" />
@@ -164,6 +164,8 @@
   <ItemGroup>
     <Text Include="Edges.txt" />
     <Text Include="Nodes.txt" />
+    <Text Include="Parking.txt" />
+    <Text Include="Streets.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

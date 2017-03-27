@@ -1,10 +1,12 @@
-#include  <iostream>
+#include <iostream>
+#include <string>
+#include "Manager.h"
 
 using namespace std;
 
+Manager* Manager::singleton_instance = 0;
+
 int main() {
-	cout << "VISUAL STUDIO ROCKS, IDC.\n";
-	cout << "pf isto e so um ide, eclipse sucks...\n";
-	cout << "depois damos copy paste para mostrar a arvore :-)\n";
+	Manager::instance()->loadData();
 	return 0;
 }

@@ -27,10 +27,10 @@
     <ClCompile Include="ParkingLot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Edge.cpp">
+    <ClCompile Include="Local.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Local.cpp">
+    <ClCompile Include="Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,13 +44,13 @@
     <ClInclude Include="ParkingLot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Edge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Local.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,6 +59,12 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Nodes.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Parking.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Streets.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

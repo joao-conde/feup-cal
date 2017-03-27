@@ -10,12 +10,14 @@ class ParkingLot
 private:
 
 	int id;
+	int node; //TODO: alterar no
 	string name;
-	Node node;
 	float price;
+	bool isGarage;
 
 public:
 	ParkingLot();
+	ParkingLot(int id, int node, string name, float price, int isGarage);
 	~ParkingLot();
 };
 

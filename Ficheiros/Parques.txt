@@ -1,8 +1,0 @@
-ID;NO;NOME;PRECO
-1;1;Garagem Santo Antonio;1
-2;8;Irmaos Rocha;2.5
-3;4;Garagem Comercio do Porto; 4.2
-4;20;Parque das Cardosas;4.7
-5;11;Mapfre Parking;3
-6;15;Garagem Atlantico;8
-7;22;Garagem Bombarda;2.8
