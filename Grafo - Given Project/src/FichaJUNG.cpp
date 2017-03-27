@@ -162,6 +162,7 @@ void exercicio3()
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
+	gv->defineEdgeCurved(false);
 
 	ifstream inFile;
 
