@@ -7,11 +7,10 @@ using namespace std;
 class Node
 {
 private:
-	int id;
-	float latitude; //x
-	float longitude; //y
-	friend class Edge;
+	unsigned int id;
+	pair<int, int> coords; 
 
+	
 public:
 	Node();
 	~Node();
