@@ -6,7 +6,7 @@ ParkingLot::ParkingLot()
 {
 }
 
-ParkingLot::ParkingLot(int id, int node, string name, float price, int isGarage)
+ParkingLot::ParkingLot(int id, Vertex<Node> *node, string name, float price, int isGarage)
 {
 	this->id = id;
 	this->node = node;
@@ -22,4 +22,29 @@ ParkingLot::ParkingLot(int id, int node, string name, float price, int isGarage)
 
 ParkingLot::~ParkingLot()
 {
+}
+
+int ParkingLot::getID()
+{
+	return this->id;
+}
+
+Vertex<Node>* ParkingLot::getNode()
+{
+	return this->node;
+}
+
+string ParkingLot::getName()
+{
+	return this->name;
+}
+
+float ParkingLot::getPrice()
+{
+	return this->price;
+}
+
+bool ParkingLot::isGarage()
+{
+	return this->isGarage;
 }

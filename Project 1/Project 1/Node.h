@@ -11,7 +11,12 @@ private:
 	pair<int, int> coords; 
 
 public:
+	Node();
 	Node(int id, int x, int y);
 	~Node();
+
+	int getID();
+	int getX();
+	int getY();
 };
 

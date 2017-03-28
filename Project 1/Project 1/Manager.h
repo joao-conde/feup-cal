@@ -14,8 +14,9 @@ class Manager
 
 private:
 	static Manager* singleton_instance;
-	vector<Vertex<Node>> vecNodes;
-	vector<Edge<Node>> vecEdges;
+
+	vector<Vertex<Node>*> vecNodes;
+	vector<Edge<Node>*> vecEdges;
 	vector<ParkingLot> vecParking;
 	vector<Street> vecStreets;
 
@@ -40,16 +41,5 @@ public:
 	void loadParkingLot();
 	void loadStreets();
 	void loadData();
-
-	/*
-	* SAVE DATA
-	*/
-
-	void saveEdges();
-	void saveNodes();
-	void saveParkingLot();
-	void saveStreets();
-	void saveData();
-
 };
 
