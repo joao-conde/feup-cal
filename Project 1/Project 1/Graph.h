@@ -29,7 +29,6 @@ class Vertex {
 	vector<Edge<T>  > adj;
 	bool visited;
 	bool processing;
-	void addEdge(Vertex<T> *dest, double w);
 	bool removeEdgeTo(Vertex<T> *d);
 
 	//folha pratica 5
@@ -41,6 +40,7 @@ public:
 
 	T getInfo() const;
 	int getIndegree() const;
+	void addEdge(int id, Vertex<T> *dest, double w);
 
 	Vertex* path;
 
@@ -70,8 +70,8 @@ Vertex<T>::Vertex(T in) : info(in), visited(false), processing(false), indegree(
 
 
 template <class T>
-void Vertex<T>::addEdge(Vertex<T> *dest, double w) {
-	Edge<T> edgeD(dest, w);
+void Vertex<T>::addEdge(int id, Vertex<T> *dest, double w) {
+	Edge<T> edgeD(id, dest, w);
 	adj.push_back(edgeD);
 }
 
@@ -92,16 +92,37 @@ int Vertex<T>::getIndegree() const {
 */
 template <class T>
 class Edge {
+	int id;
 	Vertex<T> * dest;
 	double weight;
 public:
-	Edge(Vertex<T> *d, double w);
+	Edge(int id, Vertex<T> *d, double w);
 	friend class Graph<T>;
 	friend class Vertex<T>;
+	int getID();
+	Vertex<T>* getNode();
+	double getWeight();
 };
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *d, double w) : dest(d), weight(w) {}
+Edge<T>::Edge(int id, Vertex<T> *d, double w) : dest(d), weight(w) {
+	this->id = id;
+}
+
+template <class T>
+int Edge<T>::getID() {
+	return this->id;
+}
+
+template <class T>
+Vertex<T>* Edge<T>::getNode() {
+	return this->dest;
+}
+
+template <class T>
+double Edge<T>::getWeight() {
+	return this->weight;
+}
 
 
 

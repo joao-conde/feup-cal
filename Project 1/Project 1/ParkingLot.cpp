@@ -44,7 +44,7 @@ float ParkingLot::getPrice()
 	return this->price;
 }
 
-bool ParkingLot::isGarage()
+bool ParkingLot::getIsGarage()
 {
 	return this->isGarage;
 }

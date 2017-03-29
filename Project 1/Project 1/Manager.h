@@ -41,5 +41,11 @@ public:
 	void loadParkingLot();
 	void loadStreets();
 	void loadData();
+
+	/*
+	* DISPLAY DATA - for testing
+	*/
+
+	void displayInfo();
 };
 

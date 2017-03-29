@@ -19,8 +19,8 @@ void Manager::loadEdges()
 
 			size_t pos1 = line.find(";"); //posicao 1
 			string str1 = line.substr(pos1 + 1); //no+no
-			size_t pos2 = line.find(";"); //posicao 2
-			string str2 = line.substr(pos1 + 1); //no
+			size_t pos2 = str1.find(";"); //posicao 2
+			string str2 = str1.substr(pos2 + 1); //no
 
 			string idString = line.substr(0, pos1);
 			string nodeIString = str1.substr(0, pos2);
@@ -48,8 +48,14 @@ void Manager::loadEdges()
 			double weight;
 			weight = sqrt(pow(nodeFinal.getX() - nodeInit.getX(), 2) + pow(nodeFinal.getY() - nodeInit.getY(), 2));
 
-			Edge<Node> *edge = new Edge<Node>(vert, weight);
+			Edge<Node> *edge = new Edge<Node>(id, vert, weight);
 			vecEdges.push_back(edge);
+
+			for (unsigned int i = 0; i < vecNodes.size(); i++) {
+				if (nodeI == vecNodes.at(i)->getInfo().getID())
+					vecNodes.at(i)->addEdge(id, vert, weight);
+			}
+
 		}
 
 		file.close();
@@ -70,8 +76,8 @@ void Manager::loadNodes()
 
 			size_t pos1 = line.find(";"); //posicao 1
 			string str1 = line.substr(pos1 + 1); //x+y
-			size_t pos2 = line.find(";"); //posicao 2
-			string str2 = line.substr(pos1 + 1); //y
+			size_t pos2 = str1.find(";"); //posicao 2
+			string str2 = str1.substr(pos2 + 1); //y
 
 			string idString = line.substr(0, pos1);
 			string xString = str1.substr(0, pos2);
@@ -104,12 +110,12 @@ void Manager::loadParkingLot()
 
 			size_t pos1 = line.find(";"); //posicao 1
 			string str1 = line.substr(pos1 + 1); //no+nome+preco+garagem
-			size_t pos2 = line.find(";"); //posicao 2
-			string str2 = line.substr(pos1 + 1); //nome+preco+garagem
-			size_t pos3 = line.find(";"); //posicao 3
-			string str3 = line.substr(pos1 + 1); //preco+garagem
-			size_t pos4 = line.find(";"); //posicao 4
-			string str4 = line.substr(pos1 + 1); //garagem
+			size_t pos2 = str1.find(";"); //posicao 2
+			string str2 = str1.substr(pos2 + 1); //nome+preco+garagem
+			size_t pos3 = str2.find(";"); //posicao 3
+			string str3 = str2.substr(pos3 + 1); //preco+garagem
+			size_t pos4 = str3.find(";"); //posicao 4
+			string str4 = str3.substr(pos4 + 1); //garagem
 
 			string idString = line.substr(0, pos1);
 			string nodeString = str1.substr(0, pos2);
@@ -122,7 +128,7 @@ void Manager::loadParkingLot()
 			float price = stof(priceString);
 			int garagem = stoi(garagemString, nullptr, 10);
 
-			Vertex<Node> *vert;
+			Vertex<Node> *vert = NULL;
 
 			for (unsigned int i = 0; i < vecNodes.size(); i++) {
 				if (nodeID == vecNodes.at(i)->getInfo().getID()) {
@@ -153,10 +159,10 @@ void Manager::loadStreets()
 
 			size_t pos1 = line.find(";"); //posicao 1
 			string str1 = line.substr(pos1 + 1); //nome+arestas+sentido
-			size_t pos2 = line.find(";"); //posicao 2
-			string str2 = line.substr(pos1 + 1); //arestas+sentido
-			size_t pos3 = line.find(";"); //posicao 3
-			string str3 = line.substr(pos1 + 1); //sentido
+			size_t pos2 = str1.find(";"); //posicao 2
+			string str2 = str1.substr(pos2 + 1); //arestas+sentido
+			size_t pos3 = str2.find(";"); //posicao 3
+			string str3 = str2.substr(pos3 + 1); //sentido
 
 			string idString = line.substr(0, pos1);
 			string name = str1.substr(0, pos2);
@@ -165,8 +171,26 @@ void Manager::loadStreets()
 
 			int id = stoi(idString, nullptr, 10);
 			int way = stoi(wayString, nullptr, 10);
-			
-			//TODO: falta analisar arestas e afins
+
+			edgesString.append(",");
+			vector<Edge<Node>*> edges;
+
+			while (!edgesString.empty()) {
+				Edge<Node> *edge = NULL;
+				int edgeID = stoi(edgesString.substr(0, edgesString.find_first_of(",")), nullptr, 10);
+
+				for (unsigned int i = 0; i < vecEdges.size(); i++) {
+					if (edgeID == vecEdges.at(i)->getID()) {
+						edge = vecEdges.at(i);
+						break;
+					}
+				}
+				edges.push_back(edge);
+				edgesString.erase(0, edgesString.find_first_of(",") + 1);
+			}
+
+			Street st = Street(id, name, edges, way);
+			vecStreets.push_back(st);
 		}
 
 		file.close();
@@ -183,5 +207,30 @@ void Manager::loadData()
 	loadEdges();
 	loadParkingLot();
 	loadStreets();
+	return;
+}
+
+//TODO: esta funcao e so para testar
+void Manager::displayInfo()
+{
+	/*for (unsigned int i = 0; i < vecNodes.size(); i++) {
+		cout << vecNodes.at(i)->getInfo().getID() << " - " << vecNodes.at(i)->getInfo().getX() << " - " << vecNodes.at(i)->getInfo().getY() << endl;
+	}
+
+	for (unsigned int i = 0; i < vecEdges.size(); i++) {
+		cout << vecEdges.at(i)->getID() << " - " << vecEdges.at(i)->getWeight() <<  endl;
+	}
+
+	for (unsigned int i = 0; i < vecParking.size(); i++) {
+		cout << vecParking.at(i).getID() << " - " << vecParking.at(i).getNode()->getInfo().getID() << " - " << vecParking.at(i).getName() << " - " << vecParking.at(i).getPrice() << " - " << vecParking.at(i).getIsGarage() << endl;
+	}
+
+	for (unsigned int i = 0; i < vecStreets.size(); i++) {
+		cout << vecStreets.at(i).getID() << " - " << vecStreets.at(i).getName() << " - " << vecStreets.at(i).isTwoWays() << endl;
+
+		for (unsigned int j = 0; j < vecStreets.at(i).getEdges().size(); j++) {
+			cout << vecStreets.at(i).getEdges().at(j)->getID() << endl;
+		}
+	}*/
 	return;
 }

@@ -25,6 +25,6 @@ public:
 	Vertex<Node> *getNode();
 	string getName();
 	float getPrice();
-	bool isGarage();
+	bool getIsGarage();
 };
 
