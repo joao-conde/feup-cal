@@ -42,6 +42,8 @@ public:
 	int getIndegree() const;
 	void addEdge(int id, Vertex<T> *dest, double w);
 
+	vector<Edge<T>> getAdj();
+
 	Vertex* path;
 
 };
@@ -73,6 +75,12 @@ template <class T>
 void Vertex<T>::addEdge(int id, Vertex<T> *dest, double w) {
 	Edge<T> edgeD(id, dest, w);
 	adj.push_back(edgeD);
+}
+
+template<class T>
+inline vector<Edge<T>> Vertex<T>::getAdj()
+{
+	return adj;
 }
 
 

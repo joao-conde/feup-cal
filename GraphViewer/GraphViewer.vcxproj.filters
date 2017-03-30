@@ -73,16 +73,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\Edges.txt">
+    <Text Include="Edges.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="src\Nodes.txt">
+    <Text Include="Nodes.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="src\Parking.txt">
+    <Text Include="Parking.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="src\Streets.txt">
+    <Text Include="Streets.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

@@ -9,7 +9,7 @@ Manager* Manager::singleton_instance = 0;
 int main() {
 	Manager::instance()->loadData();
 	//Manager::instance()->displayInfo();
-	//Manager::instance()->printGraph();
+	Manager::instance()->printGraphFromVectors();
 	getchar();
 	return 0;
 }

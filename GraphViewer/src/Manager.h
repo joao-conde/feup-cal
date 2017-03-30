@@ -23,6 +23,8 @@ private:
 	vector<ParkingLot> vecParking;
 	vector<Street> vecStreets;
 
+	GraphViewer *gv;
+
 public:
 	Manager();
 	~Manager();
@@ -50,6 +52,6 @@ public:
 	*/
 
 	void displayInfo();
-	void printGraph();
+	void printGraphFromVectors();
 };
 

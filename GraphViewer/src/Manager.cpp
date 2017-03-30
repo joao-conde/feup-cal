@@ -2,6 +2,7 @@
 
 Manager::Manager()
 {
+	gv = new GraphViewer(600, 600, false);
 }
 
 
@@ -61,7 +62,7 @@ void Manager::loadEdges()
 		file.close();
 	}
 	else {
-		cerr << "File not found!\n";
+		cerr << "e File not found!\n";
 	}
 	return;
 }
@@ -95,7 +96,7 @@ void Manager::loadNodes()
 		file.close();
 	}
 	else {
-		cerr << "File not found!\n";
+		cerr << "n File not found!\n";
 	}
 	return;
 }
@@ -144,7 +145,7 @@ void Manager::loadParkingLot()
 		file.close();
 	}
 	else {
-		cerr << "File not found!\n";
+		cerr << "p File not found!\n";
 	}
 	return;
 }
@@ -196,7 +197,7 @@ void Manager::loadStreets()
 		file.close();
 	}
 	else {
-		cerr << "File not found!\n";
+		cerr << "s File not found!\n";
 	}
 	return;
 }
@@ -235,79 +236,36 @@ void Manager::displayInfo()
 	return;
 }
 
-void Manager::printGraph() {
+void Manager::printGraphFromVectors() {
 
-		GraphViewer *gv = new GraphViewer(600, 600, false);
+	gv->createWindow(600, 600);
 
-		gv->createWindow(600, 600);
+	gv->defineEdgeColor("blue");
+	gv->defineVertexColor("yellow");
+	gv->defineEdgeCurved(true);
 
-		gv->defineEdgeColor("blue");
-		gv->defineVertexColor("yellow");
-		gv->defineEdgeCurved(true);
+	for (int i = 0; i < vecNodes.size(); i++) {
 
-		ifstream inFile;
+		int idNo = vecNodes.at(i)->getInfo().getID();
+		int x = vecNodes.at(i)->getInfo().getX();
+		int y = vecNodes.at(i)->getInfo().getY();
 
-		//Ler o ficheiro nos.txt
-		inFile.open("Nodes.txt");
-
-		if (!inFile) {
-			cerr << "Unable to open file datafile.txt";
-			exit(1);   // call system to stop
-		}
-
-		std::string   line;
-
-		int idNo = 0;
-		int X = 0;
-		int Y = 0;
-
-		while (std::getline(inFile, line))
-		{
-			std::stringstream linestream(line);
-			std::string         data;
-
-			linestream >> idNo;
-
-			std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-			linestream >> X;
-			std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-			linestream >> Y;
-			gv->addNode(idNo, X, -Y);
-
-		}
-
-		inFile.close();
-
-
-		//Ler o ficheiro arestas.txt
-		inFile.open("Edges.txt");
-
-		if (!inFile) {
-			cerr << "Unable to open file datafile.txt";
-			exit(1);   // call system to stop
-		}
-
-		int idAresta = 0;
-		int idNoOrigem = 0;
-		int idNoDestino = 0;
-
-		while (std::getline(inFile, line))
-		{
-			std::stringstream linestream(line);
-			std::string data;
-
-
-			linestream >> idAresta;
-
-			std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-			linestream >> idNoOrigem;
-			std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
-			linestream >> idNoDestino;
-			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::UNDIRECTED);
-
-		}
-
-		inFile.close();
-
-		gv->rearrange();
+		gv->addNode(idNo,x, -y);
 	}
+
+	for (int i = 0; i < vecNodes.size(); i++) {
+		
+		int idNoOrigem = vecNodes.at(i)->getInfo().getID();
+
+		vector<Edge<Node>> adj = vecNodes.at(i)->getAdj();
+
+		for (int j = 0; j < adj.size(); j++) {
+			int idAresta = adj.at(j).getID();
+			int idNoDestino = adj.at(j).getNode()->getInfo().getID();
+
+			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::UNDIRECTED);
+		}
+	}
+
+	gv->rearrange();
+}
