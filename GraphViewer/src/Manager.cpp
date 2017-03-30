@@ -33,8 +33,6 @@ void Manager::loadEdges()
 			Node n;
 			Node nodeInit;
 			Node nodeFinal;
-			//Vertex<Node> *vert = new Vertex<Node>(n);
-
 
 			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
@@ -43,23 +41,12 @@ void Manager::loadEdges()
 
 				if (nodeF == myGraph.getVertexSet().at(i)->getInfo().getID()) {
 					nodeFinal = myGraph.getVertexSet().at(i)->getInfo();
-					//vert = myGraph.getVertexSet().at(i);
 				}
 			}
 
 			double weight;
 			weight = sqrt(pow(nodeFinal.getX() - nodeInit.getX(), 2) + pow(nodeFinal.getY() - nodeInit.getY(), 2));
-
-			//Edge<Node> *edge = new Edge<Node>(id, vert, weight);
-			//vecEdges.push_back(edge);
 			myGraph.addEdge(id, nodeInit, nodeFinal, weight);
-
-
-			/*
-			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
-				if (nodeI == myGraph.getVertexSet().at(i)->getInfo().getID())
-					myGraph.getVertexSet().at(i)->addEdge(id, vert, weight);
-			}*/
 
 		}
 
@@ -93,9 +80,7 @@ void Manager::loadNodes()
 			int y = stoi(yString, nullptr, 10);
 
 			Node node = Node(id, x, y);
-			//Vertex<Node> *vert = new Vertex<Node>(node);
 			myGraph.addVertex(node);
-			//vecNodes.push_back(vert);
 		}
 
 		file.close();
@@ -198,14 +183,6 @@ void Manager::loadStreets()
 					}
 
 				}
-
-
-				/*for (unsigned int i = 0; i < vecEdges.size(); i++) {
-					if (edgeID == vecEdges.at(i)->getID()) {
-						edge = vecEdges.at(i);
-						break;
-					}
-				}*/
 
 				edges.push_back(edge);
 				edgesString.erase(0, edgesString.find_first_of(",") + 1);
