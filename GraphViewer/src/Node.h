@@ -15,8 +15,9 @@ public:
 	Node(int id, int x, int y);
 	~Node();
 
-	int getID();
-	int getX();
-	int getY();
+	int getID() const;
+	int getX() const;
+	int getY() const;
+	bool operator==(const Node & n2) const;
 };
 

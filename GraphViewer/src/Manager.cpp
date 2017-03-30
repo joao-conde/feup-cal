@@ -33,29 +33,33 @@ void Manager::loadEdges()
 			Node n;
 			Node nodeInit;
 			Node nodeFinal;
-			Vertex<Node> *vert = new Vertex<Node>(n);
+			//Vertex<Node> *vert = new Vertex<Node>(n);
 
-			for (unsigned int i = 0; i < vecNodes.size(); i++) {
 
-				if (nodeI == vecNodes.at(i)->getInfo().getID())
-					nodeInit = vecNodes.at(i)->getInfo();
+			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
-				if (nodeF == vecNodes.at(i)->getInfo().getID()) {
-					nodeFinal = vecNodes.at(i)->getInfo();
-					vert = vecNodes.at(i);
+				if (nodeI == myGraph.getVertexSet().at(i)->getInfo().getID())
+					nodeInit = myGraph.getVertexSet().at(i)->getInfo();
+
+				if (nodeF == myGraph.getVertexSet().at(i)->getInfo().getID()) {
+					nodeFinal = myGraph.getVertexSet().at(i)->getInfo();
+					//vert = myGraph.getVertexSet().at(i);
 				}
 			}
 
 			double weight;
 			weight = sqrt(pow(nodeFinal.getX() - nodeInit.getX(), 2) + pow(nodeFinal.getY() - nodeInit.getY(), 2));
 
-			Edge<Node> *edge = new Edge<Node>(id, vert, weight);
-			vecEdges.push_back(edge);
+			//Edge<Node> *edge = new Edge<Node>(id, vert, weight);
+			//vecEdges.push_back(edge);
+			myGraph.addEdge(id, nodeInit, nodeFinal, weight);
 
-			for (unsigned int i = 0; i < vecNodes.size(); i++) {
-				if (nodeI == vecNodes.at(i)->getInfo().getID())
-					vecNodes.at(i)->addEdge(id, vert, weight);
-			}
+
+			/*
+			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
+				if (nodeI == myGraph.getVertexSet().at(i)->getInfo().getID())
+					myGraph.getVertexSet().at(i)->addEdge(id, vert, weight);
+			}*/
 
 		}
 
@@ -89,8 +93,9 @@ void Manager::loadNodes()
 			int y = stoi(yString, nullptr, 10);
 
 			Node node = Node(id, x, y);
-			Vertex<Node> *vert = new Vertex<Node>(node);
-			vecNodes.push_back(vert);
+			//Vertex<Node> *vert = new Vertex<Node>(node);
+			myGraph.addVertex(node);
+			//vecNodes.push_back(vert);
 		}
 
 		file.close();
@@ -131,9 +136,9 @@ void Manager::loadParkingLot()
 
 			Vertex<Node> *vert = NULL;
 
-			for (unsigned int i = 0; i < vecNodes.size(); i++) {
-				if (nodeID == vecNodes.at(i)->getInfo().getID()) {
-					vert = vecNodes.at(i);
+			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
+				if (nodeID == myGraph.getVertexSet().at(i)->getInfo().getID()) {
+					vert = myGraph.getVertexSet().at(i);
 					break;
 				}
 			}
@@ -178,14 +183,31 @@ void Manager::loadStreets()
 
 			while (!edgesString.empty()) {
 				Edge<Node> *edge = NULL;
+
+
 				int edgeID = stoi(edgesString.substr(0, edgesString.find_first_of(",")), nullptr, 10);
 
-				for (unsigned int i = 0; i < vecEdges.size(); i++) {
+				for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
+
+					vector<Edge<Node>> adj = myGraph.getVertexSet().at(i)->getAdj();
+
+					for (unsigned int  j = 0; j < adj.size(); j++) {
+						if (edgeID == adj.at(i).getID()) {
+							edge = &(adj.at(i));
+							break;
+						}
+					}
+
+				}
+
+
+				/*for (unsigned int i = 0; i < vecEdges.size(); i++) {
 					if (edgeID == vecEdges.at(i)->getID()) {
 						edge = vecEdges.at(i);
 						break;
 					}
-				}
+				}*/
+
 				edges.push_back(edge);
 				edgesString.erase(0, edgesString.find_first_of(",") + 1);
 			}
@@ -207,7 +229,7 @@ void Manager::loadData()
 	loadNodes();
 	loadEdges();
 	loadParkingLot();
-	loadStreets();
+	//loadStreets();
 	return;
 }
 
@@ -244,22 +266,24 @@ void Manager::printGraphFromVectors() {
 	gv->defineVertexColor("yellow");
 	gv->defineEdgeCurved(true);
 
-	for (int i = 0; i < vecNodes.size(); i++) {
+	
+	for (unsigned int  i = 0; i < myGraph.getVertexSet().size(); i++) {
 
-		int idNo = vecNodes.at(i)->getInfo().getID();
-		int x = vecNodes.at(i)->getInfo().getX();
-		int y = vecNodes.at(i)->getInfo().getY();
+		int idNo = myGraph.getVertexSet().at(i)->getInfo().getID();
+		int x = myGraph.getVertexSet().at(i)->getInfo().getX();
+		int y = myGraph.getVertexSet().at(i)->getInfo().getY();
 
 		gv->addNode(idNo,x, -y);
 	}
 
-	for (int i = 0; i < vecNodes.size(); i++) {
+	
+	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 		
-		int idNoOrigem = vecNodes.at(i)->getInfo().getID();
+		int idNoOrigem = myGraph.getVertexSet().at(i)->getInfo().getID();
 
-		vector<Edge<Node>> adj = vecNodes.at(i)->getAdj();
+		vector<Edge<Node>> adj = myGraph.getVertexSet().at(i)->getAdj();
 
-		for (int j = 0; j < adj.size(); j++) {
+		for (unsigned int j = 0; j < adj.size(); j++) {
 			int idAresta = adj.at(j).getID();
 			int idNoDestino = adj.at(j).getNode()->getInfo().getID();
 
