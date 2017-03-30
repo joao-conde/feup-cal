@@ -89,9 +89,9 @@ void exercicio3()
 
 	gv->rearrange();
 }
-
+/*
 int main() {
 	exercicio3();
 	getchar();
 	return 0;
-}
+}*/

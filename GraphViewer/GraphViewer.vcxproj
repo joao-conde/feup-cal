@@ -14,15 +14,29 @@
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\FichaJUNG.cpp" />
     <ClCompile Include="src\graphviewer.cpp" />
+    <ClCompile Include="src\Local.cpp" />
+    <ClCompile Include="src\Manager.cpp" />
+    <ClCompile Include="src\Node.cpp" />
+    <ClCompile Include="src\ParkingLot.cpp" />
+    <ClCompile Include="src\Source.cpp" />
+    <ClCompile Include="src\Street.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\connection.h" />
     <ClInclude Include="src\edgetype.h" />
+    <ClInclude Include="src\Graph.h" />
     <ClInclude Include="src\graphviewer.h" />
+    <ClInclude Include="src\Local.h" />
+    <ClInclude Include="src\Manager.h" />
+    <ClInclude Include="src\Node.h" />
+    <ClInclude Include="src\ParkingLot.h" />
+    <ClInclude Include="src\Street.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="arestas.txt" />
-    <Text Include="nos.txt" />
+    <Text Include="Edges.txt" />
+    <Text Include="Nodes.txt" />
+    <Text Include="Parking.txt" />
+    <Text Include="Streets.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{49146E35-4524-405C-9603-4773FFBCBF6B}</ProjectGuid>
