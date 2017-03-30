@@ -184,7 +184,6 @@ void Manager::loadStreets()
 			while (!edgesString.empty()) {
 				Edge<Node> *edge = NULL;
 
-
 				int edgeID = stoi(edgesString.substr(0, edgesString.find_first_of(",")), nullptr, 10);
 
 				for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
@@ -192,8 +191,8 @@ void Manager::loadStreets()
 					vector<Edge<Node>> adj = myGraph.getVertexSet().at(i)->getAdj();
 
 					for (unsigned int  j = 0; j < adj.size(); j++) {
-						if (edgeID == adj.at(i).getID()) {
-							edge = &(adj.at(i));
+						if (edgeID == adj.at(j).getID()) {
+							edge = &(adj.at(j));
 							break;
 						}
 					}
@@ -229,7 +228,7 @@ void Manager::loadData()
 	loadNodes();
 	loadEdges();
 	loadParkingLot();
-	//loadStreets();
+	loadStreets();
 	return;
 }
 
