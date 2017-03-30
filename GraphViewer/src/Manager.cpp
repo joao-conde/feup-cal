@@ -234,7 +234,7 @@ void Manager::displayInfo()
 	return;
 }
 
-void Manager::printGraphFromVectors() {
+void Manager::printGraph() {
 
 	gv->createWindow(600, 600);
 

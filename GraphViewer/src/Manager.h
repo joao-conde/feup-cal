@@ -50,6 +50,6 @@ public:
 	*/
 
 	void displayInfo();
-	void printGraphFromVectors();
+	void printGraph();
 };
 
