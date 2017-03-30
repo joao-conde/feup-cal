@@ -17,9 +17,6 @@ class Manager
 
 private:
 	static Manager* singleton_instance;
-
-	//vector<Vertex<Node>*> vecNodes;
-	//vector<Edge<Node>*> vecEdges;
 	vector<ParkingLot> vecParking;
 	vector<Street> vecStreets;
 

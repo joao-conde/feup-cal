@@ -41,7 +41,6 @@ public:
 	T getInfo() const;
 	int getIndegree() const;
 	void addEdge(int id, Vertex<T> *dest, double w);
-	//void addEdge(Vertex<T> *dest, double w);
 
 	vector<Edge<T>> getAdj();
 
