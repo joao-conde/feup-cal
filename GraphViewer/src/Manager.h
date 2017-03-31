@@ -17,13 +17,11 @@ class Manager
 
 private:
 	static Manager* singleton_instance;
-
-	vector<Vertex<Node>*> vecNodes;
-	vector<Edge<Node>*> vecEdges;
 	vector<ParkingLot> vecParking;
 	vector<Street> vecStreets;
 
 	GraphViewer *gv;
+	Graph<Node> myGraph;
 
 public:
 	Manager();
@@ -52,6 +50,6 @@ public:
 	*/
 
 	void displayInfo();
-	void printGraphFromVectors();
+	void printGraph();
 };
 

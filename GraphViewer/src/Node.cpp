@@ -15,17 +15,21 @@ Node::~Node()
 {
 }
 
-int Node::getID()
+int Node::getID() const
 {
 	return this->id;
 }
 
-int Node::getX()
+int Node::getX() const
 {
 	return this->coords.first;
 }
 
-int Node::getY()
+int Node::getY() const
 {
 	return this->coords.second;
+}
+
+bool Node::operator == (const Node &n2) const {
+	return (id == n2.id);
 }
