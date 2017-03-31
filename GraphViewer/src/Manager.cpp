@@ -203,34 +203,6 @@ void Manager::loadStreets()
 
 			}
 
-
-			
-
-			/*edgesString.append(",");
-			vector<Edge<Node>*> edges;
-
-			while (!edgesString.empty()) {
-				Edge<Node> *edge = NULL;
-
-				int edgeID = stoi(edgesString.substr(0, edgesString.find_first_of(",")), nullptr, 10);
-
-				for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
-
-					vector<Edge<Node>> adj = myGraph.getVertexSet().at(i)->getAdj();
-
-					for (unsigned int  j = 0; j < adj.size(); j++) {
-						if (edgeID == adj.at(j).getID()) {
-							edge = &(adj.at(j));
-							break;
-						}
-					}
-
-				}
-
-				edges.push_back(edge);
-				edgesString.erase(0, edgesString.find_first_of(",") + 1);
-			}*/
-
 			Street st = Street(id, name, vrtxs, way);
 			vecStreets.push_back(st);
 		}
