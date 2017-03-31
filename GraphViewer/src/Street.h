@@ -12,17 +12,17 @@ class Street
 private:
 	int id;
 	string name;
-	vector<Edge<Node>*> edges;
+	vector<Vertex<Node>*> vertexs;
 	bool twoWays;
 
 public:
 	Street();
-	Street(int id, string name, vector<Edge<Node>*> edges, int way);
+	Street(int id, string name, vector<Vertex<Node>*> vertexs, int way);
 	~Street();
 
 	int getID();
 	string getName();
-	vector<Edge<Node>*> getEdges();
+	vector<Vertex<Node>*> getVertexs();
 	bool isTwoWays();
 };
 

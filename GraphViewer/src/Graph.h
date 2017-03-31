@@ -40,12 +40,11 @@ public:
 
 	T getInfo() const;
 	int getIndegree() const;
-	void addEdge(int id, Vertex<T> *dest, double w);
+	void addEdge(Vertex<T> *dest, double w);
 
 	vector<Edge<T>> getAdj();
 
 	Vertex* path;
-
 };
 
 
@@ -73,8 +72,10 @@ Vertex<T>::Vertex(T in) : info(in), visited(false), processing(false), indegree(
 
 template <class T>
 
-void Vertex<T>::addEdge(int id, Vertex<T> *dest, double w) {
-	Edge<T> edgeD(id, dest, w);
+void Vertex<T>::addEdge(Vertex<T> *dest, double w) {
+
+	Edge<T> edgeD(dest, w);
+
 	adj.push_back(edgeD);
 }
 
@@ -101,32 +102,19 @@ int Vertex<T>::getIndegree() const {
 */
 template <class T>
 class Edge {
-	int id;
 	Vertex<T> * dest;
 	double weight;
 public:
-	Edge(int id, Vertex<T> *d, double w);
 	Edge(Vertex<T> *d, double w);
 	friend class Graph<T>;
 	friend class Vertex<T>;
-	int getID();
 	Vertex<T>* getNode();
 	double getWeight();
 };
 
-template <class T>
-Edge<T>::Edge(int id, Vertex<T> *d, double w) : dest(d), weight(w) {
-	this->id = id;
-}
-
 template<class T>
 Edge<T>::Edge(Vertex<T>* d, double w) : dest(d), weight(w)
 {
-}
-
-template <class T>
-int Edge<T>::getID() {
-	return this->id;
 }
 
 template <class T>
@@ -156,7 +144,7 @@ class Graph {
 	void getPathTo(Vertex<T> *origin, list<T> &res);
 public:
 	bool addVertex(const T &in);
-	bool addEdge(int id, const T &sourc, const T &dest, double w);
+	bool addEdge(const T &sourc, const T &dest, double w);
 	bool removeVertex(const T &in);
 	bool removeEdge(const T &sourc, const T &dest);
 	vector<T> dfs() const;
@@ -226,7 +214,7 @@ bool Graph<T>::removeVertex(const T &in) {
 }
 
 template <class T>
-bool Graph<T>::addEdge(int id, const T &sourc, const T &dest, double w) {
+bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 	typename vector<Vertex<T>*>::iterator it = vertexSet.begin();
 	typename vector<Vertex<T>*>::iterator ite = vertexSet.end();
 	int found = 0;
@@ -244,7 +232,7 @@ bool Graph<T>::addEdge(int id, const T &sourc, const T &dest, double w) {
 	}
 	if (found != 2) return false;
 	vD->indegree++; //adicionado pelo exercicio 5
-	vS->addEdge(id, vD, w);
+	vS->addEdge(vD, w);
 
 
 	return true;
