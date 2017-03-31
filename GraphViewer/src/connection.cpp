@@ -5,7 +5,7 @@ void myerror(string msg) {
   exit(-1);
 }
 
-Connection::Connection() {
+Connection::Connection(short port) {
 #ifdef linux
   struct sockaddr_in echoServAddr; /* Echo server address */
   struct  hostent  *ptrh;
@@ -17,7 +17,7 @@ Connection::Connection() {
   /* Construct the server address structure */
   memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
   echoServAddr.sin_family      = AF_INET;             /* Internet address family */
-  echoServAddr.sin_port = htons(7772);                /* Server port */
+  echoServAddr.sin_port = htons(port);                /* Server port */
 
   ptrh = gethostbyname("localhost");
 
@@ -44,7 +44,7 @@ Connection::Connection() {
     clientService.sin_family = AF_INET;
     // Just test using the localhost, you can try other IP address
     clientService.sin_addr.s_addr = inet_addr("127.0.0.1");
-    clientService.sin_port = htons(7772);
+    clientService.sin_port = htons(port);
 
     if (connect(sock, (SOCKADDR*)&clientService, sizeof(clientService)) == SOCKET_ERROR) {
         printf("Client: connect() - Failed to connect.\n");

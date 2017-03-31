@@ -1,4 +1,4 @@
-#ifndef _CONNECTION_
+﻿#ifndef _CONNECTION_
 #define _CONNECTION_
 
 #include <cstdio>
@@ -21,7 +21,7 @@ using namespace std;
 
 class Connection {
  public:
-  Connection();
+  Connection(short port);
 
   bool sendMsg(string msg);
   string readLine();
