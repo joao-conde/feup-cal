@@ -6,11 +6,11 @@ Street::Street()
 {
 }
 
-Street::Street(int id, string name, vector<Edge<Node>*> edges, int way)
+Street::Street(int id, string name, vector<Vertex<Node>*> vertexs, int way)
 {
 	this->id = id;
 	this->name = name;
-	this->edges = edges;
+	this->vertexs = vertexs;
 
 	if (way == 1)
 		this->twoWays = true;
@@ -33,9 +33,9 @@ string Street::getName()
 	return this->name;
 }
 
-vector<Edge<Node>*> Street::getEdges()
+vector<Vertex<Node>*> Street::getVertexs()
 {
-	return this->edges;
+	return this->vertexs;
 }
 
 bool Street::isTwoWays()

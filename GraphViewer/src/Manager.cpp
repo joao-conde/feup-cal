@@ -46,7 +46,7 @@ void Manager::loadEdges()
 
 			double weight;
 			weight = sqrt(pow(nodeFinal.getX() - nodeInit.getX(), 2) + pow(nodeFinal.getY() - nodeInit.getY(), 2));
-			myGraph.addEdge(id, nodeInit, nodeFinal, weight);
+			myGraph.addEdge(nodeInit, nodeFinal, weight);
 
 		}
 
@@ -151,44 +151,59 @@ void Manager::loadStreets()
 			size_t pos1 = line.find(";"); //posicao 1
 			string str1 = line.substr(pos1 + 1); //nome+arestas+sentido
 			size_t pos2 = str1.find(";"); //posicao 2
-			string str2 = str1.substr(pos2 + 1); //arestas+sentido
+			string str2 = str1.substr(pos2 + 1); //nos+sentido
 			size_t pos3 = str2.find(";"); //posicao 3
 			string str3 = str2.substr(pos3 + 1); //sentido
 
 			string idString = line.substr(0, pos1);
 			string name = str1.substr(0, pos2);
-			string edgesString = str2.substr(0, pos3);
+			string nodesString = str2.substr(0, pos3);
 			string wayString = str3.substr(0, pos3 + 1);
 
 			int id = stoi(idString, nullptr, 10);
 			int way = stoi(wayString, nullptr, 10);
 
-			edgesString.append(",");
-			vector<Edge<Node>*> edges;
 
-			while (!edgesString.empty()) {
-				Edge<Node> *edge = NULL;
 
-				int edgeID = stoi(edgesString.substr(0, edgesString.find_first_of(",")), nullptr, 10);
+
+
+			nodesString.append(",");
+			vector<Vertex<Node>*> vrtxs;
+
+			while (!nodesString.empty()) {
+				Vertex<Node> *vertex = NULL;
+
+				int nodeID = stoi(nodesString.substr(0, nodesString.find_first_of(",")), nullptr, 10);
 
 				for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
-					vector<Edge<Node>> adj = myGraph.getVertexSet().at(i)->getAdj();
-
-					for (unsigned int  j = 0; j < adj.size(); j++) {
-						if (edgeID == adj.at(j).getID()) {
-							edge = &(adj.at(j));
-							break;
-						}
+					if (nodeID == myGraph.getVertexSet().at(i)->getInfo().getID()) {
+						vertex = myGraph.getVertexSet().at(i);
+						break;
 					}
+				}
+
+				vrtxs.push_back(vertex);
+				nodesString.erase(0, nodesString.find_first_of(",") + 1);
+			}
+
+
+			if (way == 1) { //rua tem dois sentidos
+
+				for (int i = vrtxs.size() - 1; i > 0; i--) {
+
+					Node nodeInit = vrtxs.at(i)->getInfo();
+					Node nodeFinal = vrtxs.at(i - 1)->getInfo();
+
+					double weight = sqrt(pow(nodeFinal.getX() - nodeInit.getX(), 2) + pow(nodeFinal.getY() - nodeInit.getY(), 2));
+
+					vrtxs.at(i)->addEdge(vrtxs.at(i - 1), weight);
 
 				}
 
-				edges.push_back(edge);
-				edgesString.erase(0, edgesString.find_first_of(",") + 1);
 			}
 
-			Street st = Street(id, name, edges, way);
+			Street st = Street(id, name, vrtxs, way);
 			vecStreets.push_back(st);
 		}
 
@@ -240,32 +255,39 @@ void Manager::printGraph() {
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
-	gv->defineEdgeCurved(true);
 
-	
-	for (unsigned int  i = 0; i < myGraph.getVertexSet().size(); i++) {
+	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
 		int idNo = myGraph.getVertexSet().at(i)->getInfo().getID();
 		int x = myGraph.getVertexSet().at(i)->getInfo().getX();
 		int y = myGraph.getVertexSet().at(i)->getInfo().getY();
 
-		gv->addNode(idNo,x, -y);
+		gv->addNode(idNo, x, -y);
 	}
 
-	
+
+	int idAresta = 0;
+
 	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
-		
+
 		int idNoOrigem = myGraph.getVertexSet().at(i)->getInfo().getID();
 
 		vector<Edge<Node>> adj = myGraph.getVertexSet().at(i)->getAdj();
 
 		for (unsigned int j = 0; j < adj.size(); j++) {
-			int idAresta = adj.at(j).getID();
+
 			int idNoDestino = adj.at(j).getNode()->getInfo().getID();
 
-			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::UNDIRECTED);
+			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
+
+			idAresta++;
 		}
+
+		idAresta++;
 	}
+
+
+	gv->defineEdgeCurved(false);
 
 	gv->rearrange();
 }
