@@ -36,6 +36,7 @@
     <Text Include="Edges.txt" />
     <Text Include="Nodes.txt" />
     <Text Include="Parking.txt" />
+    <Text Include="petrolStations.txt" />
     <Text Include="Streets.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

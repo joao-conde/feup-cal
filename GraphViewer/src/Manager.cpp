@@ -215,12 +215,40 @@ void Manager::loadStreets()
 	return;
 }
 
+void Manager::loadPetrolStations()
+{
+	string line;
+	ifstream file("petrolStations.txt");
+
+	if (file.is_open()) {
+		while (getline(file, line)) {
+
+			string idString = line;
+
+			int id = stoi(idString, nullptr, 10);
+
+			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
+				if (myGraph.getVertexSet().at(i)->getInfo().getID() == id) {
+					vecPetrolStations.push_back(myGraph.getVertexSet().at(i));
+				}
+			}
+		}
+
+		file.close();
+	}
+	else {
+		cerr << "n File not found!\n";
+	}
+	return;
+}
+
 void Manager::loadData()
 {
 	loadNodes();
 	loadEdges();
 	loadParkingLot();
 	loadStreets();
+	loadPetrolStations();
 	return;
 }
 
@@ -251,10 +279,10 @@ void Manager::displayInfo()
 
 void Manager::printGraph() {
 
-	gv->createWindow(600, 600);
+	gv->createWindow(800, 800);
 
-	gv->defineEdgeColor("blue");
-	gv->defineVertexColor("yellow");
+	gv->defineEdgeColor("black");
+	gv->defineVertexColor("gray");
 
 	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
@@ -262,7 +290,20 @@ void Manager::printGraph() {
 		int x = myGraph.getVertexSet().at(i)->getInfo().getX();
 		int y = myGraph.getVertexSet().at(i)->getInfo().getY();
 
-		gv->addNode(idNo, x, -y);
+		gv->addNode(idNo, x*5+50, -(y*5)+600);
+
+		//pintar os parques a azul
+		for (unsigned int i = 0; i < vecParking.size(); i++) {
+			if (vecParking.at(i).getNode()->getInfo().getID() == idNo)
+				gv->setVertexColor(idNo, "blue");
+		}
+
+		//pintar bombas de gasolina de preto
+		for (unsigned int i = 0; i < vecPetrolStations.size(); i++) {
+			if (vecPetrolStations.at(i)->getInfo().getID() == idNo)
+				gv->setVertexColor(idNo, "black");
+		}
+
 	}
 
 
@@ -277,6 +318,7 @@ void Manager::printGraph() {
 		for (unsigned int j = 0; j < adj.size(); j++) {
 
 			int idNoDestino = adj.at(j).getNode()->getInfo().getID();
+			
 
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
 

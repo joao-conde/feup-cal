@@ -85,5 +85,8 @@
     <Text Include="Streets.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="petrolStations.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

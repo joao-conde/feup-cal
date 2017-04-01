@@ -19,6 +19,7 @@ private:
 	static Manager* singleton_instance;
 	vector<ParkingLot> vecParking;
 	vector<Street> vecStreets;
+	vector<Vertex <Node>*> vecPetrolStations;
 
 	GraphViewer *gv;
 	Graph<Node> myGraph;
@@ -43,6 +44,7 @@ public:
 	void loadNodes();
 	void loadParkingLot();
 	void loadStreets();
+	void loadPetrolStations();
 	void loadData();
 
 	/*
