@@ -20,6 +20,7 @@ private:
 	vector<ParkingLot> vecParking;
 	vector<Street> vecStreets;
 	vector<Vertex <Node>*> vecPetrolStations;
+	vector<Vertex<Node>*> vecMetroStations;
 
 	GraphViewer *gv;
 	Graph<Node> myGraph;
@@ -45,13 +46,13 @@ public:
 	void loadParkingLot();
 	void loadStreets();
 	void loadPetrolStations();
+	void loadMetroStations();
 	void loadData();
 
-	/*
-	* DISPLAY DATA - for testing
-	*/
+	bool isParkingLot(int idNo);
+	bool isPetrolStation(int idNo);
+	bool isMetroStation(int idNo);
 
-	void displayInfo();
 	void printGraph();
 };
 

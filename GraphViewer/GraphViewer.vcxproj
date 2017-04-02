@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Edges.txt" />
+    <Text Include="metroStations.txt" />
     <Text Include="Nodes.txt" />
     <Text Include="Parking.txt" />
     <Text Include="petrolStations.txt" />

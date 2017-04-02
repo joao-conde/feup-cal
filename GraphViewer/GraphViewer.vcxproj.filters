@@ -88,5 +88,8 @@
     <Text Include="petrolStations.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="metroStations.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -242,6 +242,33 @@ void Manager::loadPetrolStations()
 	return;
 }
 
+void Manager::loadMetroStations()
+{
+	string line;
+	ifstream file("metroStations.txt");
+
+	if (file.is_open()) {
+		while (getline(file, line)) {
+
+			string idString = line;
+
+			int id = stoi(idString, nullptr, 10);
+
+			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
+				if (myGraph.getVertexSet().at(i)->getInfo().getID() == id) {
+					vecMetroStations.push_back(myGraph.getVertexSet().at(i));
+				}
+			}
+		}
+
+		file.close();
+	}
+	else {
+		cerr << "n File not found!\n";
+	}
+	return;
+}
+
 void Manager::loadData()
 {
 	loadNodes();
@@ -249,40 +276,46 @@ void Manager::loadData()
 	loadParkingLot();
 	loadStreets();
 	loadPetrolStations();
+	loadMetroStations();
 	return;
 }
 
-//TODO: esta funcao e so para testar
-void Manager::displayInfo()
+bool Manager::isParkingLot(int idNo)
 {
-	/*for (unsigned int i = 0; i < vecNodes.size(); i++) {
-	cout << vecNodes.at(i)->getInfo().getID() << " - " << vecNodes.at(i)->getInfo().getX() << " - " << vecNodes.at(i)->getInfo().getY() << endl;
-	}
-
-	for (unsigned int i = 0; i < vecEdges.size(); i++) {
-	cout << vecEdges.at(i)->getID() << " - " << vecEdges.at(i)->getWeight() <<  endl;
-	}
-
 	for (unsigned int i = 0; i < vecParking.size(); i++) {
-	cout << vecParking.at(i).getID() << " - " << vecParking.at(i).getNode()->getInfo().getID() << " - " << vecParking.at(i).getName() << " - " << vecParking.at(i).getPrice() << " - " << vecParking.at(i).getIsGarage() << endl;
+		if (vecParking.at(i).getNode()->getInfo().getID() == idNo)
+			return true;
 	}
 
-	for (unsigned int i = 0; i < vecStreets.size(); i++) {
-	cout << vecStreets.at(i).getID() << " - " << vecStreets.at(i).getName() << " - " << vecStreets.at(i).isTwoWays() << endl;
-
-	for (unsigned int j = 0; j < vecStreets.at(i).getEdges().size(); j++) {
-	cout << vecStreets.at(i).getEdges().at(j)->getID() << endl;
-	}
-	}*/
-	return;
+	return false;
 }
+
+bool Manager::isPetrolStation(int idNo)
+{
+	for (unsigned int i = 0; i < vecPetrolStations.size(); i++) {
+		if (vecPetrolStations.at(i)->getInfo().getID() == idNo)
+			return true;
+	}
+	return false;
+}
+
+bool Manager::isMetroStation(int idNo)
+{
+	for (unsigned int i = 0; i < vecMetroStations.size(); i++) {
+		if (vecMetroStations.at(i)->getInfo().getID() == idNo)
+			return true;
+	}
+
+	return false;
+}
+
 
 void Manager::printGraph() {
 
 	gv->createWindow(800, 800);
 
 	gv->defineEdgeColor("black");
-	gv->defineVertexColor("gray");
+	gv->defineVertexColor("white");
 
 	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
@@ -292,17 +325,16 @@ void Manager::printGraph() {
 
 		gv->addNode(idNo, x*5+50, -(y*5)+600);
 
-		//pintar os parques a azul
-		for (unsigned int i = 0; i < vecParking.size(); i++) {
-			if (vecParking.at(i).getNode()->getInfo().getID() == idNo)
-				gv->setVertexColor(idNo, "blue");
-		}
+		
+		if(isParkingLot(idNo))
+			gv->setVertexColor(idNo, "blue");
 
-		//pintar bombas de gasolina de preto
-		for (unsigned int i = 0; i < vecPetrolStations.size(); i++) {
-			if (vecPetrolStations.at(i)->getInfo().getID() == idNo)
-				gv->setVertexColor(idNo, "black");
-		}
+		if(isPetrolStation(idNo))
+			gv->setVertexColor(idNo, "black");
+
+		if(isMetroStation(idNo))
+			gv->setVertexColor(idNo, "gray");
+
 
 	}
 
