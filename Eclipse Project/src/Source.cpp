@@ -10,13 +10,13 @@ int main() {
 	Manager::instance()->loadData();
 
 	vector<Node> path;
-
 	path= Manager::instance()->insertValues();
-	getchar();
 
-	//Manager::instance()->printGraph();
+	Manager::instance()->printGraph();
 	Manager::instance()->paintPath(path);
 
+
+	getchar();
 	getchar();
 	return 0;
 }
