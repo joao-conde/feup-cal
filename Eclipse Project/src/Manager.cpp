@@ -20,7 +20,6 @@ void Manager::loadEdges() {
 			int idEdge;
 			int idNoInicio;
 			int idNoFim;
-			char token;
 
 			linestream >> idEdge;
 
@@ -28,19 +27,6 @@ void Manager::loadEdges() {
 			linestream >> idNoInicio;
 			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 			linestream >> idNoFim;
-
-			/*size_t pos1 = line.find(";"); //posicao 1
-			 string str1 = line.substr(pos1 + 1); //no+no
-			 size_t pos2 = str1.find(";"); //posicao 2
-			 string str2 = str1.substr(pos2 + 1); //no
-
-			 string idString = line.substr(0, pos1);
-			 string nodeIString = str1.substr(0, pos2);
-			 string nodeFString = str2.substr(0, pos2 + 1);
-
-			 int id = stoi(idString, nullptr, 10);
-			 int nodeI = stoi(nodeIString, nullptr, 10);
-			 int nodeF = stoi(nodeFString, nullptr, 10);*/
 
 			Node n;
 			Node nodeInit;
@@ -83,7 +69,6 @@ void Manager::loadNodes() {
 			std::stringstream linestream(line);
 			string data;
 
-			char token;
 			int id;
 			int x;
 			int y;
@@ -94,19 +79,6 @@ void Manager::loadNodes() {
 			linestream >> x;
 			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 			linestream >> y;
-
-			/*size_t pos1 = line.find(";"); //posicao 1
-			 string str1 = line.substr(pos1 + 1); //x+y
-			 size_t pos2 = str1.find(";"); //posicao 2
-			 string str2 = str1.substr(pos2 + 1); //y
-
-			 string idString = line.substr(0, pos1);
-			 string xString = str1.substr(0, pos2);
-			 string yString = str2.substr(0, pos2 + 1);
-
-			 int id = stoi(idString, nullptr, 10);
-			 int x = stoi(xString, nullptr, 10);
-			 int y = stoi(yString, nullptr, 10);*/
 
 			Node node = Node(id, x, y);
 
@@ -147,26 +119,6 @@ void Manager::loadParkingLot() {
 			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 			linestream >> garagem;
 
-			/*size_t pos1 = line.find(";"); //posicao 1
-			 string str1 = line.substr(pos1 + 1); //no+nome+preco+garagem
-			 size_t pos2 = str1.find(";"); //posicao 2
-			 string str2 = str1.substr(pos2 + 1); //nome+preco+garagem
-			 size_t pos3 = str2.find(";"); //posicao 3
-			 string str3 = str2.substr(pos3 + 1); //preco+garagem
-			 size_t pos4 = str3.find(";"); //posicao 4
-			 string str4 = str3.substr(pos4 + 1); //garagem
-
-			 string idString = line.substr(0, pos1);
-			 string nodeString = str1.substr(0, pos2);
-			 string name = str2.substr(0, pos3);
-			 string priceString = str3.substr(0, pos4);
-			 string garagemString = str4.substr(0, pos4 + 1);
-
-			 int id = stoi(idString, nullptr, 10);
-			 int nodeID = stoi(nodeString, nullptr, 10);
-			 float price = stof(priceString);
-			 int garagem = stoi(garagemString, nullptr, 10);*/
-
 			Vertex<Node> *vert = NULL;
 
 			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
@@ -193,21 +145,6 @@ void Manager::loadStreets() {
 
 	if (file.is_open()) {
 		while (getline(file, line)) {
-
-			/*size_t pos1 = line.find(";"); //posicao 1
-			 string str1 = line.substr(pos1 + 1); //nome+arestas+sentido
-			 size_t pos2 = str1.find(";"); //posicao 2
-			 string str2 = str1.substr(pos2 + 1); //nos+sentido
-			 size_t pos3 = str2.find(";"); //posicao 3
-			 string str3 = str2.substr(pos3 + 1); //sentido
-
-			 string idString = line.substr(0, pos1);
-			 string name = str1.substr(0, pos2);
-			 string nodesString = str2.substr(0, pos3);
-			 string wayString = str3.substr(0, pos3 + 1);
-
-			 int id = stoi(idString, nullptr, 10);
-			 int way = stoi(wayString, nullptr, 10);*/
 
 			int id;
 			string name;
@@ -248,28 +185,6 @@ void Manager::loadStreets() {
 				vrtxs.push_back(vertex);
 			}
 
-			/*
-			 nodesString.append(",");
-			 vector<Vertex<Node>*> vrtxs;
-
-			 while (!nodesString.empty()) {
-			 Vertex<Node> *vertex = NULL;
-
-			 int nodeID = stoi(nodesString.substr(0, nodesString.find_first_of(",")), nullptr, 10);
-
-			 for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
-
-			 if (nodeID == myGraph.getVertexSet().at(i)->getInfo().getID()) {
-			 vertex = myGraph.getVertexSet().at(i);
-			 break;
-			 }
-			 }
-
-			 vrtxs.push_back(vertex);
-			 nodesString.erase(0, nodesString.find_first_of(",") + 1);
-			 }
-			 */
-
 			if (way == 1) { //rua tem dois sentidos
 
 				for (int i = vrtxs.size() - 1; i > 0; i--) {
@@ -306,10 +221,6 @@ void Manager::loadPetrolStations() {
 	if (file.is_open()) {
 		while (getline(file, line)) {
 
-			/*string idString = line;
-
-			 int id = stoi(idString, nullptr, 10);*/
-
 			int id;
 
 			std::stringstream linestream(line);
@@ -339,23 +250,6 @@ void Manager::loadData() {
 	return;
 }
 
-bool Manager::isParkingLot(int idNo) {
-	for (unsigned int i = 0; i < vecParking.size(); i++) {
-		if (vecParking.at(i).getNode()->getInfo().getID() == idNo)
-			return true;
-	}
-
-	return false;
-}
-
-bool Manager::isPetrolStation(int idNo) {
-	for (unsigned int i = 0; i < vecPetrolStations.size(); i++) {
-		if (vecPetrolStations.at(i)->getInfo().getID() == idNo)
-			return true;
-	}
-	return false;
-}
-
 void Manager::printGraph() {
 
 	gv->createWindow(800, 800);
@@ -381,8 +275,6 @@ void Manager::printGraph() {
 
 	}
 
-	int idAresta = 0;
-
 	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
 		int idNoOrigem = myGraph.getVertexSet().at(i)->getInfo().getID();
@@ -393,18 +285,44 @@ void Manager::printGraph() {
 
 			int idNoDestino = adj.at(j).getNode()->getInfo().getID();
 
-			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
+			int idAresta= 100*idNoOrigem + idNoDestino;
 
-			idAresta++;
+			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
 		}
 
-		idAresta++;
 	}
 
 	gv->rearrange();
 }
 
-/////////////////////////
+void Manager::paintPath(vector<Node> path) {
+
+	for (int i = 0; i < path.size() - 1; i++) {
+		int id = path.at(i).getID()*100 + path.at(i+1).getID();
+
+		gv->setEdgeThickness(id, 4);
+		gv->setEdgeColor(id, "orange");
+	}
+
+	gv->rearrange();
+}
+
+bool Manager::isParkingLot(int idNo) {
+	for (unsigned int i = 0; i < vecParking.size(); i++) {
+		if (vecParking.at(i).getNode()->getInfo().getID() == idNo)
+			return true;
+	}
+
+	return false;
+}
+
+bool Manager::isPetrolStation(int idNo) {
+	for (unsigned int i = 0; i < vecPetrolStations.size(); i++) {
+		if (vecPetrolStations.at(i)->getInfo().getID() == idNo)
+			return true;
+	}
+	return false;
+}
 
 Node Manager::getNodeByID(int id) {
 
@@ -501,14 +419,13 @@ vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 
 	} else {
 
-
-		part1 = myGraph.getPath(getNodeByID(sourceID), getNodeByID(park.getID())); // caminho mais curto da source ao parque
+		part1 = myGraph.getPath(getNodeByID(sourceID),
+				getNodeByID(park.getID())); // caminho mais curto da source ao parque
 		part2 = myGraph.getPath(getNodeByID(park.getID()), getNodeByID(destID)); //caminho mais cuto do parque ao dest
 
 		if (passPetrolStation == 'y') { //se o user escolheu abastecer
 			addPetrolToPath(part1); //adiciona bomba de gasolina ao path source-park visto que o user ja nao terá o carro em park-dest
 		}
-
 
 		part2.erase(part2.begin()); //apaga o primeiro elemento de part2 porque é igual ao ultimo elemento da part1, ou seja, o parque
 
@@ -649,8 +566,6 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 		partSource = partSource1 + partSource2;
 	}
 
-
-
 	//PART 2 - calcula bomba mais perto do destino, e o caminho origem-bomba-destino
 
 	int partDest1; //distancia source-bomba
@@ -663,7 +578,6 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	Node petrolNearDest = petrolNear(dest.getID());
 
-
 	if (petrolNearDest == source && petrolNearDest == dest) {
 
 		pathSource.push_back(source);
@@ -673,7 +587,6 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 		partSource = 0;
 
 	} else if (petrolNearDest == source || petrolNearDest == dest) {
-
 
 		pathDest = myGraph.getPath(source, dest);
 		myGraph.dijkstraShortestPath(source);
@@ -696,7 +609,6 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 		partDest = partDest1 + partDest2;
 	}
 
-
 	//verifica qual o caminho mais curto
 	if (partSource < partDest) {
 		cout << "PETROL STATION: " << petrolNearSource.getID() << endl;
@@ -708,18 +620,5 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	return;
 
-}
-
-void Manager::paintPath(vector<Node> path) {
-
-	for (int i = 0; i < path.size() - 1; i++) {
-		int id = 200 + i;
-		gv->addEdge(id, path.at(i).getID(), path.at(i + 1).getID(),
-				EdgeType::DIRECTED);
-		gv->setEdgeThickness(id, 4);
-		gv->setEdgeColor(id, "magenta");
-	}
-
-	gv->rearrange();
 }
 
