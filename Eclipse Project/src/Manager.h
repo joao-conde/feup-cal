@@ -12,35 +12,30 @@
 #include "Street.h"
 #include "graphviewer.h"
 
-class Manager
-{
+class Manager {
 
 private:
 	static Manager* singleton_instance;
+
+	Graph<Node> myGraph;
+
 	vector<Node> vecNodes;
 	vector<ParkingLot> vecParking;
 	vector<Street> vecStreets;
-	vector<Vertex <Node>*> vecPetrolStations;
-	vector<Vertex<Node>*> vecMetroStations;
+	vector<Vertex<Node>*> vecPetrolStations;
 
 	GraphViewer *gv;
-	Graph<Node> myGraph;
 
 public:
 	Manager();
 	~Manager();
 
-	static Manager* instance()
-	{
+	static Manager* instance() {
 		if (!singleton_instance)
 			singleton_instance = new Manager;
 
 		return singleton_instance;
 	}
-
-	/*
-	* LOAD DATA
-	*/
 
 	void loadEdges();
 	void loadNodes();
@@ -50,19 +45,20 @@ public:
 	void loadMetroStations();
 	void loadData();
 
+	void printGraph();
+	void paintPath(vector<Node> id);
+
+	Node getNodeByID(int id);
 	bool isParkingLot(int idNo);
 	bool isPetrolStation(int idNo);
 	bool isMetroStation(int idNo);
-	void printGraph();
 
-	vector<Node> insertValues();
-	vector<Node> calculatePath(int sourceID, int destID, int maxDistance,  char Cheap_Near, char passPetrolStation);
-	Node getNodeByID(int id);
-	vector <Node> getShortestPath(int source, int dest);
 	Node parkNear(int id, int maxDistance);
 	Node parkCheap(int id, int maxDistance);
 	Node petrolNear(int id);
+
+	vector<Node> insertValues();
+	vector<Node> calculatePath(int sourceID, int destID, int maxDistance,char Cheap_Near, char passPetrolStation);
 	void addPetrolToPath(vector<Node> &path);
-	void paintPath(vector<Node> id);
 };
 

@@ -285,7 +285,7 @@ void Manager::printGraph() {
 
 			int idNoDestino = adj.at(j).getNode()->getInfo().getID();
 
-			int idAresta= 100*idNoOrigem + idNoDestino;
+			int idAresta = 100 * idNoOrigem + idNoDestino;
 
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
 		}
@@ -295,10 +295,24 @@ void Manager::printGraph() {
 	gv->rearrange();
 }
 
+Node Manager::getNodeByID(int id) {
+
+	Node node;
+
+	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
+		if (myGraph.getVertexSet().at(i)->getInfo().getID() == id) {
+			node = myGraph.getVertexSet().at(i)->getInfo();
+		}
+	}
+
+	return node;
+
+}
+
 void Manager::paintPath(vector<Node> path) {
 
 	for (int i = 0; i < path.size() - 1; i++) {
-		int id = path.at(i).getID()*100 + path.at(i+1).getID();
+		int id = path.at(i).getID() * 100 + path.at(i + 1).getID();
 
 		gv->setEdgeThickness(id, 4);
 		gv->setEdgeColor(id, "orange");
@@ -324,17 +338,85 @@ bool Manager::isPetrolStation(int idNo) {
 	return false;
 }
 
-Node Manager::getNodeByID(int id) {
+//retorna node com id -1, se nao nenhum parque dentro dos limites impostos pelo user
+Node Manager::parkNear(int id, int maxDistance) {
 
-	Node node;
+	int distMinima = INT_MAX;
+	int pos = -1;
+	Node node = getNodeByID(id);
 
-	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
-		if (myGraph.getVertexSet().at(i)->getInfo().getID() == id) {
-			node = myGraph.getVertexSet().at(i)->getInfo();
+	myGraph.dijkstraShortestPath(node);
+
+	for (unsigned int i = 0; i < vecParking.size(); i++) {
+
+		int distAtual = vecParking.at(i).getNode()->getDist(); //distancia do parque analisado ao node
+
+		if (distAtual < maxDistance) { //se distancia do parque analisado esta dentro dos limites impostos pelo user
+			if (distAtual < distMinima) { //se a distancia for menor que a guardada
+				pos = i; //atualiza a posiçao
+				distMinima = distAtual; //atualiza distancia guardada
+			}
 		}
 	}
 
-	return node;
+	if (pos == -1) { //se nenhum parque foi encontrado
+		Node nullNode;
+		nullNode.setID(-1);
+		return nullNode;
+	} else
+		return vecParking.at(pos).getNode()->getInfo();
+}
+
+//retorna node com id -1, se nao nenhum parque dentro dos limites impostos pelo user
+Node Manager::parkCheap(int id, int maxDistance) {
+
+	int minPrice = INT_MAX;
+	int pos = -1;
+	Node node = getNodeByID(id);
+
+	myGraph.dijkstraShortestPath(node);
+
+	for (unsigned int i = 0; i < vecParking.size(); i++) {
+
+		int distAtual = vecParking.at(i).getNode()->getDist(); //distancia do parque analisado ao node
+		int priceAtual = vecParking.at(i).getPrice(); //preço do parque analisado
+
+		if (distAtual < maxDistance) { //se a distancia do parque analisado esta nos limites impostos pelo user
+			if (priceAtual < minPrice) { //se o preço for menos que o guardado
+				pos = i; //atualiza posiçao
+				minPrice = priceAtual; //atualiza preço guardado
+			}
+		}
+	}
+
+	if (pos == -1) { //se nenhum parque foi encontrado
+		Node nullNode;
+		nullNode.setID(-1);
+		return nullNode;
+	} else
+		return vecParking.at(pos).getNode()->getInfo();
+}
+
+Node Manager::petrolNear(int id) {
+
+	Node node = getNodeByID(id);
+	int distMinima = INT_MAX;
+	int pos = -1;
+
+	for (unsigned int i = 0; i < vecPetrolStations.size(); i++) {
+
+		myGraph.dijkstraShortestPath(vecPetrolStations.at(i)->getInfo()); //faz dijkstra para a bomba analisada
+
+		int distAtual = myGraph.getVertex(node)->getDist(); //distancia da bomba analisada ate ao node
+
+		if (distAtual < distMinima) { //se distancia atual menor que a distancia guardada
+			pos = i; //atualiza posição
+			distMinima = distAtual; //atualiza distancia guardada
+		}
+
+	}
+
+	return vecPetrolStations.at(pos)->getInfo();
 
 }
 
@@ -438,88 +520,6 @@ vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 
 }
 
-//retorna node com id -1, se nao nenhum parque dentro dos limites impostos pelo user
-Node Manager::parkNear(int id, int maxDistance) {
-
-	int distMinima = INT_MAX;
-	int pos = -1;
-	Node node = getNodeByID(id);
-
-	myGraph.dijkstraShortestPath(node);
-
-	for (unsigned int i = 0; i < vecParking.size(); i++) {
-
-		int distAtual = vecParking.at(i).getNode()->getDist(); //distancia do parque analisado ao node
-
-		if (distAtual < maxDistance) { //se distancia do parque analisado esta dentro dos limites impostos pelo user
-			if (distAtual < distMinima) { //se a distancia for menor que a guardada
-				pos = i; //atualiza a posiçao
-				distMinima = distAtual; //atualiza distancia guardada
-			}
-		}
-	}
-
-	if (pos == -1) { //se nenhum parque foi encontrado
-		Node nullNode;
-		nullNode.setID(-1);
-		return nullNode;
-	} else
-		return vecParking.at(pos).getNode()->getInfo();
-}
-
-//retorna node com id -1, se nao nenhum parque dentro dos limites impostos pelo user
-Node Manager::parkCheap(int id, int maxDistance) {
-
-	int minPrice = INT_MAX;
-	int pos = -1;
-	Node node = getNodeByID(id);
-
-	myGraph.dijkstraShortestPath(node);
-
-	for (unsigned int i = 0; i < vecParking.size(); i++) {
-
-		int distAtual = vecParking.at(i).getNode()->getDist(); //distancia do parque analisado ao node
-		int priceAtual = vecParking.at(i).getPrice(); //preço do parque analisado
-
-		if (distAtual < maxDistance) { //se a distancia do parque analisado esta nos limites impostos pelo user
-			if (priceAtual < minPrice) { //se o preço for menos que o guardado
-				pos = i; //atualiza posiçao
-				minPrice = priceAtual; //atualiza preço guardado
-			}
-		}
-	}
-
-	if (pos == -1) { //se nenhum parque foi encontrado
-		Node nullNode;
-		nullNode.setID(-1);
-		return nullNode;
-	} else
-		return vecParking.at(pos).getNode()->getInfo();
-}
-
-Node Manager::petrolNear(int id) {
-
-	Node node = getNodeByID(id);
-	int distMinima = INT_MAX;
-	int pos = -1;
-
-	for (unsigned int i = 0; i < vecPetrolStations.size(); i++) {
-
-		myGraph.dijkstraShortestPath(vecPetrolStations.at(i)->getInfo()); //faz dijkstra para a bomba analisada
-
-		int distAtual = myGraph.getVertex(node)->getDist(); //distancia da bomba analisada ate ao node
-
-		if (distAtual < distMinima) { //se distancia atual menor que a distancia guardada
-			pos = i; //atualiza posição
-			distMinima = distAtual; //atualiza distancia guardada
-		}
-
-	}
-
-	return vecPetrolStations.at(pos)->getInfo();
-
-}
-
 void Manager::addPetrolToPath(vector<Node> &path) {
 
 	Node source = path.at(0);
@@ -537,33 +537,37 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	Node petrolNearSource = petrolNear(source.getID());
 
-	if (petrolNearSource == source && petrolNearSource == dest) {
+	if (petrolNearSource == source && petrolNearSource == dest) { //se a source, a bomba e o parque forem o mesmo
+
+	//pathSources tem 3 elementos iguais, mas cada um representa a sua coisa
 		pathSource.push_back(source);
 		pathSource.push_back(petrolNearSource);
 		pathSource.push_back(dest);
 
+		//distancia entre eles 0
 		partSource = 0;
 
-	} else if (petrolNearSource == source || petrolNearSource == dest) {
-		pathSource = myGraph.getPath(source, dest);
-		myGraph.dijkstraShortestPath(source);
-		partSource = myGraph.getVertex(petrolNearSource)->getDist();
+	} else if (petrolNearSource == source || petrolNearSource == dest) { //se a bomba mais perto for na origem ou no destino
+
+		pathSource = myGraph.getPath(source, dest); //path entre a origem e o destino
+		myGraph.dijkstraShortestPath(source); //dijkstra para a origem
+		partSource = myGraph.getVertex(dest)->getDist(); //distancia mais curta da origem ao destino
 
 	} else {
-		myGraph.dijkstraShortestPath(source);
-		partSource1 = myGraph.getVertex(petrolNearSource)->getDist();
-		pathSource1 = myGraph.getPath(source, petrolNearSource);
+		myGraph.dijkstraShortestPath(source); //disjkstra para a source
+		partSource1 = myGraph.getVertex(petrolNearSource)->getDist(); //path mais curto da origem à bomba
+		pathSource1 = myGraph.getPath(source, petrolNearSource); //distancia mais curta da origem à bomba
 
-		myGraph.dijkstraShortestPath(petrolNearSource);
-		partSource2 = myGraph.getVertex(dest)->getDist();
-		pathSource2 = myGraph.getPath(petrolNearSource, dest);
+		myGraph.dijkstraShortestPath(petrolNearSource); //disjkstra para a bomba
+		partSource2 = myGraph.getVertex(dest)->getDist(); //path mais curto da bomba ao destino
+		pathSource2 = myGraph.getPath(petrolNearSource, dest); //distancia mais curta da bomba ao destino
 
-		pathSource2.erase(pathSource2.begin());
+		pathSource2.erase(pathSource2.begin()); //apaga o primeiro elemento de pathSource2 pois vai ser o mesmo que pathSource1, ou seja, a bomba de gasolina
 		pathSource1.insert(pathSource1.end(), pathSource2.begin(),
-				pathSource2.end());
-		pathSource = pathSource1;
+				pathSource2.end()); //concatena os dois vetores
+		pathSource = pathSource1; //origem-bomba-destino
 
-		partSource = partSource1 + partSource2;
+		partSource = partSource1 + partSource2; //distancia mais curta entre a origem-bomba-destino
 	}
 
 	//PART 2 - calcula bomba mais perto do destino, e o caminho origem-bomba-destino
@@ -580,9 +584,9 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	if (petrolNearDest == source && petrolNearDest == dest) {
 
-		pathSource.push_back(source);
-		pathSource.push_back(petrolNearDest);
-		pathSource.push_back(dest);
+		pathDest.push_back(source);
+		pathDest.push_back(petrolNearDest);
+		pathDest.push_back(dest);
 
 		partSource = 0;
 
@@ -590,7 +594,7 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 		pathDest = myGraph.getPath(source, dest);
 		myGraph.dijkstraShortestPath(source);
-		partDest = myGraph.getVertex(petrolNearSource)->getDist();
+		partDest = myGraph.getVertex(dest)->getDist();
 
 	} else {
 
@@ -609,8 +613,7 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 		partDest = partDest1 + partDest2;
 	}
 
-	//verifica qual o caminho mais curto
-	if (partSource < partDest) {
+	if (partSource < partDest) { //verifica qual o caminho mais curto
 		cout << "PETROL STATION: " << petrolNearSource.getID() << endl;
 		path = pathSource;
 	} else {
