@@ -225,7 +225,6 @@ void Manager::loadStreets() {
 			std::getline(linestream, name, ';');
 			linestream >> way >> token;
 
-
 			do {
 				linestream >> NoID >> token;
 				idNodes.push_back(NoID);
@@ -237,9 +236,11 @@ void Manager::loadStreets() {
 
 				Vertex<Node> *vertex = NULL;
 
-				for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
+				for (unsigned int i = 0; i < myGraph.getVertexSet().size();
+						i++) {
 
-					if (idNodes.at(j)== myGraph.getVertexSet().at(i)->getInfo().getID()) {
+					if (idNodes.at(j)
+							== myGraph.getVertexSet().at(i)->getInfo().getID()) {
 						vertex = myGraph.getVertexSet().at(i);
 						break;
 					}
@@ -450,51 +451,135 @@ void Manager::printGraph() {
 
 /////////////////////////
 
-vector <Node> Manager::getShortestPath(int source, int dest) {
+Node Manager::getNodeByID(int id) {
 
-	Node nodeDest;
+	Node node;
 
 	for (int i = 0; i < myGraph.getVertexSet().size(); i++) {
-		if (myGraph.getVertexSet().at(i)->getInfo().getID() == dest) {
-			nodeDest = myGraph.getVertexSet().at(i)->getInfo();
+		if (myGraph.getVertexSet().at(i)->getInfo().getID() == id) {
+			node = myGraph.getVertexSet().at(i)->getInfo();
 		}
 	}
 
-	Node nodeSource;
+	return node;
 
-	for (int i = 0; i < myGraph.getVertexSet().size(); i++) {
-		if (myGraph.getVertexSet().at(i)->getInfo().getID() == source) {
-			nodeSource = myGraph.getVertexSet().at(i)->getInfo();
-		}
-	}
+}
+
+vector<Node> Manager::getShortestPath(int source, int dest) {
+
+	Node nodeDest = getNodeByID(dest);
+
+	Node nodeSource = getNodeByID(source);
 
 	//myGraph.dijkstraShortestPath(nodeSource);
 
-	vector<Node> path =	myGraph.getPath(nodeSource, nodeDest);
+	vector<Node> path = myGraph.getPath(nodeSource, nodeDest);
 
 	return path;
 
 }
 
-Node Manager::parkNear(int id){
+Node Manager::parkNear(int id) {
 
-	Node node;
-
-		for (int i = 0; i < myGraph.getVertexSet().size(); i++) {
-			if (myGraph.getVertexSet().at(i)->getInfo().getID() == id) {
-				node = myGraph.getVertexSet().at(i)->getInfo();
-			}
-		}
+	Node node = getNodeByID(id);
 
 	myGraph.dijkstraShortestPath(node);
 
 	ParkingLot park = vecParking.at(0);
 
-	for (int i =0; i < vecParking.size(); i++){
-		if(vecParking.at(i).getNode()->getDist() < park.getNode()->getDist())
+	for (int i = 0; i < vecParking.size(); i++) {
+		if (vecParking.at(i).getNode()->getDist() < park.getNode()->getDist())
 			park = vecParking.at(i);
 	}
 
 	return park.getNode()->getInfo();
+
+}
+
+Node Manager::petrolNear(int id) {
+
+	Node node = getNodeByID(id);
+
+	Vertex<Node>* petrol = vecPetrolStations.at(0);
+	int distMinima = INT_MAX;
+
+	int pos =0;
+
+	for (int i = 0; i < vecPetrolStations.size(); i++) {
+
+		myGraph.dijkstraShortestPath(vecPetrolStations.at(i)->getInfo());
+
+		int distAtual = myGraph.getVertex(node)->getDist();
+		if (distAtual < distMinima){
+			pos =i;
+			distMinima=distAtual;
+		}
+
+	}
+
+	return vecPetrolStations.at(pos)->getInfo();
+
+}
+
+void Manager::addPetrolToPath(vector<Node> &path) {
+
+	Node source = path.at(0);
+
+	Node dest = path.at(path.size() - 1);
+
+	//PART 1
+
+	int partSourceA, partSourceB;
+	int partSource;
+	vector<Node> pathSourceA, pathSourceB;
+
+	Node petrolNearSource = petrolNear(source.getID());
+
+
+	myGraph.dijkstraShortestPath(source);
+	partSourceA = myGraph.getVertex(petrolNearSource)->getDist();
+	pathSourceA = myGraph.getPath(source, petrolNearSource);
+
+	myGraph.dijkstraShortestPath(petrolNearSource);
+	partSourceB = myGraph.getVertex(dest)->getDist();
+	pathSourceB = myGraph.getPath(petrolNearSource, dest);
+
+	partSource = partSourceA + partSourceB;
+
+	pathSourceB.erase(pathSourceB.begin());
+	pathSourceA.insert(pathSourceA.end(), pathSourceB.begin(),pathSourceB.end());
+
+
+	//PART 2
+
+	int partDestA, partDestB;
+	int partDest;
+	vector<Node> pathDestA, pathDestB;
+
+	Node petrolNearDest = petrolNear(dest.getID());
+
+	myGraph.dijkstraShortestPath(source);
+	partDestA = myGraph.getVertex(petrolNearDest)->getDist();
+	pathDestA = myGraph.getPath(source, petrolNearDest);
+
+	myGraph.dijkstraShortestPath(petrolNearDest);
+	partDestB = myGraph.getVertex(dest)->getDist();
+	pathDestB = myGraph.getPath(petrolNearDest, dest);
+
+	partDest = partDestA + partDestB;
+
+	pathDestB.erase(pathDestB.begin());
+
+	pathDestA.insert(pathDestA.end(), pathDestB.begin(),pathDestB.end());
+
+
+	if(partSource < partDest){
+		cout << "PETROL STATION: " << petrolNearSource.getID() <<endl;
+		path =pathSourceA;
+	}
+	else{
+		cout << "PETROL STATION: " << petrolNearDest.getID()<<endl;
+		path= pathDestA;
+	}
 
 }

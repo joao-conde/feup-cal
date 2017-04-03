@@ -55,7 +55,10 @@ public:
 	bool isMetroStation(int idNo);
 	void printGraph();
 
+	Node getNodeByID(int id);
 	vector <Node> getShortestPath(int source, int dest);
 	Node parkNear(int id);
+	Node petrolNear(int id);
+	void addPetrolToPath(vector<Node> &path);
 };
 
