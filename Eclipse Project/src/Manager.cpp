@@ -471,8 +471,6 @@ vector<Node> Manager::getShortestPath(int source, int dest) {
 
 	Node nodeSource = getNodeByID(source);
 
-	//myGraph.dijkstraShortestPath(nodeSource);
-
 	vector<Node> path = myGraph.getPath(nodeSource, nodeDest);
 
 	return path;
@@ -487,7 +485,7 @@ Node Manager::parkNear(int id) {
 
 	ParkingLot park = vecParking.at(0);
 
-	for (int i = 0; i < vecParking.size(); i++) {
+	for (int i = 0; i < vecParking.size(); i++) { //corre o vetor de parques para encontrar o que é mais perto do no com id passado por argumento
 		if (vecParking.at(i).getNode()->getDist() < park.getNode()->getDist())
 			park = vecParking.at(i);
 	}
@@ -503,21 +501,92 @@ Node Manager::petrolNear(int id) {
 	Vertex<Node>* petrol = vecPetrolStations.at(0);
 	int distMinima = INT_MAX;
 
-	int pos =0;
+	int pos = 0;
 
-	for (int i = 0; i < vecPetrolStations.size(); i++) {
+	for (int i = 0; i < vecPetrolStations.size(); i++) { //corre o vetor de bombas de gasolina
 
-		myGraph.dijkstraShortestPath(vecPetrolStations.at(i)->getInfo());
+		myGraph.dijkstraShortestPath(vecPetrolStations.at(i)->getInfo()); //faz dijkstra para todas as bombas
 
-		int distAtual = myGraph.getVertex(node)->getDist();
-		if (distAtual < distMinima){
-			pos =i;
-			distMinima=distAtual;
+		int distAtual = myGraph.getVertex(node)->getDist(); //distancia da bomba analisada ate ao no
+		if (distAtual < distMinima) { //se distAtual menor que a distancia guardada, entao distMinima é atualizada
+			pos = i;
+			distMinima = distAtual;
 		}
 
 	}
 
 	return vecPetrolStations.at(pos)->getInfo();
+
+}
+
+void Manager::insertValues() {
+
+	int source, dest;
+	char passPetrolStation;
+
+	cout << "SOURCE: ";
+	cin >> source;
+
+	cout << "DESTINATION: ";
+	cin >> dest;
+
+	cout << "PETROL STATION(y/n): ";
+	cin >> passPetrolStation;
+
+	vector<Node> path = calculatePath(source, dest, passPetrolStation);
+
+	cout << "PATH: ";
+	for (int i = 0; i < path.size(); i++) {
+		cout << path.at(i).getID() << " ";
+	}
+
+}
+
+vector<Node> Manager::calculatePath(int sourceID, int destID,
+		char passPetrolStation) {
+
+	Node park;
+	park = Manager::instance()->parkNear(destID);
+
+	cout << "PARK: " << park.getID() << endl;
+
+	vector<Node> part1;
+	vector<Node> part2;
+	vector<Node> vec;
+
+	if (park.getID() == sourceID && park.getID() == destID) { //se a source, o dest e o parque sao o mesmo ponto
+
+		vec.push_back(getNodeByID(sourceID));
+		vec.push_back(getNodeByID(sourceID));
+
+		if (passPetrolStation == 'y') {
+			Manager::instance()->addPetrolToPath(vec);
+		}
+
+	}
+	else if (park.getID() == sourceID || park.getID() == destID) { //se a source é parque ou o destino é parque
+		vec = Manager::instance()->getShortestPath(sourceID, destID);
+
+		if (passPetrolStation == 'y') {
+			Manager::instance()->addPetrolToPath(vec);
+		}
+
+	} else {
+		part1 = Manager::instance()->getShortestPath(sourceID, park.getID()); // caminho mais curto da source ao parque
+		part2 = Manager::instance()->getShortestPath(park.getID(), destID);//caminho mais cuto do parque ao dest
+
+		if (passPetrolStation == 'y') {
+			Manager::instance()->addPetrolToPath(part1);
+		}
+
+		part2.erase(part2.begin()); //apaga o primeiro elemento da segunda parte porque é igual ao ultimo elemento da primeira parte
+
+		part1.insert(part1.end(), part2.begin(), part2.end());//concatena as duas partes
+
+		vec = part1;
+	}
+
+	return vec;
 
 }
 
@@ -527,7 +596,7 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	Node dest = path.at(path.size() - 1);
 
-	//PART 1
+	//PART 1 - calcula bomba mais perto da origem, e o caminho origem-bomba-destino
 
 	int partSourceA, partSourceB;
 	int partSource;
@@ -535,10 +604,15 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	Node petrolNearSource = petrolNear(source.getID());
 
+	if (!(petrolNearSource == source)) {
 
-	myGraph.dijkstraShortestPath(source);
-	partSourceA = myGraph.getVertex(petrolNearSource)->getDist();
-	pathSourceA = myGraph.getPath(source, petrolNearSource);
+		myGraph.dijkstraShortestPath(source);
+		partSourceA = myGraph.getVertex(petrolNearSource)->getDist();
+		pathSourceA = myGraph.getPath(source, petrolNearSource);
+	} else {
+		partSourceA = 0;
+		pathSourceA.push_back(source);
+	}
 
 	myGraph.dijkstraShortestPath(petrolNearSource);
 	partSourceB = myGraph.getVertex(dest)->getDist();
@@ -547,10 +621,10 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 	partSource = partSourceA + partSourceB;
 
 	pathSourceB.erase(pathSourceB.begin());
-	pathSourceA.insert(pathSourceA.end(), pathSourceB.begin(),pathSourceB.end());
+	pathSourceA.insert(pathSourceA.end(), pathSourceB.begin(),
+			pathSourceB.end());
 
-
-	//PART 2
+	//PART 2 - calcula bomba mais perto do destino, e o caminho origem-bomba-destino
 
 	int partDestA, partDestB;
 	int partDest;
@@ -570,16 +644,15 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	pathDestB.erase(pathDestB.begin());
 
-	pathDestA.insert(pathDestA.end(), pathDestB.begin(),pathDestB.end());
+	pathDestA.insert(pathDestA.end(), pathDestB.begin(), pathDestB.end());
 
-
-	if(partSource < partDest){
-		cout << "PETROL STATION: " << petrolNearSource.getID() <<endl;
-		path =pathSourceA;
-	}
-	else{
-		cout << "PETROL STATION: " << petrolNearDest.getID()<<endl;
-		path= pathDestA;
+	//verifica qual o caminho mais curto
+	if (partSource < partDest) {
+		cout << "PETROL STATION: " << petrolNearSource.getID() << endl;
+		path = pathSourceA;
+	} else {
+		cout << "PETROL STATION: " << petrolNearDest.getID() << endl;
+		path = pathDestA;
 	}
 
 }
