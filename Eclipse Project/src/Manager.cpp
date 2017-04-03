@@ -331,44 +331,12 @@ void Manager::loadPetrolStations() {
 	return;
 }
 
-void Manager::loadMetroStations() {
-	string line;
-	ifstream file("metroStations.txt");
-
-	if (file.is_open()) {
-		while (getline(file, line)) {
-
-			/*string idString = line;
-
-			 int id = stoi(idString, nullptr, 10);*/
-
-			int id;
-
-			std::stringstream linestream(line);
-
-			linestream >> id;
-
-			for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
-				if (myGraph.getVertexSet().at(i)->getInfo().getID() == id) {
-					vecMetroStations.push_back(myGraph.getVertexSet().at(i));
-				}
-			}
-		}
-
-		file.close();
-	} else {
-		cerr << "n File not found!\n";
-	}
-	return;
-}
-
 void Manager::loadData() {
 	loadNodes();
 	loadEdges();
 	loadParkingLot();
 	loadStreets();
 	loadPetrolStations();
-	loadMetroStations();
 	return;
 }
 
@@ -389,15 +357,6 @@ bool Manager::isPetrolStation(int idNo) {
 	return false;
 }
 
-bool Manager::isMetroStation(int idNo) {
-	for (unsigned int i = 0; i < vecMetroStations.size(); i++) {
-		if (vecMetroStations.at(i)->getInfo().getID() == idNo)
-			return true;
-	}
-
-	return false;
-}
-
 void Manager::printGraph() {
 
 	gv->createWindow(800, 800);
@@ -405,7 +364,7 @@ void Manager::printGraph() {
 	gv->defineEdgeCurved(false);
 
 	gv->defineEdgeColor("black");
-	gv->defineVertexColor("white");
+	gv->defineVertexColor("gray");
 
 	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
@@ -420,9 +379,6 @@ void Manager::printGraph() {
 
 		if (isPetrolStation(idNo))
 			gv->setVertexColor(idNo, "black");
-
-		if (isMetroStation(idNo))
-			gv->setVertexColor(idNo, "gray");
 
 	}
 
@@ -564,7 +520,7 @@ Node Manager::petrolNear(int id) {
 
 }
 
-void Manager::insertValues() {
+vector <Node> Manager::insertValues() {
 
 	int source, dest, maxDistance;
 	char passPetrolStation, Cheap_Near;
@@ -587,15 +543,31 @@ void Manager::insertValues() {
 	vector<Node> path = calculatePath(source, dest, maxDistance, Cheap_Near,
 			passPetrolStation);
 
-	if (path.size() == 0)
-		return;
+	if (path.size() == 0){
+		return path;
+	}
 
 	cout << "PATH: ";
 	for (int i = 0; i < path.size(); i++) {
 		cout << path.at(i).getID() << " ";
 	}
 
-	return;
+
+	printGraph();
+
+	return path;
+}
+
+void Manager::paintPath(vector <Node> path){
+
+	for (int i =0; i < path.size()-1; i++ ){
+		int id= 200+i;
+		gv->addEdge(id, path.at(i).getID(), path.at(i+1).getID(), EdgeType::DIRECTED);
+		gv->setEdgeThickness(id, 4);
+		gv->setEdgeColor(id, "orange");
+	}
+
+	gv->rearrange();
 }
 
 vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,

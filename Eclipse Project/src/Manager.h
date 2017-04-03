@@ -55,7 +55,7 @@ public:
 	bool isMetroStation(int idNo);
 	void printGraph();
 
-	void insertValues();
+	vector<Node> insertValues();
 	vector<Node> calculatePath(int sourceID, int destID, int maxDistance,  char Cheap_Near, char passPetrolStation);
 	Node getNodeByID(int id);
 	vector <Node> getShortestPath(int source, int dest);
@@ -63,5 +63,6 @@ public:
 	Node parkCheap(int id, int maxDistance);
 	Node petrolNear(int id);
 	void addPetrolToPath(vector<Node> &path);
+	void paintPath(vector<Node> id);
 };
 
