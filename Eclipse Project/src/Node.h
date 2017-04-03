@@ -18,6 +18,7 @@ public:
 	int getID() const;
 	int getX() const;
 	int getY() const;
+	void setID(int ID);
 	bool operator==(const Node & n2) const;
 };
 

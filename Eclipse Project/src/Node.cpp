@@ -15,6 +15,11 @@ Node::~Node()
 {
 }
 
+void Node::setID(int id)
+{
+	this->id=id;
+}
+
 int Node::getID() const
 {
 	return this->id;

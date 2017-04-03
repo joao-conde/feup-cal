@@ -56,10 +56,11 @@ public:
 	void printGraph();
 
 	void insertValues();
-	vector<Node> calculatePath(int sourceID, int destID, char passPetrolStation);
+	vector<Node> calculatePath(int sourceID, int destID, int maxDistance,  char Cheap_Near, char passPetrolStation);
 	Node getNodeByID(int id);
 	vector <Node> getShortestPath(int source, int dest);
-	Node parkNear(int id);
+	Node parkNear(int id, int maxDistance);
+	Node parkCheap(int id, int maxDistance);
 	Node petrolNear(int id);
 	void addPetrolToPath(vector<Node> &path);
 };

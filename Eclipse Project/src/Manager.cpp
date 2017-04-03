@@ -477,21 +477,66 @@ vector<Node> Manager::getShortestPath(int source, int dest) {
 
 }
 
-Node Manager::parkNear(int id) {
+Node Manager::parkNear(int id, int maxDistance) {
 
 	Node node = getNodeByID(id);
 
 	myGraph.dijkstraShortestPath(node);
 
-	ParkingLot park = vecParking.at(0);
+	int distMinima = INT_MAX;
+	int pos = 0;
 
 	for (int i = 0; i < vecParking.size(); i++) { //corre o vetor de parques para encontrar o que é mais perto do no com id passado por argumento
-		if (vecParking.at(i).getNode()->getDist() < park.getNode()->getDist())
-			park = vecParking.at(i);
+
+		int distAtual = vecParking.at(i).getNode()->getDist();
+
+		if (distAtual < distMinima) {
+			pos = i;
+			distMinima = distAtual;
+		}
+
 	}
 
-	return park.getNode()->getInfo();
+	if (distMinima > maxDistance) {
+		Node nullNode;
+		nullNode.setID(-1);
+		return nullNode;
+	} else
+		return vecParking.at(pos).getNode()->getInfo();
+}
 
+Node Manager::parkCheap(int id, int maxDistance) {
+
+	Node node = getNodeByID(id);
+
+	myGraph.dijkstraShortestPath(node);
+
+	int minPrice = INT_MAX;
+	int pos;
+
+	bool flag = false;
+
+	for (int i = 0; i < vecParking.size(); i++) { //corre o vetor de parques para encontrar o que é mais perto do no com id passado por argumento
+
+		int distAtual = vecParking.at(i).getNode()->getDist();
+		int priceAtual = vecParking.at(i).getPrice();
+
+		//cout << vecParking.at(i).getPrice() << " ";
+		if (distAtual < maxDistance) {
+			if (priceAtual < minPrice) {
+				pos = i;
+				minPrice = priceAtual;
+				flag = true;
+			}
+		}
+	}
+
+	if (!flag) {
+		Node nullNode;
+		nullNode.setID(-1);
+		return nullNode;
+	} else
+		return vecParking.at(pos).getNode()->getInfo();
 }
 
 Node Manager::petrolNear(int id) {
@@ -521,8 +566,8 @@ Node Manager::petrolNear(int id) {
 
 void Manager::insertValues() {
 
-	int source, dest;
-	char passPetrolStation;
+	int source, dest, maxDistance;
+	char passPetrolStation, Cheap_Near;
 
 	cout << "SOURCE: ";
 	cin >> source;
@@ -530,25 +575,62 @@ void Manager::insertValues() {
 	cout << "DESTINATION: ";
 	cin >> dest;
 
-	cout << "PETROL STATION(y/n): ";
+	cout << "MAX DISTANCE: ";
+	cin >> maxDistance;
+
+	cout << "CHEAP OR NEAR (c/n): ";
+	cin >> Cheap_Near;
+
+	cout << "PETROL STATION (y/n): ";
 	cin >> passPetrolStation;
 
-	vector<Node> path = calculatePath(source, dest, passPetrolStation);
+	vector<Node> path = calculatePath(source, dest, maxDistance, Cheap_Near,
+			passPetrolStation);
+
+	if (path.size() == 0)
+		return;
 
 	cout << "PATH: ";
 	for (int i = 0; i < path.size(); i++) {
 		cout << path.at(i).getID() << " ";
 	}
 
+	return;
 }
 
-vector<Node> Manager::calculatePath(int sourceID, int destID,
-		char passPetrolStation) {
-
+vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
+		char Cheap_Near, char passPetrolStation) {
 	Node park;
-	park = Manager::instance()->parkNear(destID);
+
+	if (Cheap_Near == 'c') {
+		park = Manager::instance()->parkCheap(destID, maxDistance);
+	} else {
+		park = Manager::instance()->parkNear(destID, maxDistance);
+	}
+
+	vector<Node> nullVector;
+
+	if (park.getID() == -1) {
+		cout << "THERE'S NO PARK WITHIN THAT DISTANCE!" << endl;
+		return nullVector;
+	}
 
 	cout << "PARK: " << park.getID() << endl;
+
+	//TESTE
+	ParkingLot parkLot;
+
+	for (int i = 0; i < vecParking.size(); i++) {
+
+		if (vecParking.at(i).getNode() == myGraph.getVertex(park)) {
+			parkLot = vecParking.at(i);
+		}
+	}
+
+	cout << "PRICE: " << parkLot.getPrice() << endl;
+
+
+
 
 	vector<Node> part1;
 	vector<Node> part2;
@@ -563,8 +645,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID,
 			Manager::instance()->addPetrolToPath(vec);
 		}
 
-	}
-	else if (park.getID() == sourceID || park.getID() == destID) { //se a source é parque ou o destino é parque
+	} else if (park.getID() == sourceID || park.getID() == destID) { //se a source é parque ou o destino é parque
 		vec = Manager::instance()->getShortestPath(sourceID, destID);
 
 		if (passPetrolStation == 'y') {
@@ -573,7 +654,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID,
 
 	} else {
 		part1 = Manager::instance()->getShortestPath(sourceID, park.getID()); // caminho mais curto da source ao parque
-		part2 = Manager::instance()->getShortestPath(park.getID(), destID);//caminho mais cuto do parque ao dest
+		part2 = Manager::instance()->getShortestPath(park.getID(), destID); //caminho mais cuto do parque ao dest
 
 		if (passPetrolStation == 'y') {
 			Manager::instance()->addPetrolToPath(part1);
@@ -581,7 +662,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID,
 
 		part2.erase(part2.begin()); //apaga o primeiro elemento da segunda parte porque é igual ao ultimo elemento da primeira parte
 
-		part1.insert(part1.end(), part2.begin(), part2.end());//concatena as duas partes
+		part1.insert(part1.end(), part2.begin(), part2.end()); //concatena as duas partes
 
 		vec = part1;
 	}
@@ -656,3 +737,5 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 	}
 
 }
+
+
