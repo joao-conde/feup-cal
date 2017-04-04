@@ -16,4 +16,4 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-Eclipse Project/docs/* linguist-vendored
+Projeto1/docs/* linguist-vendored
