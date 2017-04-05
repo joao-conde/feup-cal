@@ -257,7 +257,8 @@ void Manager::printGraph() {
 	gv->defineEdgeCurved(false);
 
 	gv->defineEdgeColor("black");
-	gv->defineVertexColor("gray");
+	//gv->defineVertexColor("gray");
+	gv->defineVertexIcon("res/emptyIcon.png");
 
 	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
@@ -268,10 +269,12 @@ void Manager::printGraph() {
 		gv->addNode(idNo, x * 5 + 50, -(y * 5) + 600);
 
 		if (isParkingLot(idNo))
-			gv->setVertexColor(idNo, "blue");
+			gv->setVertexIcon(idNo, "res/parkIcon.png");
+			//gv->setVertexColor(idNo, "blue");
 
 		if (isPetrolStation(idNo))
-			gv->setVertexColor(idNo, "black");
+			gv->setVertexIcon(idNo, "res/gasIcon.png");
+			//gv->setVertexColor(idNo, "black");
 
 	}
 
@@ -315,9 +318,10 @@ void Manager::paintPath(vector<Node> path) {
 		int id = path.at(i).getID() * 100 + path.at(i + 1).getID();
 
 		gv->setEdgeThickness(id, 4);
-		gv->setEdgeColor(id, "orange");
+		gv->setEdgeColor(id, "BLUE");
 	}
 
+	gv->setVertexIcon(path.at(0).getID(), "res/personIcon.png");
 	gv->rearrange();
 }
 
