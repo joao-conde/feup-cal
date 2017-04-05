@@ -135,6 +135,8 @@ public:
 	 * Função que pede os valores ao user e chama as funçoes para calcular o path, retornando esse path.
 	 * @return Vetor de Nodes com o path pretendido.
 	 */
+	string mainMenu(bool source);
+	void showStreets(bool source);
 	vector<Node> insertValues();
 
 	/**
