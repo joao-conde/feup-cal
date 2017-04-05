@@ -7,6 +7,7 @@ using namespace std;
 class Node {
 private:
 	int id; ///< Node's ID
+	string name; //< Node's name
 	pair<int, int> coords;  ///< Node's coordinates (x,y)
 
 public:
@@ -25,8 +26,9 @@ public:
 	 * @param id int que representa o ID do node.
 	 * @param x int que representa a coordenada X do node.
 	 * @param y int que representa a coordenada Y do node.
+	 * @param name string que representa o nome do local do node.
 	 */
-	Node(int id, int x, int y);
+	Node(int id, int x, int y, string name);
 
 	/**
 	 * Função que retorna o ID do node
@@ -45,6 +47,12 @@ public:
 	 * @return Y do node (int).
 	 */
 	int getY() const;
+
+	/**
+	 * Função que retorna o nome do local do node.
+	 * @return name do node (string).
+	 */
+	string getName() const;
 
 	/**
 	 * Função que muda o ID do node.

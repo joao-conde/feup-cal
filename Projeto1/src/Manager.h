@@ -51,7 +51,6 @@ public:
 	Node getNodeByID(int id);
 	bool isParkingLot(int idNo);
 	bool isPetrolStation(int idNo);
-	bool isMetroStation(int idNo);
 
 	Node parkNear(int id, int maxDistance);
 	Node parkCheap(int id, int maxDistance);

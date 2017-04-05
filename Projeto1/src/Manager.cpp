@@ -72,6 +72,7 @@ void Manager::loadNodes() {
 			int id;
 			int x;
 			int y;
+			string name;
 
 			linestream >> id;
 
@@ -79,8 +80,10 @@ void Manager::loadNodes() {
 			linestream >> x;
 			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 			linestream >> y;
+			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+			linestream >> name;
 
-			Node node = Node(id, x, y);
+			Node node = Node(id, x, y, name);
 
 			myGraph.addVertex(node);
 		}
@@ -257,24 +260,46 @@ void Manager::printGraph() {
 	gv->defineEdgeCurved(false);
 
 	gv->defineEdgeColor("black");
-	//gv->defineVertexColor("gray");
 	gv->defineVertexIcon("res/emptyIcon.png");
 
 	for (unsigned int i = 0; i < myGraph.getVertexSet().size(); i++) {
 
 		int idNo = myGraph.getVertexSet().at(i)->getInfo().getID();
+		string name = myGraph.getVertexSet().at(i)->getInfo().getName();
 		int x = myGraph.getVertexSet().at(i)->getInfo().getX();
 		int y = myGraph.getVertexSet().at(i)->getInfo().getY();
 
 		gv->addNode(idNo, x * 5 + 50, -(y * 5) + 600);
 
-		if (isParkingLot(idNo))
+		if (isParkingLot(idNo)) {
 			gv->setVertexIcon(idNo, "res/parkIcon.png");
-			//gv->setVertexColor(idNo, "blue");
+			continue;
+		}
 
-		if (isPetrolStation(idNo))
+		if (isPetrolStation(idNo)) {
 			gv->setVertexIcon(idNo, "res/gasIcon.png");
-			//gv->setVertexColor(idNo, "black");
+			continue;
+		}
+
+		if (name == "mall") {
+			gv->setVertexIcon(idNo, "res/cartIcon.png");
+			continue;
+		}
+
+		if (name == "food") {
+			gv->setVertexIcon(idNo, "res/foodIcon.png");
+			continue;
+		}
+
+		if (name == "cinema") {
+			gv->setVertexIcon(idNo, "res/movieIcon.png");
+			continue;
+		}
+
+		if (name == "uni") {
+			gv->setVertexIcon(idNo, "res/upIcon.png");
+			continue;
+		}
 
 	}
 
@@ -461,7 +486,7 @@ vector<Node> Manager::insertValues() {
 vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 		char Cheap_Near, char passPetrolStation) {
 
-	//ENCONTRAR PARQUES//
+//ENCONTRAR PARQUES//
 	Node park;
 
 	if (Cheap_Near == 'c') { //se user escolheu encontrar o parque mais barato
@@ -478,7 +503,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 
 	cout << "PARK: " << park.getID() << endl;
 
-	//ELABORAR O PATH//
+//ELABORAR O PATH//
 
 	vector<Node> part1; //path da source ao parque
 	vector<Node> part2; //path do parque a dest
@@ -486,7 +511,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 
 	if (park.getID() == sourceID && park.getID() == destID) { //se a source, o dest e o parque sao o mesmo ponto
 
-	//vec terá apenas dois elementos, que serão iguais, mas um representa a origem e outro o destino
+//vec terá apenas dois elementos, que serão iguais, mas um representa a origem e outro o destino
 		vec.push_back(getNodeByID(sourceID));
 		vec.push_back(getNodeByID(destID));
 
@@ -496,7 +521,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 
 	} else if (park.getID() == sourceID || park.getID() == destID) { //se a source ou o destino são o parque
 
-	//vec terá o caminho mais perto de source a dest
+//vec terá o caminho mais perto de source a dest
 		vec = myGraph.getPath(getNodeByID(sourceID), getNodeByID(destID));
 
 		if (passPetrolStation == 'y') { //se o user escolheu abastecer
@@ -529,7 +554,7 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 	Node source = path.at(0);
 	Node dest = path.at(path.size() - 1);
 
-	//PART 1 - assumindo bomba mais perto da origem
+//PART 1 - assumindo bomba mais perto da origem
 
 	int partSource1; //distancia source-bomba
 	int partSource2; // distancia bomba-dest
@@ -543,7 +568,7 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	if (petrolNearSource == source && petrolNearSource == dest) { //se a source, a bomba e o parque forem o mesmo
 
-	//pathSources tem 3 elementos iguais, mas cada um representa a sua coisa
+//pathSources tem 3 elementos iguais, mas cada um representa a sua coisa
 		pathSource.push_back(source);
 		pathSource.push_back(petrolNearSource);
 		pathSource.push_back(dest);
@@ -574,7 +599,7 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 		partSource = partSource1 + partSource2; //distancia mais curta entre a origem-bomba-destino
 	}
 
-	//PART 2 - calcula bomba mais perto do destino, e o caminho origem-bomba-destino
+//PART 2 - calcula bomba mais perto do destino, e o caminho origem-bomba-destino
 
 	int partDest1; //distancia source-bomba
 	int partDest2; // distancia bomba-dest
