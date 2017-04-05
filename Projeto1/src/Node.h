@@ -11,51 +11,50 @@ private:
 
 public:
 	/**
-	 * Default constructor.
+	 * Construtor default.
 	 */
 	Node();
 
 	/**
-	 * Default destructor.
+	 * Destrutor default.
 	 */
 	~Node();
 
 	/**
-	 * Node constructor.
-	 * @param id int that represents the ID of the node
-	 * @param x int that represents the coordinate X of the node
-	 * @param y int that represents the coordinate Y of the node
+	 * Construtor de node.
+	 * @param id int que representa o ID do node.
+	 * @param x int que representa a coordenada X do node.
+	 * @param y int que representa a coordenada Y do node.
 	 */
 	Node(int id, int x, int y);
 
-
 	/**
-	 * Function to get the ID of the node.
-	 * @return ID of the node (int).
+	 * Função que retorna o ID do node
+	 * @return ID do node (int).
 	 */
 	int getID() const;
 
 	/**
-	 * Function to get the coodinate X of the node.
-	 * @return X of the node (int).
+	 * Função que retorna a coordenada X do node.
+	 * @return X do node (int).
 	 */
 	int getX() const;
 
 	/**
-	 * Function to get the coodinate Y of the node.
-	 * @return Y of the node (int).
+	 * Função que retorna a coordenada Y do node.
+	 * @return Y do node (int).
 	 */
 	int getY() const;
 
 	/**
-	 * Function that sets the ID of the node.
-	 * @param ID int of the ID to be setted.
+	 * Função que muda o ID do node.
+	 * @param ID int do ID pretendido.
 	 */
 	void setID(int ID);
 
 	/**
-	 * Overload of the == operator for nodes. Two nodes are equals when they have the same ID.
-	 * @param n2 Second node to be compared.
+	 * Overload do operador == para nodes. Dois nodes são iguais quando têm o mesmo ID.
+	 * @param n2 Noode ao qual queremos comparar a instancia que chama esta função.
 	 */
 	bool operator==(const Node & n2) const;
 };
