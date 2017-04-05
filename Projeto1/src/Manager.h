@@ -154,5 +154,7 @@ public:
 	 * @param path vetor de nodes do caminho mais curto entre a origem e o parque de estacionamento.
 	 */
 	void addPetrolToPath(vector<Node> &path);
+
+	void graphConnection();
 };
 

@@ -10,8 +10,8 @@ Manager::~Manager() {
 void Manager::loadEdges() {
 	string line;
 
-	ifstream file("Edges.txt");
-	//ifstream file("1a100.txt");
+	//ifstream file("Edges.txt");
+	ifstream file("1a100.txt");
 	//ifstream file("2a300.txt");
 	//ifstream file("3a500.txt");
 
@@ -66,8 +66,8 @@ void Manager::loadEdges() {
 void Manager::loadNodes() {
 	string line;
 
-	ifstream file("Nodes.txt");
-	//ifstream file("1v200.txt");
+	//ifstream file("Nodes.txt");
+	ifstream file("1v200.txt");
 	//ifstream file("2v600.txt");
 	//ifstream file("3v1000.txt");
 
@@ -669,5 +669,26 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 	}
 
 	return;
+
+}
+
+void Manager::graphConnection(){
+
+	vector<Node> vec1;
+	vector<Node> vec2;
+
+	myGraph.kosarajuAlgorith(vec1, vec2);
+
+	cout << "VEC1:" << vec1.size() <<endl;
+	/*for (int i =0; i < vec1.size(); i++)
+		cout << vec1.at(i).getID() << " ";*/
+
+	cout << endl;
+
+	cout << "VEC2:" << vec2.size() <<endl;
+	/*for (int i =0; i < vec2.size(); i++)
+		cout << vec2.at(i).getID() << " ";*/
+
+
 
 }

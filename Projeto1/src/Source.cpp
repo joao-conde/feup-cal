@@ -22,8 +22,11 @@ int main() {
 	if (path.size() != 0)
 		Manager::instance()->paintPath(path);
 
+
 	getchar();
 	getchar();
+
+	//Manager::instance()->graphConnection();
 
 	return 0;
 }
