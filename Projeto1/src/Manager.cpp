@@ -10,8 +10,8 @@ Manager::~Manager() {
 void Manager::loadEdges() {
 	string line;
 
-	//ifstream file("Edges.txt");
-	ifstream file("1a100.txt");
+	ifstream file("Edges.txt");
+	//ifstream file("1a100.txt");
 	//ifstream file("2a300.txt");
 	//ifstream file("3a500.txt");
 
@@ -66,8 +66,8 @@ void Manager::loadEdges() {
 void Manager::loadNodes() {
 	string line;
 
-	//ifstream file("Nodes.txt");
-	ifstream file("1v200.txt");
+	ifstream file("Nodes.txt");
+	//ifstream file("1v200.txt");
 	//ifstream file("2v600.txt");
 	//ifstream file("3v1000.txt");
 
@@ -323,7 +323,13 @@ void Manager::printGraph() {
 
 			int idAresta = 1000 * idNoOrigem + idNoDestino;
 
+			string weight = std::to_string(adj.at(j).getWeight());
+
+			for (int i = weight.find(".") + 2; i < weight.size(); i++)
+				weight.erase(i);
+
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
+			gv->setEdgeLabel(idAresta, weight);
 		}
 
 	}
@@ -672,23 +678,21 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 }
 
-void Manager::graphConnection(){
+void Manager::graphConnection() {
 
 	vector<Node> vec1;
 	vector<Node> vec2;
 
 	myGraph.kosarajuAlgorith(vec1, vec2);
 
-	cout << "VEC1:" << vec1.size() <<endl;
+	cout << "VEC1:" << vec1.size() << endl;
 	/*for (int i =0; i < vec1.size(); i++)
-		cout << vec1.at(i).getID() << " ";*/
+	 cout << vec1.at(i).getID() << " ";*/
 
 	cout << endl;
 
-	cout << "VEC2:" << vec2.size() <<endl;
+	cout << "VEC2:" << vec2.size() << endl;
 	/*for (int i =0; i < vec2.size(); i++)
-		cout << vec2.at(i).getID() << " ";*/
-
-
+	 cout << vec2.at(i).getID() << " ";*/
 
 }
