@@ -14,7 +14,7 @@ Avalie a conectividade do grafo, a fim de evitar que locais de estacionamento se
 
 Considere a possibilidade de utilizar mapas reais, extraídos do OpenStreetMaps (www.openstreetmap.org), localizando, no mapa, endereços e pontos de interesse. <br><br>
 
-> Entrega Primeiro Trabalho (via Moodle, no dia **7/Abril**, até às 24:00) <br>
+> Entrega Primeiro Trabalho (via Moodle, no dia **9/Abril**, até às 24:00) <br>
 > Entrega Segundo Trabalho (via Moodle, no dia **19/Maio**, até às 24:00) <br>
 >> *Nota Mínima:* 8 valores
 
