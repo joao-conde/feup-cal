@@ -11,6 +11,7 @@
 #include "ParkingLot.h"
 #include "Street.h"
 #include "graphviewer.h"
+#include "UtilFunctions.h"
 
 class Manager {
 

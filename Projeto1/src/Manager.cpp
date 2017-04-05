@@ -9,7 +9,11 @@ Manager::~Manager() {
 
 void Manager::loadEdges() {
 	string line;
+
 	ifstream file("Edges.txt");
+	//ifstream file("1a100.txt");
+	//ifstream file("2a300.txt");
+	//ifstream file("3a500.txt");
 
 	if (file.is_open()) {
 		while (getline(file, line)) {
@@ -61,7 +65,11 @@ void Manager::loadEdges() {
 
 void Manager::loadNodes() {
 	string line;
+
 	ifstream file("Nodes.txt");
+	//ifstream file("1v200.txt");
+	//ifstream file("2v600.txt");
+	//ifstream file("3v1000.txt");
 
 	if (file.is_open()) {
 		while (getline(file, line)) {
@@ -313,7 +321,7 @@ void Manager::printGraph() {
 
 			int idNoDestino = adj.at(j).getNode()->getInfo().getID();
 
-			int idAresta = 100 * idNoOrigem + idNoDestino;
+			int idAresta = 1000 * idNoOrigem + idNoDestino;
 
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
 		}
@@ -340,7 +348,7 @@ Node Manager::getNodeByID(int id) {
 void Manager::paintPath(vector<Node> path) {
 
 	for (int i = 0; i < path.size() - 1; i++) {
-		int id = path.at(i).getID() * 100 + path.at(i + 1).getID();
+		int id = path.at(i).getID() * 1000 + path.at(i + 1).getID();
 
 		gv->setEdgeThickness(id, 4);
 		gv->setEdgeColor(id, "BLUE");
@@ -469,6 +477,8 @@ vector<Node> Manager::insertValues() {
 	cout << "PETROL STATION (y/n): ";
 	cin >> passPetrolStation;
 
+	int nTimeStart = GetMilliCount();
+
 	vector<Node> path = calculatePath(source, dest, maxDistance, Cheap_Near,
 			passPetrolStation);
 
@@ -478,6 +488,14 @@ vector<Node> Manager::insertValues() {
 			cout << path.at(i).getID() << " ";
 		}
 	}
+
+	//------------------------------------------------
+
+	int nTimeElapsed = GetMilliSpan(nTimeStart);
+	cout << endl;
+	cout << "MILLISECONDS: " << nTimeElapsed << endl;
+
+	//------------------------------------------------
 
 	return path;
 }
