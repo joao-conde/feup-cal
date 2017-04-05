@@ -463,47 +463,145 @@ Node Manager::petrolNear(int id) {
 
 }
 
+string Manager::mainMenu(bool source) {
+	int option;
+	string input;
+
+	if (source)
+		cout << "> WHERE ARE YOU ?\n";
+	else
+		cout << "> WHERE DO YOU WANT TO GO ?\n";
+
+	cout << "[1]Mall           [4]Restaurant\n"
+			<< "[2]Cinema         [5]University\n"
+			<< "[3]Gas Station    [6]Parking Lot\n" << "[0]Other\n\n";
+
+	cout << "> Option: ";
+	cin >> option;
+	cout << endl;
+
+	if (option < 0 || option > 6) {
+		cerr << "ERROR - not a valid option!\n";
+	} else {
+
+		switch (option) {
+		case 0:
+			input = "null";
+			break;
+		case 1:
+			input = "mall";
+			break;
+		case 2:
+			input = "cinema";
+			break;
+		case 3:
+			input = "gas";
+			break;
+		case 4:
+			input = "food";
+			break;
+		case 5:
+			input = "uni";
+			break;
+		case 6:
+			input = "park";
+			break;
+		default:
+			break;
+		}
+	}
+
+	return input;
+}
+
+void Manager::showStreets(bool source) {
+	string input = mainMenu(source);
+
+	if (!input.empty()) {
+
+		cout << " ID      Street\n-----------------\n";
+
+		for (int i = 0; i < vecStreets.size(); i++) {
+			for (int j = 0; j < vecStreets.at(i).getVertexs().size(); j++) {
+				int id = vecStreets.at(i).getVertexs().at(j)->getInfo().getID();
+				string name = vecStreets.at(i).getName();
+				string local =
+						vecStreets.at(i).getVertexs().at(j)->getInfo().getName();
+
+				if (input == local)
+					cout << id << "  :  " << name << endl;
+			}
+		}
+		cout << endl;
+
+	} else
+		return;
+
+}
+
 vector<Node> Manager::insertValues() {
 
-	int source, dest, maxDistance;
-	char passPetrolStation, Cheap_Near;
+	int source, dest, maxDistance, Cheap_Near;
+	char passPetrolStation;
 
-	cout << "SOURCE: ";
+	showStreets(true);
+	cout << "> CHOOSE YOUR CURRENT LOCATION'S ID: ";
 	cin >> source;
+	cout << endl;
 
-	cout << "DESTINATION: ";
+	//TODO: verificar validacao do id;
+	showStreets(false);
+	cout << "> CHOOSE YOUR DESTINATION'S ID: ";
 	cin >> dest;
+	cout << endl;
 
-	cout << "MAX DISTANCE: ";
+	cout << "> MAX DISTANCE (m): ";
 	cin >> maxDistance;
+	cout << endl;
 
-	cout << "CHEAP OR NEAR (c/n): ";
+	cout << "> WHICH TYPE OF PARKING LOT DO YOU PREFER ?\n";
+	cout << "[1]Cheap           [2]Near Your Destiny\n\n";
+
+	cout << "> Option: ";
 	cin >> Cheap_Near;
+	cout << endl;
 
-	cout << "PETROL STATION (y/n): ";
+	if (Cheap_Near != 1 && Cheap_Near != 2) {
+		cerr << "ERROR - not a valid option!\n";
+		//TODO: nao retornar node
+	}
+
+	cout << "> DO YOU WANT TO FILL UP THE CAR ? (y/n): ";
 	cin >> passPetrolStation;
+	cout << endl;
 
-	//------------------------------------------------
+	if (passPetrolStation != 'y' && passPetrolStation != 'n') {
+		cerr << "ERROR - not a valid option!\n";
+		//TODO: nao retornar node
+	}
+
+//------------------------------------------------
 	int nTimeStart = GetMilliCount();
-	//------------------------------------------------
+//------------------------------------------------
 
 	vector<Node> path = calculatePath(source, dest, maxDistance, Cheap_Near,
 			passPetrolStation);
 
 	if (path.size() != 0) { //se ha de facto um path
-		cout << "PATH: ";
+		cout << "> PATH: ";
 		for (unsigned int i = 0; i < path.size(); i++) {
 			cout << path.at(i).getID() << " ";
 		}
 	}
 
-	//------------------------------------------------
+//------------------------------------------------
 	int nTimeElapsed = GetMilliSpan(nTimeStart);
 	cout << endl;
-	cout << "MILLISECONDS: " << nTimeElapsed << endl;
-	//------------------------------------------------
+	cout << "> MILLISECONDS: " << nTimeElapsed << endl;
+//------------------------------------------------
 
 	return path;
+	//TODO: falta fazer o falhanco da coisa
 }
 
 //retorna vetor vazio se nao encontroou nenhum path
@@ -525,7 +623,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 		return nullVector;
 	}
 
-	cout << "PARK: " << park.getID() << endl;
+	cout << "> PARK: " << park.getID() << endl;
 
 //ELABORAR O PATH//
 
@@ -535,7 +633,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 
 	if (park.getID() == sourceID && park.getID() == destID) { //se a source, o dest e o parque sao o mesmo ponto
 
-//vec ter� apenas dois elementos, que ser�o iguais, mas um representa a origem e outro o destino
+//vec teria apenas dois elementos, que ser�o iguais, mas um representa a origem e outro o destino
 		vec.push_back(getNodeByID(sourceID));
 		vec.push_back(getNodeByID(destID));
 
@@ -545,7 +643,7 @@ vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
 
 	} else if (park.getID() == sourceID || park.getID() == destID) { //se a source ou o destino s�o o parque
 
-//vec ter� o caminho mais perto de source a dest
+//vec teria o caminho mais perto de source a dest
 		vec = myGraph.getPath(getNodeByID(sourceID), getNodeByID(destID));
 
 		if (passPetrolStation == 'y') { //se o user escolheu abastecer
@@ -667,10 +765,10 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 	}
 
 	if (partSource < partDest) { //verifica qual o caminho mais curto
-		cout << "PETROL STATION: " << petrolNearSource.getID() << endl;
+		cout << "> GAS STATION: " << petrolNearSource.getID() << endl;
 		path = pathSource;
 	} else {
-		cout << "PETROL STATION: " << petrolNearDest.getID() << endl;
+		cout << "> GAS STATION: " << petrolNearDest.getID() << endl;
 		path = pathDest;
 	}
 
