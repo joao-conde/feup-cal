@@ -15,12 +15,12 @@ private:
 	bool twoWays;
 
 public:
-	/*
+	/**
 	 * Construtor default.
 	 */
 	Street();
 
-	/*
+	/**
 	 * Destrutor default.
 	 */
 	~Street();
@@ -52,7 +52,7 @@ public:
 	 */
 	vector<Vertex<Node>*> getVertexs();
 
-	/*
+	/**
 	 * Função que nos diz se a rua tem dois sentidos ou não.
 	 * @return true se a rua tem dois sentidos, false se a rua tem um sentido.
 	 */
