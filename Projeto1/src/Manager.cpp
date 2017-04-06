@@ -10,10 +10,10 @@ Manager::~Manager() {
 void Manager::loadEdges() {
 	string line;
 
-	ifstream file("Edges.txt");
-	//ifstream file("1a100.txt");
-	//ifstream file("2a300.txt");
-	//ifstream file("3a500.txt");
+	ifstream file("Edges.txt"); //ficheiro com 46 arestas
+	//ifstream file("1a100.txt"); //ficheiro com 100 arestas
+	//ifstream file("2a300.txt"); //ficheiro com 200 arestas
+	//ifstream file("3a500.txt"); //ficheiro com 500 arestas
 
 	if (file.is_open()) {
 		while (getline(file, line)) {
@@ -66,10 +66,10 @@ void Manager::loadEdges() {
 void Manager::loadNodes() {
 	string line;
 
-	ifstream file("Nodes.txt");
-	//ifstream file("1v200.txt");
-	//ifstream file("2v600.txt");
-	//ifstream file("3v1000.txt");
+	ifstream file("Nodes.txt"); //ficheiro com 26 nos
+	//ifstream file("1v200.txt"); //ficheiro com 200 nos
+	//ifstream file("2v600.txt"); //ficheiro com 600 nos
+	//ifstream file("3v1000.txt"); //ficheiro com 1000 nos
 
 	if (file.is_open()) {
 		while (getline(file, line)) {
