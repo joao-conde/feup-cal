@@ -157,6 +157,6 @@ public:
 	 */
 	void addPetrolToPath(vector<Node> &path);
 
-	void graphConnection();
+	bool graphConnection();
 };
 

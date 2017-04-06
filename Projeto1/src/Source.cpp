@@ -26,7 +26,6 @@ int main() {
 	getchar();
 	getchar();
 
-	//Manager::instance()->graphConnection();
 
 	return 0;
 }

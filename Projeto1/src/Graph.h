@@ -190,9 +190,7 @@ public:
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
 	void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
 
-	///////////////
-	vector<T> kosarajuAlgorith(vector<T> &vec1, vector<T>&vec2);
-	vector<T> dfsPosOrdem() const;
+	bool isStronglyConnected();
 };
 
 template<class T>
@@ -733,50 +731,28 @@ void Graph<T>::floydWarshallShortestPath() {
 }
 
 template<class T>
-vector <T> Graph<T>::kosarajuAlgorith(vector<T> &vec1, vector<T> &vec2){
+bool Graph<T>::isStronglyConnected() {
 
-	//vec1 = dfsPosOrdem();
-
-	vec1 =dfs();
+	vector<T>vec1 = dfs();
 
 	Graph<T> Gr;
 
 	for (int i = 0; i < getNumVertex(); i++) {
-		for (int j =0; j < vertexSet.at(i)->adj.size(); j++ ){
+		for (int j = 0; j < vertexSet.at(i)->adj.size(); j++) {
 			Gr.addVertex(vertexSet.at(i)->getAdj().at(j).getNode()->getInfo());
 			Gr.addVertex(vertexSet.at(i)->getInfo());
-			Gr.addEdge(vertexSet.at(i)->adj.at(j).dest->info, vertexSet.at(i)->info, vertexSet.at(i)->adj.at(j).weight);
+			Gr.addEdge(vertexSet.at(i)->adj.at(j).dest->info,
+					vertexSet.at(i)->info, vertexSet.at(i)->adj.at(j).weight);
 		}
 	}
 
-	//vec2 = Gr.dfsPosOrdem();
-	vec2 = Gr.dfs();
+	vector<T>vec2 = Gr.dfs();
 
-	vector<T> res;
+	if (vec1.size() != getNumVertex() || vec2.size() != getNumVertex()) {
+		return false;
+	} else
+		return true;
 
-	return res;
-
-}
-
-
-template<class T>
-vector<T> Graph<T>::dfsPosOrdem() const {
-	typename vector<Vertex<T>*>::const_iterator it = vertexSet.begin();
-	typename vector<Vertex<T>*>::const_iterator ite = vertexSet.end();
-
-	ite--;
-
-	for (; ite >= it; ite--)
-		(*ite)->visited = false;
-	vector<T> res;
-
-	it = vertexSet.begin();
-	ite = --vertexSet.end();
-
-	for (; ite >= it; ite--)
-		if ((*ite)->visited == false)
-			dfs(*ite, res);
-	return res;
 }
 
 #endif /* GRAPH_H_ */

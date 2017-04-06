@@ -323,13 +323,13 @@ void Manager::printGraph() {
 
 			int idAresta = 1000 * idNoOrigem + idNoDestino;
 
-			string weight = std::to_string(adj.at(j).getWeight());
+			/*string weight = std::to_string(adj.at(j).getWeight());
 
-			for (int i = weight.find(".") + 2; i < weight.size(); i++)
-				weight.erase(i);
+			 for (int i = weight.find(".") + 2; i < weight.size(); i++)
+			 weight.erase(i);*/
 
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
-			gv->setEdgeLabel(idAresta, weight);
+			//	gv->setEdgeLabel(idAresta, weight);
 		}
 
 	}
@@ -594,11 +594,19 @@ vector<Node> Manager::insertValues() {
 		}
 	}
 
-//------------------------------------------------
+	//time--------------------------------------------
 	int nTimeElapsed = GetMilliSpan(nTimeStart);
-	cout << endl;
-	cout << "> MILLISECONDS: " << nTimeElapsed << endl;
-//------------------------------------------------
+	cout << endl <<endl;
+	cout << "> EXECUTION TIME (ms): " << nTimeElapsed << endl;
+	//------------------------------------------------
+
+	//connection--------------------------------------
+	cout << "> IS GRAPH STRONGLY CONNECTED: ";
+	if (myGraph.isStronglyConnected())
+		cout << "yes" << endl;
+	else
+		cout << "no" << endl;
+	//------------------------------------------------
 
 	return path;
 	//TODO: falta fazer o falhanco da coisa
@@ -776,21 +784,3 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 }
 
-void Manager::graphConnection() {
-
-	vector<Node> vec1;
-	vector<Node> vec2;
-
-	myGraph.kosarajuAlgorith(vec1, vec2);
-
-	cout << "VEC1:" << vec1.size() << endl;
-	/*for (int i =0; i < vec1.size(); i++)
-	 cout << vec1.at(i).getID() << " ";*/
-
-	cout << endl;
-
-	cout << "VEC2:" << vec2.size() << endl;
-	/*for (int i =0; i < vec2.size(); i++)
-	 cout << vec2.at(i).getID() << " ";*/
-
-}
