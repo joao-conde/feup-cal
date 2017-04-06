@@ -141,6 +141,8 @@ void Manager::loadParkingLot() {
 
 			ParkingLot plot = ParkingLot(id, vert, name, price, garagem);
 			vecParking.push_back(plot);
+
+
 		}
 
 		file.close();
@@ -279,8 +281,25 @@ void Manager::printGraph() {
 
 		gv->addNode(idNo, x * 5 + 50, -(y * 5) + 600);
 
+
+
 		if (isParkingLot(idNo)) {
+
+			float price = 0;
+
+			string nodeLabel;
+
+			for (unsigned int j=0; j < vecParking.size(); j++){
+				if(vecParking.at(j).getNode()->getInfo().getID()==idNo){
+					price = vecParking.at(j).getPrice();
+				}
+			}
+
+
+			nodeLabel = intToString(idNo) + " (" + floatToString(price) + " €/h)";
+
 			gv->setVertexIcon(idNo, "res/parkIcon.png");
+			gv->setVertexLabel(idNo, nodeLabel);
 			continue;
 		}
 
@@ -323,13 +342,14 @@ void Manager::printGraph() {
 
 			int idAresta = 1000 * idNoOrigem + idNoDestino;
 
-			/*string weight = std::to_string(adj.at(j).getWeight());
+			//string weight = std::to_string(adj.at(j).getWeight());
+			string weight = doubleToString(adj.at(j).getWeight());
 
-			 for (int i = weight.find(".") + 2; i < weight.size(); i++)
-			 weight.erase(i);*/
+			for (int i = weight.find(".") + 2; i < weight.size(); i++)
+			weight.erase(i);
 
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
-			//	gv->setEdgeLabel(idAresta, weight);
+			gv->setEdgeLabel(idAresta, weight);
 		}
 
 	}
@@ -394,7 +414,7 @@ Node Manager::parkNear(int id, int maxDistance) {
 
 		int distAtual = vecParking.at(i).getNode()->getDist(); //distancia do parque analisado ao node
 
-		if (distAtual < maxDistance) { //se distancia do parque analisado esta dentro dos limites impostos pelo user
+		if (distAtual <= maxDistance) { //se distancia do parque analisado esta dentro dos limites impostos pelo user
 			if (distAtual < distMinima) { //se a distancia for menor que a guardada
 				pos = i; //atualiza a posiï¿½ao
 				distMinima = distAtual; //atualiza distancia guardada
@@ -424,7 +444,7 @@ Node Manager::parkCheap(int id, int maxDistance) {
 		int distAtual = vecParking.at(i).getNode()->getDist(); //distancia do parque analisado ao node
 		int priceAtual = vecParking.at(i).getPrice(); //preï¿½o do parque analisado
 
-		if (distAtual < maxDistance) { //se a distancia do parque analisado esta nos limites impostos pelo user
+		if (distAtual <= maxDistance) { //se a distancia do parque analisado esta nos limites impostos pelo user
 			if (priceAtual < minPrice) { //se o preï¿½o for menos que o guardado
 				pos = i; //atualiza posiï¿½ao
 				minPrice = priceAtual; //atualiza preï¿½o guardado
@@ -452,7 +472,7 @@ Node Manager::petrolNear(int id) {
 
 		int distAtual = myGraph.getVertex(node)->getDist(); //distancia da bomba analisada ate ao node
 
-		if (distAtual < distMinima) { //se distancia atual menor que a distancia guardada
+		if (distAtual <= distMinima) { //se distancia atual menor que a distancia guardada
 			pos = i; //atualiza posiï¿½ï¿½o
 			distMinima = distAtual; //atualiza distancia guardada
 		}
@@ -541,7 +561,8 @@ void Manager::showStreets(bool source) {
 
 vector<Node> Manager::insertValues() {
 
-	int source, dest, maxDistance, Cheap_Near;
+	int source, dest, Cheap_Near;
+	float maxDistance;
 	char passPetrolStation;
 
 	showStreets(true);

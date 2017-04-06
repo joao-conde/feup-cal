@@ -1,6 +1,9 @@
 #include "UtilFunctions.h"
 #include <time.h>
 #include <sys/timeb.h>
+#include <sstream>
+
+using namespace std;
 
 /*
  * Print time
@@ -16,7 +19,6 @@ int GetMilliCount()
   int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
   return nCount;
 }
-//---------------------------------------------------------------------------
 
 int GetMilliSpan(int nTimeStart)
 {
@@ -25,4 +27,21 @@ int GetMilliSpan(int nTimeStart)
 	  nSpan += 0x100000 * 1000;
   return nSpan;
 }
-//---------------------------------------------------------------------------
+
+string floatToString(float i){
+    stringstream ss;
+    ss<<i;
+    return ss.str();
+}
+
+string intToString(int i){
+    stringstream ss;
+    ss<<i;
+    return ss.str();
+}
+
+string doubleToString(double i){
+    stringstream ss;
+    ss<<i;
+    return ss.str();
+}
