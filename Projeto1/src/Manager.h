@@ -149,7 +149,7 @@ public:
 	 * @return Vetor de Nodes do path final pretendido.
 	 */
 	vector<Node> calculatePath(int sourceID, int destID, int maxDistance,
-			char Cheap_Near, char passPetrolStation);
+			int Cheap_Near, char passPetrolStation);
 
 	/**
 	 * Função que adiciona uma bomba de abastecimento ao path passado por argumento.

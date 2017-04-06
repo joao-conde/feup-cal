@@ -592,6 +592,7 @@ vector<Node> Manager::insertValues() {
 		//TODO: nao retornar node
 	}
 
+
 	cout << "> DO YOU WANT TO FILL UP THE CAR ? (y/n): ";
 	cin >> passPetrolStation;
 	cout << endl;
@@ -635,12 +636,12 @@ vector<Node> Manager::insertValues() {
 
 //retorna vetor vazio se nao encontroou nenhum path
 vector<Node> Manager::calculatePath(int sourceID, int destID, int maxDistance,
-		char Cheap_Near, char passPetrolStation) {
+		int Cheap_Near, char passPetrolStation) {
 
 //ENCONTRAR PARQUES//
 	Node park;
 
-	if (Cheap_Near == 'c') { //se user escolheu encontrar o parque mais barato
+	if (Cheap_Near == 1) { //se user escolheu encontrar o parque mais barato
 		park = parkCheap(destID, maxDistance);
 	} else { //se user escolheu o user mais perto do destino
 		park = parkNear(destID, maxDistance);
