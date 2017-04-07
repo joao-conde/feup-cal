@@ -9,23 +9,19 @@ Manager* Manager::singleton_instance = 0;
 
 int main() {
 
-
-
 	Manager::instance()->loadData();
 
 	vector<Node> path;
 	path = Manager::instance()->insertValues();
 
-
-	Manager::instance()->printGraph();
-
-	if (path.size() != 0)
+	if (path.size() != 0) {
+		Manager::instance()->printGraph();
 		Manager::instance()->paintPath(path);
-
+	} else
+		cerr << "Program ended.\n";
 
 	getchar();
 	getchar();
-
 
 	return 0;
 }

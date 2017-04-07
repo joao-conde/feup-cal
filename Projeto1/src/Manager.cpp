@@ -142,7 +142,6 @@ void Manager::loadParkingLot() {
 			ParkingLot plot = ParkingLot(id, vert, name, price, garagem);
 			vecParking.push_back(plot);
 
-
 		}
 
 		file.close();
@@ -281,22 +280,20 @@ void Manager::printGraph() {
 
 		gv->addNode(idNo, x * 5 + 50, -(y * 5) + 600);
 
-
-
 		if (isParkingLot(idNo)) {
 
 			float price = 0;
 
 			string nodeLabel;
 
-			for (unsigned int j=0; j < vecParking.size(); j++){
-				if(vecParking.at(j).getNode()->getInfo().getID()==idNo){
+			for (unsigned int j = 0; j < vecParking.size(); j++) {
+				if (vecParking.at(j).getNode()->getInfo().getID() == idNo) {
 					price = vecParking.at(j).getPrice();
 				}
 			}
 
-
-			nodeLabel = intToString(idNo) + " (" + floatToString(price) + " €/h)";
+			nodeLabel = intToString(idNo) + " (" + floatToString(price)
+					+ " €/h)";
 
 			gv->setVertexIcon(idNo, "res/parkIcon.png");
 			gv->setVertexLabel(idNo, nodeLabel);
@@ -346,7 +343,7 @@ void Manager::printGraph() {
 			string weight = doubleToString(adj.at(j).getWeight());
 
 			for (int i = weight.find(".") + 2; i < weight.size(); i++)
-			weight.erase(i);
+				weight.erase(i);
 
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
 			gv->setEdgeLabel(idAresta, weight);
@@ -473,7 +470,7 @@ Node Manager::petrolNear(int id) {
 		int distAtual = myGraph.getVertex(node)->getDist(); //distancia da bomba analisada ate ao node
 
 		if (distAtual <= distMinima) { //se distancia atual menor que a distancia guardada
-			pos = i; //atualiza posiï¿½ï¿½o
+			pos = i; //atualiza posicao
 			distMinima = distAtual; //atualiza distancia guardada
 		}
 
@@ -500,9 +497,7 @@ string Manager::mainMenu(bool source) {
 	cin >> option;
 	cout << endl;
 
-	if (option < 0 || option > 6) {
-		cerr << "ERROR - not a valid option!\n";
-	} else {
+	if (option >= 0 && option <= 6) {
 
 		switch (option) {
 		case 0:
@@ -534,7 +529,8 @@ string Manager::mainMenu(bool source) {
 	return input;
 }
 
-void Manager::showStreets(bool source) {
+vector<int> Manager::getStreets(bool source) {
+	vector<int> streets;
 	string input = mainMenu(source);
 
 	if (!input.empty()) {
@@ -548,15 +544,24 @@ void Manager::showStreets(bool source) {
 				string local =
 						vecStreets.at(i).getVertexs().at(j)->getInfo().getName();
 
-				if (input == local)
+				if (input == local) {
 					cout << id << "  :  " << name << endl;
+					streets.push_back(id);
+				}
 			}
 		}
 		cout << endl;
+	}
 
-	} else
-		return;
+	return streets;
+}
 
+bool Manager::verifyChoice(const vector<int> st, int id) {
+	for (int i = 0; i < st.size(); i++) {
+		if (id == st.at(i))
+			return true;
+	}
+	return false;
 }
 
 vector<Node> Manager::insertValues() {
@@ -564,17 +569,41 @@ vector<Node> Manager::insertValues() {
 	int source, dest, Cheap_Near;
 	float maxDistance;
 	char passPetrolStation;
+	vector<int> options;
+	vector<Node> failed;
 
-	showStreets(true);
+	options = getStreets(true);
+
+	if (options.empty()) {
+		cerr << "Invalid option.\n";
+		return failed;
+	}
+
 	cout << "> CHOOSE YOUR CURRENT LOCATION'S ID: ";
 	cin >> source;
 	cout << endl;
 
-	//TODO: verificar validacao do id;
-	showStreets(false);
+	if (!verifyChoice(options, source)) {
+		cerr << "Invalid option.\n";
+		return failed;
+	}
+
+	options.clear();
+	options = getStreets(false);
+
+	if (options.empty()) {
+		cerr << "Invalid option.\n";
+		return failed;
+	}
+
 	cout << "> CHOOSE YOUR DESTINATION'S ID: ";
 	cin >> dest;
 	cout << endl;
+
+	if (!verifyChoice(options, dest)) {
+		cerr << "Invalid option.\n";
+		return failed;
+	}
 
 	cout << "> MAX DISTANCE (m): ";
 	cin >> maxDistance;
@@ -588,18 +617,17 @@ vector<Node> Manager::insertValues() {
 	cout << endl;
 
 	if (Cheap_Near != 1 && Cheap_Near != 2) {
-		cerr << "ERROR - not a valid option!\n";
-		//TODO: nao retornar node
+		cerr << "Invalid option.\n";
+		return failed;
 	}
-
 
 	cout << "> DO YOU WANT TO FILL UP THE CAR ? (y/n): ";
 	cin >> passPetrolStation;
 	cout << endl;
 
 	if (passPetrolStation != 'y' && passPetrolStation != 'n') {
-		cerr << "ERROR - not a valid option!\n";
-		//TODO: nao retornar node
+		cerr << "Invalid option.\n";
+		return failed;
 	}
 
 //------------------------------------------------
@@ -618,7 +646,7 @@ vector<Node> Manager::insertValues() {
 
 	//time--------------------------------------------
 	int nTimeElapsed = GetMilliSpan(nTimeStart);
-	cout << endl <<endl;
+	cout << endl << endl;
 	cout << "> EXECUTION TIME (ms): " << nTimeElapsed << endl;
 	//------------------------------------------------
 

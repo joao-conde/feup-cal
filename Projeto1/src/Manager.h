@@ -136,7 +136,8 @@ public:
 	 * @return Vetor de Nodes com o path pretendido.
 	 */
 	string mainMenu(bool source);
-	void showStreets(bool source);
+	vector<int> getStreets(bool source);
+	bool verifyChoice(const vector<int> st, int id);
 	vector<Node> insertValues();
 
 	/**
