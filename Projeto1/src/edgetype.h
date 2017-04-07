@@ -6,9 +6,9 @@
  * EdgeType.DIRECTED para uma aresta dirigida.
  */
 class EdgeType {
- public: 
-  const static int UNDIRECTED = 0;
-  const static int DIRECTED = 1;
+public:
+	const static int UNDIRECTED = 0;
+	const static int DIRECTED = 1;
 };
 
 #endif

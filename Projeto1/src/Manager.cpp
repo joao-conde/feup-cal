@@ -342,7 +342,7 @@ void Manager::printGraph() {
 			//string weight = std::to_string(adj.at(j).getWeight());
 			string weight = doubleToString(adj.at(j).getWeight());
 
-			for (int i = weight.find(".") + 2; i < weight.size(); i++)
+			for (size_t i = weight.find(".") + 2; i < weight.size(); i++)
 				weight.erase(i);
 
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
@@ -356,7 +356,7 @@ void Manager::printGraph() {
 
 void Manager::paintPath(vector<Node> path) {
 
-	for (int i = 0; i < path.size() - 1; i++) {
+	for (size_t i = 0; i < path.size() - 1; i++) {
 		int id = path.at(i).getID() * 1000 + path.at(i + 1).getID();
 
 		gv->setEdgeThickness(id, 4);
@@ -537,8 +537,8 @@ vector<int> Manager::getStreets(bool source) {
 
 		cout << " ID      Street\n-----------------\n";
 
-		for (int i = 0; i < vecStreets.size(); i++) {
-			for (int j = 0; j < vecStreets.at(i).getVertexs().size(); j++) {
+		for (size_t i = 0; i < vecStreets.size(); i++) {
+			for (size_t j = 0; j < vecStreets.at(i).getVertexs().size(); j++) {
 				int id = vecStreets.at(i).getVertexs().at(j)->getInfo().getID();
 				string name = vecStreets.at(i).getName();
 				string local =
@@ -557,7 +557,7 @@ vector<int> Manager::getStreets(bool source) {
 }
 
 bool Manager::verifyChoice(const vector<int> st, int id) {
-	for (int i = 0; i < st.size(); i++) {
+	for (size_t i = 0; i < st.size(); i++) {
 		if (id == st.at(i))
 			return true;
 	}

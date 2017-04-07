@@ -4,17 +4,13 @@
 #include <iostream>
 #include <sstream>
 
-
-void exercicio1()
-{
+void exercicio1() {
 }
 
-void exercicio2()
-{
+void exercicio2() {
 }
 
-void exercicio3()
-{
+void exercicio3() {
 	GraphViewer *gv = new GraphViewer(600, 600, false);
 
 	gv->createWindow(600, 600);
@@ -33,29 +29,27 @@ void exercicio3()
 		exit(1);   // call system to stop
 	}
 
-	std::string   line;
+	std::string line;
 
 	int idNo = 0;
 	int X = 0;
 	int Y = 0;
 
-	while (std::getline(inFile, line))
-	{
+	while (std::getline(inFile, line)) {
 		std::stringstream linestream(line);
-		std::string         data;
+		std::string data;
 
 		linestream >> idNo;
 
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 		linestream >> X;
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 		linestream >> Y;
 		gv->addNode(idNo, X, -Y);
 
 	}
 
 	inFile.close();
-
 
 	//Ler o ficheiro arestas.txt
 	inFile.open("arestas.txt");
@@ -69,17 +63,15 @@ void exercicio3()
 	int idNoOrigem = 0;
 	int idNoDestino = 0;
 
-	while (std::getline(inFile, line))
-	{
+	while (std::getline(inFile, line)) {
 		std::stringstream linestream(line);
 		std::string data;
 
-
 		linestream >> idAresta;
 
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 		linestream >> idNoOrigem;
-		std::getline(linestream, data, ';');  // read up-to the first ; (discard ;).
+		std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 		linestream >> idNoDestino;
 		gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::UNDIRECTED);
 
@@ -90,8 +82,8 @@ void exercicio3()
 	gv->rearrange();
 }
 /*
-int main() {
-	exercicio3();
-	getchar();
-	return 0;
-}*/
+ int main() {
+ exercicio3();
+ getchar();
+ return 0;
+ }*/

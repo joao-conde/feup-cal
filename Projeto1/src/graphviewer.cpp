@@ -49,7 +49,7 @@ void GraphViewer::initialize(int width, int height, bool dynamic, int port_n) {
 	si.cb = sizeof(si);
 	ZeroMemory( &pi, sizeof(pi) );
 	LPSTR command_lpstr = const_cast<char *>(command.c_str());
-	if( !CreateProcess( NULL,   // No module name (use command line)
+	if (!CreateProcess( NULL,   // No module name (use command line)
 			command_lpstr,        // Command line
 			NULL,           // Process handle not inheritable
 			NULL,           // Thread handle not inheritable
@@ -58,21 +58,22 @@ void GraphViewer::initialize(int width, int height, bool dynamic, int port_n) {
 			NULL,           // Use parent's environment block
 			NULL,           // Use parent's starting directory
 			&si,            // Pointer to STARTUPINFO structure
-			&pi )           // Pointer to PROCESS_INFORMATION structure
-	) {
+			&pi)           // Pointer to PROCESS_INFORMATION structure
+			) {
 		cerr << "CreateProcess failed " << GetLastError() << endl;
 		return;
 	}
 
 	// Close process and thread handles.
-	CloseHandle( pi.hProcess );
-	CloseHandle( pi.hThread );
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
 
 	Sleep(2000);
 	con = new Connection(port_n);
 
 	char buff[200];
-	sprintf(buff, "newGraph %d %d %s\n", width, height, (dynamic?"true":"false"));
+	sprintf(buff, "newGraph %d %d %s\n", width, height,
+			(dynamic ? "true" : "false"));
 	string str(buff);
 	con->sendMsg(str);
 #endif
@@ -94,14 +95,14 @@ bool GraphViewer::closeWindow() {
 }
 
 bool GraphViewer::addNode(int id) {
-	if(!isDynamic) {
-		cerr << "This graph is not dynamic,"
-				"so you must use GraphViewer::addNode(int id, int x, int y) instead.\n"
-				"The node " << id << " will be ignored" << endl;
+	if (!isDynamic) {
+		cerr
+				<< "This graph is not dynamic,"
+						"so you must use GraphViewer::addNode(int id, int x, int y) instead.\n"
+						"The node " << id << " will be ignored" << endl;
 
 		return false;
 	}
-
 
 	char buff[200];
 	sprintf(buff, "addNode1 %d\n", id);
@@ -110,10 +111,10 @@ bool GraphViewer::addNode(int id) {
 }
 
 bool GraphViewer::addNode(int id, int x, int y) {
-	if(isDynamic) {
+	if (isDynamic) {
 		cerr << "This graph is dynamic, "
-				"so the provided x and y values for the node with id "
-				<< id << " will be ignored" << endl;
+				"so the provided x and y values for the node with id " << id
+				<< " will be ignored" << endl;
 	}
 
 	char buff[200];
@@ -173,21 +174,21 @@ bool GraphViewer::setEdgeColor(int k, string color) {
 
 bool GraphViewer::defineEdgeDashed(bool dashed) {
 	char buff[200];
-	sprintf(buff, "defineEdgeDashed %s\n", dashed? "true" : "false");
+	sprintf(buff, "defineEdgeDashed %s\n", dashed ? "true" : "false");
 	string str(buff);
 	return con->sendMsg(str);
 }
 
 bool GraphViewer::setEdgeDashed(int k, bool dashed) {
 	char buff[200];
-	sprintf(buff, "setEdgeDashed %d %s\n", k, dashed? "true" : "false");
+	sprintf(buff, "setEdgeDashed %d %s\n", k, dashed ? "true" : "false");
 	string str(buff);
 	return con->sendMsg(str);
 }
 
 bool GraphViewer::defineEdgeCurved(bool curved) {
 	char buff[200];
-	sprintf(buff, "defineEdgeCurved %s\n", curved? "true" : "false");
+	sprintf(buff, "defineEdgeCurved %s\n", curved ? "true" : "false");
 	string str(buff);
 	return con->sendMsg(str);
 }

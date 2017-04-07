@@ -733,12 +733,12 @@ void Graph<T>::floydWarshallShortestPath() {
 template<class T>
 bool Graph<T>::isStronglyConnected() {
 
-	vector<T>vec1 = dfs();
+	vector<T> vec1 = dfs();
 
 	Graph<T> Gr;
 
 	for (int i = 0; i < getNumVertex(); i++) {
-		for (int j = 0; j < vertexSet.at(i)->adj.size(); j++) {
+		for (size_t j = 0; j < vertexSet.at(i)->adj.size(); j++) {
 			Gr.addVertex(vertexSet.at(i)->getAdj().at(j).getNode()->getInfo());
 			Gr.addVertex(vertexSet.at(i)->getInfo());
 			Gr.addEdge(vertexSet.at(i)->adj.at(j).dest->info,
@@ -746,9 +746,10 @@ bool Graph<T>::isStronglyConnected() {
 		}
 	}
 
-	vector<T>vec2 = Gr.dfs();
+	vector<T> vec2 = Gr.dfs();
 
-	if (vec1.size() != getNumVertex() || vec2.size() != getNumVertex()) {
+	if ((int) vec1.size() != getNumVertex()
+			|| (int) vec2.size() != getNumVertex()) {
 		return false;
 	} else
 		return true;

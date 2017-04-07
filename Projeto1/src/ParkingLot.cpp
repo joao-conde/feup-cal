@@ -1,11 +1,10 @@
 #include "ParkingLot.h"
 
-ParkingLot::ParkingLot()
-{
+ParkingLot::ParkingLot() {
 }
 
-ParkingLot::ParkingLot(int id, Vertex<Node> *node, string name, float price, int isGarage)
-{
+ParkingLot::ParkingLot(int id, Vertex<Node> *node, string name, float price,
+		int isGarage) {
 	this->id = id;
 	this->node = node;
 	this->name = name;
@@ -17,32 +16,25 @@ ParkingLot::ParkingLot(int id, Vertex<Node> *node, string name, float price, int
 		this->isGarage = false;
 }
 
-
-ParkingLot::~ParkingLot()
-{
+ParkingLot::~ParkingLot() {
 }
 
-int ParkingLot::getID()
-{
+int ParkingLot::getID() {
 	return this->id;
 }
 
-Vertex<Node>* ParkingLot::getNode()
-{
+Vertex<Node>* ParkingLot::getNode() {
 	return this->node;
 }
 
-string ParkingLot::getName()
-{
+string ParkingLot::getName() {
 	return this->name;
 }
 
-float ParkingLot::getPrice()
-{
+float ParkingLot::getPrice() {
 	return this->price;
 }
 
-bool ParkingLot::getIsGarage()
-{
+bool ParkingLot::getIsGarage() {
 	return this->isGarage;
 }

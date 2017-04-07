@@ -1,13 +1,9 @@
 #include "Street.h"
 
-
-
-Street::Street()
-{
+Street::Street() {
 }
 
-Street::Street(int id, string name, vector<Vertex<Node>*> vertexs, int way)
-{
+Street::Street(int id, string name, vector<Vertex<Node>*> vertexs, int way) {
 	this->id = id;
 	this->name = name;
 	this->vertexs = vertexs;
@@ -18,27 +14,21 @@ Street::Street(int id, string name, vector<Vertex<Node>*> vertexs, int way)
 		this->twoWays = false;
 }
 
-
-Street::~Street()
-{
+Street::~Street() {
 }
 
-int Street::getID()
-{
+int Street::getID() {
 	return this->id;
 }
 
-string Street::getName()
-{
+string Street::getName() {
 	return this->name;
 }
 
-vector<Vertex<Node>*> Street::getVertexs()
-{
+vector<Vertex<Node>*> Street::getVertexs() {
 	return this->vertexs;
 }
 
-bool Street::isTwoWays()
-{
+bool Street::isTwoWays() {
 	return this->twoWays;
 }
