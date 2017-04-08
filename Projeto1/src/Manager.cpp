@@ -342,8 +342,10 @@ void Manager::printGraph() {
 			//string weight = std::to_string(adj.at(j).getWeight());
 			string weight = doubleToString(adj.at(j).getWeight());
 
-			for (size_t i = weight.find(".") + 2; i < weight.size(); i++)
-				weight.erase(i);
+			if(weight.find(".") != string::npos){
+				for (size_t i = weight.find(".") + 2; i < weight.size(); i++)
+					weight.erase(i);
+			}
 
 			gv->addEdge(idAresta, idNoOrigem, idNoDestino, EdgeType::DIRECTED);
 			gv->setEdgeLabel(idAresta, weight);
@@ -764,12 +766,12 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 	} else {
 		myGraph.dijkstraShortestPath(source); //disjkstra para a source
-		partSource1 = myGraph.getVertex(petrolNearSource)->getDist(); //path mais curto da origem � bomba
-		pathSource1 = myGraph.getPath(source, petrolNearSource); //distancia mais curta da origem � bomba
+		partSource1 = myGraph.getVertex(petrolNearSource)->getDist(); //distancia mais curta da origem � bomba
+		pathSource1 = myGraph.getPath(source, petrolNearSource); //path mais curto da origem � bomba
 
 		myGraph.dijkstraShortestPath(petrolNearSource); //disjkstra para a bomba
-		partSource2 = myGraph.getVertex(dest)->getDist(); //path mais curto da bomba ao destino
-		pathSource2 = myGraph.getPath(petrolNearSource, dest); //distancia mais curta da bomba ao destino
+		partSource2 = myGraph.getVertex(dest)->getDist();  //distancia mais curta da bomba ao destino
+		pathSource2 = myGraph.getPath(petrolNearSource, dest);//path mais curto da bomba ao destino
 
 		pathSource2.erase(pathSource2.begin()); //apaga o primeiro elemento de pathSource2 pois vai ser o mesmo que pathSource1, ou seja, a bomba de gasolina
 		pathSource1.insert(pathSource1.end(), pathSource2.begin(),
@@ -808,10 +810,10 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 	} else {
 
 		myGraph.dijkstraShortestPath(source);
-		partDest1 = myGraph.getVertex(petrolNearSource)->getDist();
+		partDest1 = myGraph.getVertex(petrolNearDest)->getDist();
 		pathDest1 = myGraph.getPath(source, petrolNearDest);
 
-		myGraph.dijkstraShortestPath(petrolNearSource);
+		myGraph.dijkstraShortestPath(petrolNearDest);
 		partDest2 = myGraph.getVertex(dest)->getDist();
 		pathDest2 = myGraph.getPath(petrolNearDest, dest);
 
