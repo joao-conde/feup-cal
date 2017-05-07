@@ -5,16 +5,10 @@ Made in colaboration with [Julieta Frade](https://github.com/julietafrade97) and
 **Completed in ____.**
 <br><br>
 ### Tema 1: À procura de estacionamento
-Numa cidade, existem diversos locais de estacionamento público: lugares em estrada (parquímetro) ou garagens. O valor do estacionamento varia de local para local.
+Para a segunda parte deste trabalho, considere que as ruas têm nomes, por exemplo “Rua de Dr Roberto Frias”, e que pertencem a um dado distrito, por exemplo, “Porto”. Estenda o trabalho realizado com funcionalidades apropriadas que permitem ao automobilista selecionar uma ruma rua, pelo seu nome, na tentativa de lá encontrar lugares vagos de estacionamento. Implemente esta funcionalidade, considerando tanto pesquisa exata, assim como pesquisa aproximada, das strings identificativas dos nomes de rua e distrito. Para pesquisa exata, caso o distrito ou o nome de rua não existam, deverá retornar mensagem de destino inexistente. Para a pesquisa aproximada, deverá retornar os distritos e nomes de ruas mais próximos. 
 
-Neste trabalho, pretende-se implementar um sistema que auxilie um automobilista na procura de um lugar de estacionamento. Um automobilista pretende ir a um local específico (cinema, escola, shopping,...) e quer estacionar o seu automóvel. Deve ser calculado o itinerário que permita ao automobilista ir do local onde se encontra ao estacionamento (de automóvel) e do estacionamento ao local de destino (a pé). 
-O local de estacionamento proposto pode ser o mais perto do destino ou o mais barato (dentro de uma distância máxima ao destino ou a uma estação de metro), de acordo com a escolha do automobilista. Considere também que o automobilista pode querer abastecer o seu automóvel antes de estacionar, pelo que o trajecto indicado deve considerar este facto.
+Estas novas funcionalidades deverão ser integradas no trabalho já realizado para a primeira parte. Avalie a complexidade (teórica e empiricamente) dos algoritmos implementados em função dos dados de input usados. <br><br>
 
-Avalie a conectividade do grafo, a fim de evitar que locais de estacionamento se encontrem em zonas inacessíveis a partir do ponto de origem do automobilista. 
-
-Considere a possibilidade de utilizar mapas reais, extraídos do OpenStreetMaps (www.openstreetmap.org), localizando, no mapa, endereços e pontos de interesse. <br><br>
-
-> Entrega Primeiro Trabalho (via Moodle, no dia **9/Abril**, até às 24:00) <br>
 > Entrega Segundo Trabalho (via Moodle, no dia **19/Maio**, até às 24:00) <br>
 >> *Nota Mínima:* 8 valores
 
