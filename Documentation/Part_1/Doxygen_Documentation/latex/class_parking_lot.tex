@@ -1,0 +1,109 @@
+\hypertarget{class_parking_lot}{}\section{Parking\+Lot Class Reference}
+\label{class_parking_lot}\index{Parking\+Lot@{Parking\+Lot}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_parking_lot_a373218b2d182b006115926f8092c56eb}{Parking\+Lot} ()
+\item 
+\hyperlink{class_parking_lot_a97ee748e71c47b1dd4e4a7b2c711dfec}{$\sim$\+Parking\+Lot} ()
+\item 
+\hyperlink{class_parking_lot_a192c4f91baebf691ed19a41a13e0a72f}{Parking\+Lot} (int id, \hyperlink{class_vertex}{Vertex}$<$ \hyperlink{class_node}{Node} $>$ $\ast$node, string name, float price, int is\+Garage)
+\item 
+int \hyperlink{class_parking_lot_ac01c330fe1de6652ec866e27a2d8c0f1}{get\+ID} ()
+\item 
+\hyperlink{class_vertex}{Vertex}$<$ \hyperlink{class_node}{Node} $>$ $\ast$ \hyperlink{class_parking_lot_a5720a2f6f51cd0c7122cc82bcfc2481a}{get\+Node} ()
+\item 
+string \hyperlink{class_parking_lot_a1fb867a1a46f99803b8b85384e500cf7}{get\+Name} ()
+\item 
+float \hyperlink{class_parking_lot_aad5527dfe4c12a72965d78e7a164396e}{get\+Price} ()
+\item 
+bool \hyperlink{class_parking_lot_ab78af44a29cc6875e4d52b4d1d667ed6}{get\+Is\+Garage} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_parking_lot_a373218b2d182b006115926f8092c56eb}\label{class_parking_lot_a373218b2d182b006115926f8092c56eb}} 
+\index{Parking\+Lot@{Parking\+Lot}!Parking\+Lot@{Parking\+Lot}}
+\index{Parking\+Lot@{Parking\+Lot}!Parking\+Lot@{Parking\+Lot}}
+\subsubsection{\texorpdfstring{Parking\+Lot()}{ParkingLot()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Parking\+Lot\+::\+Parking\+Lot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Construtor default. \mbox{\Hypertarget{class_parking_lot_a97ee748e71c47b1dd4e4a7b2c711dfec}\label{class_parking_lot_a97ee748e71c47b1dd4e4a7b2c711dfec}} 
+\index{Parking\+Lot@{Parking\+Lot}!````~Parking\+Lot@{$\sim$\+Parking\+Lot}}
+\index{````~Parking\+Lot@{$\sim$\+Parking\+Lot}!Parking\+Lot@{Parking\+Lot}}
+\subsubsection{\texorpdfstring{$\sim$\+Parking\+Lot()}{~ParkingLot()}}
+{\footnotesize\ttfamily Parking\+Lot\+::$\sim$\+Parking\+Lot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destrutor default. \mbox{\Hypertarget{class_parking_lot_a192c4f91baebf691ed19a41a13e0a72f}\label{class_parking_lot_a192c4f91baebf691ed19a41a13e0a72f}} 
+\index{Parking\+Lot@{Parking\+Lot}!Parking\+Lot@{Parking\+Lot}}
+\index{Parking\+Lot@{Parking\+Lot}!Parking\+Lot@{Parking\+Lot}}
+\subsubsection{\texorpdfstring{Parking\+Lot()}{ParkingLot()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Parking\+Lot\+::\+Parking\+Lot (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{\hyperlink{class_vertex}{Vertex}$<$ \hyperlink{class_node}{Node} $>$ $\ast$}]{node,  }\item[{string}]{name,  }\item[{float}]{price,  }\item[{int}]{is\+Garage }\end{DoxyParamCaption})}
+
+Construtor de \hyperlink{class_parking_lot}{Parking\+Lot} 
+\begin{DoxyParams}{Parameters}
+{\em id} & int que represente o id do parque de estacionamento. \\
+\hline
+{\em node} & aponador para o vertex a que esse parque de estacionamento está associado. \\
+\hline
+{\em name} & string do nome do parque de estacionamento. \\
+\hline
+{\em price} & float do preço do parque de estacionamento. \\
+\hline
+{\em is\+Garage} & int que representa se o parque é garagem ou parque de rua. Se 0 é parque de rua, se o 1 é garagem. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_parking_lot_ac01c330fe1de6652ec866e27a2d8c0f1}\label{class_parking_lot_ac01c330fe1de6652ec866e27a2d8c0f1}} 
+\index{Parking\+Lot@{Parking\+Lot}!get\+ID@{get\+ID}}
+\index{get\+ID@{get\+ID}!Parking\+Lot@{Parking\+Lot}}
+\subsubsection{\texorpdfstring{get\+I\+D()}{getID()}}
+{\footnotesize\ttfamily int Parking\+Lot\+::get\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Função que retorna o ID do parking lot. \begin{DoxyReturn}{Returns}
+ID do parking lot (int). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parking_lot_ab78af44a29cc6875e4d52b4d1d667ed6}\label{class_parking_lot_ab78af44a29cc6875e4d52b4d1d667ed6}} 
+\index{Parking\+Lot@{Parking\+Lot}!get\+Is\+Garage@{get\+Is\+Garage}}
+\index{get\+Is\+Garage@{get\+Is\+Garage}!Parking\+Lot@{Parking\+Lot}}
+\subsubsection{\texorpdfstring{get\+Is\+Garage()}{getIsGarage()}}
+{\footnotesize\ttfamily bool Parking\+Lot\+::get\+Is\+Garage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Função que nos diz se o parque de estcionamento é garagem ou parque de rua. \begin{DoxyReturn}{Returns}
+true se é garagem, false se é parque de rua. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parking_lot_a1fb867a1a46f99803b8b85384e500cf7}\label{class_parking_lot_a1fb867a1a46f99803b8b85384e500cf7}} 
+\index{Parking\+Lot@{Parking\+Lot}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Parking\+Lot@{Parking\+Lot}}
+\subsubsection{\texorpdfstring{get\+Name()}{getName()}}
+{\footnotesize\ttfamily string Parking\+Lot\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Função que retorna o nome do parking\+Lot. \begin{DoxyReturn}{Returns}
+nome do parking lot (string). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parking_lot_a5720a2f6f51cd0c7122cc82bcfc2481a}\label{class_parking_lot_a5720a2f6f51cd0c7122cc82bcfc2481a}} 
+\index{Parking\+Lot@{Parking\+Lot}!get\+Node@{get\+Node}}
+\index{get\+Node@{get\+Node}!Parking\+Lot@{Parking\+Lot}}
+\subsubsection{\texorpdfstring{get\+Node()}{getNode()}}
+{\footnotesize\ttfamily \hyperlink{class_vertex}{Vertex}$<$ \hyperlink{class_node}{Node} $>$ $\ast$ Parking\+Lot\+::get\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Função que retorna o apontador para para o vertex a que esse parque de estacionamento está associado. \begin{DoxyReturn}{Returns}
+\hyperlink{class_vertex}{Vertex} a que esse parque de estacionamento está associado. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parking_lot_aad5527dfe4c12a72965d78e7a164396e}\label{class_parking_lot_aad5527dfe4c12a72965d78e7a164396e}} 
+\index{Parking\+Lot@{Parking\+Lot}!get\+Price@{get\+Price}}
+\index{get\+Price@{get\+Price}!Parking\+Lot@{Parking\+Lot}}
+\subsubsection{\texorpdfstring{get\+Price()}{getPrice()}}
+{\footnotesize\ttfamily float Parking\+Lot\+::get\+Price (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Função que retorna o preço do parking\+Lot. \begin{DoxyReturn}{Returns}
+preço do parking lot (float). 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Parking\+Lot.\+h\item 
+Parking\+Lot.\+cpp\end{DoxyCompactItemize}
