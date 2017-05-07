@@ -32,3 +32,7 @@ vector<Vertex<Node>*> Street::getVertexs() {
 bool Street::isTwoWays() {
 	return this->twoWays;
 }
+
+string Street::getLocation() {
+	return this->location;
+}

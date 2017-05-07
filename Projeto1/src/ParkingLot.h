@@ -15,6 +15,7 @@ private:
 	string name;
 	float price;
 	bool isGarage;
+	int capacity;
 
 public:
 	/**
@@ -67,5 +68,9 @@ public:
 	 * @return true se é garagem, false se é parque de rua.
 	 */
 	bool getIsGarage();
+
+	int getCapacity();
+
+	void setCapacity(int num);
 };
 

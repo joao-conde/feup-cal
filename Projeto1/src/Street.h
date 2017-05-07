@@ -13,6 +13,7 @@ private:
 	string name;
 	vector<Vertex<Node>*> vertexs;
 	bool twoWays;
+	string location;
 
 public:
 	/**
@@ -57,5 +58,7 @@ public:
 	 * @return true se a rua tem dois sentidos, false se a rua tem um sentido.
 	 */
 	bool isTwoWays();
+
+	string getLocation();
 };
 

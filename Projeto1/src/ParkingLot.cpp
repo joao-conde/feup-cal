@@ -38,3 +38,11 @@ float ParkingLot::getPrice() {
 bool ParkingLot::getIsGarage() {
 	return this->isGarage;
 }
+
+int ParkingLot::getCapacity() {
+	return this->capacity;
+}
+
+void ParkingLot::setCapacity(int num) {
+	this->capacity = num;
+}
