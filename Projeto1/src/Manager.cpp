@@ -1,7 +1,7 @@
 #include "Manager.h"
 
 Manager::Manager() {
-	gv = new GraphViewer(600, 600, false);
+	gv = new GraphViewer(1000, 1000, false);
 }
 
 Manager::~Manager() {

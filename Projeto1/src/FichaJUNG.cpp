@@ -11,9 +11,9 @@ void exercicio2() {
 }
 
 void exercicio3() {
-	GraphViewer *gv = new GraphViewer(600, 600, false);
+	GraphViewer *gv = new GraphViewer(1000, 600, false);
 
-	gv->createWindow(600, 600);
+	gv->createWindow(1000, 600);
 
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
@@ -81,9 +81,3 @@ void exercicio3() {
 
 	gv->rearrange();
 }
-/*
- int main() {
- exercicio3();
- getchar();
- return 0;
- }*/
