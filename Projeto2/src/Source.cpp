@@ -11,14 +11,22 @@ int main() {
 
 	Manager::instance()->loadData();
 
-	vector<Node> path;
+	//PROJECT 1
+
+	/*vector<Node> path;
 	path = Manager::instance()->insertValues();
 
 	if (path.size() != 0) {
 		Manager::instance()->printGraph();
 		Manager::instance()->paintPath(path);
 	} else
-		cerr << "Program ended.\n";
+		cerr << "Program ended.\n";*/
+
+	//PROJECT 2
+
+	Manager::instance()->askTownAndStreet();
+
+	//Manager::instance()->printGraph();
 
 	getchar();
 	getchar();

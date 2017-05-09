@@ -892,3 +892,47 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 }
 
+void Manager::askTownAndStreet(){
+
+	string town, street;
+
+	cout << "> TOWN: ";
+		cin >> town;
+		cout << endl;
+
+	cout << "> STREET: ";
+		cin >> street;
+		cout << endl;
+
+	stringMatching(town, street);
+	//aproxStringMatching(town, street);
+}
+
+void Manager::stringMatching(string town, string street){
+
+	bool foundTown=false;
+	bool foundStreet=false;
+
+	for(int i =0; i < vecTowns.size(); i++){
+		if(KMP(town, vecTowns.at(i).getName())==true){
+			cout << "TOWN FOUND"<<endl;
+			foundTown=true;
+			break;
+		}
+	}
+
+	if(!foundTown) cout << "TOWN NOT FOUND." <<endl;
+
+	for(int i =0; i < vecStreets.size(); i++){
+			if(KMP(street, vecStreets.at(i).getName())==true){
+				cout << "STREET FOUND"<<endl;
+				foundStreet=true;
+				break;
+			}
+		}
+
+	if(!foundStreet) cout << "STREET NOT FOUND." <<endl;
+
+
+}
+
