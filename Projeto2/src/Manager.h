@@ -11,6 +11,7 @@
 #include "Street.h"
 #include "graphviewer.h"
 #include "UtilFunctions.h"
+#include "Town.h"
 
 class Manager {
 
@@ -22,6 +23,7 @@ private:
 	vector<Node> vecNodes;
 	vector<ParkingLot> vecParking;
 	vector<Street> vecStreets;
+	vector<Town> vecTowns;
 	vector<Vertex<Node>*> vecPetrolStations;
 
 	GraphViewer *gv;
@@ -73,6 +75,9 @@ public:
 	/**
 	 * Funcao que chama todas as funçoes de load.
 	 */
+
+	void loadTowns();
+
 	void loadData();
 
 	/**

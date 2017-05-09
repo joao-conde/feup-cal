@@ -226,6 +226,61 @@ void Manager::loadStreets() {
 	return;
 }
 
+void Manager::loadTowns() {
+	string line;
+	ifstream file("Towns.txt");
+
+	if (file.is_open()) {
+		while (getline(file, line)) {
+
+			int id;
+			string name;
+			int streetID;
+			char token;
+
+			vector<int> streetsID;
+
+			std::stringstream linestream(line);
+			string data;
+
+			linestream >> id >> token;
+			std::getline(linestream, name, ';');
+
+
+			do {
+				linestream >> streetID >> token;
+				streetsID.push_back(streetID);
+			} while (token == ',');
+
+
+			vector<Street*> streets;
+
+			for (unsigned int j = 0; j < streetsID.size(); j++) {
+
+				Street *street = NULL;
+
+				for (unsigned int i = 0; i < vecStreets.size();	i++) {
+
+					if (streetsID.at(j)== vecStreets.at(i).getID()) {
+						street = &(vecStreets.at(i));
+						break;
+					}
+				}
+
+				streets.push_back(street);
+			}
+			Town town=Town(id, name, streets);
+
+			vecTowns.push_back(town);
+		}
+
+		file.close();
+	} else {
+		cerr << "t File not found!\n";
+	}
+	return;
+}
+
 void Manager::loadPetrolStations() {
 	string line;
 	ifstream file("petrolStations.txt");
@@ -258,6 +313,7 @@ void Manager::loadData() {
 	loadEdges();
 	loadParkingLot();
 	loadStreets();
+	loadTowns();
 	loadPetrolStations();
 	return;
 }
