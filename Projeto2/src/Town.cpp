@@ -7,19 +7,20 @@
 
 #include "Town.h"
 
-Town::Town(int id, string name, vector<Street*> streets){
-	this->id=id;
-	this->name=name;
-	this->streets =streets;
+Town::Town(int id, string name, vector<Street*> streets) {
+	this->id = id;
+	this->name = name;
+	this->streets = streets;
 
 }
 
-int Town::getId(){
+int Town::getId() {
 	return this->id;
 }
-string Town::getName(){
+
+string Town::getName() {
 	return this->name;
 }
-vector <Street*> Town::getStreets(){
-	return this-> streets;
+vector<Street*> Town::getStreets() {
+	return this->streets;
 }

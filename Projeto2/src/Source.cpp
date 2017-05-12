@@ -24,7 +24,9 @@ int main() {
 
 	//PROJECT 2
 
-	Manager::instance()->askTownAndStreet();
+	//Manager::instance()->askTownAndStreet();
+
+	Manager::instance()->insertStrings();
 
 	//Manager::instance()->printGraph();
 

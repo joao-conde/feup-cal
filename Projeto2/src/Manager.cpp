@@ -139,7 +139,7 @@ void Manager::loadParkingLot() {
 				}
 			}
 
-			ParkingLot plot = ParkingLot(id, vert, name, price, garagem);
+			ParkingLot plot = ParkingLot(id, *vert, name, price, garagem);
 			vecParking.push_back(plot);
 
 		}
@@ -246,12 +246,10 @@ void Manager::loadTowns() {
 			linestream >> id >> token;
 			std::getline(linestream, name, ';');
 
-
 			do {
 				linestream >> streetID >> token;
 				streetsID.push_back(streetID);
 			} while (token == ',');
-
 
 			vector<Street*> streets;
 
@@ -259,9 +257,9 @@ void Manager::loadTowns() {
 
 				Street *street = NULL;
 
-				for (unsigned int i = 0; i < vecStreets.size();	i++) {
+				for (unsigned int i = 0; i < vecStreets.size(); i++) {
 
-					if (streetsID.at(j)== vecStreets.at(i).getID()) {
+					if (streetsID.at(j) == vecStreets.at(i).getID()) {
 						street = &(vecStreets.at(i));
 						break;
 					}
@@ -269,7 +267,7 @@ void Manager::loadTowns() {
 
 				streets.push_back(street);
 			}
-			Town town=Town(id, name, streets);
+			Town town = Town(id, name, streets);
 
 			vecTowns.push_back(town);
 		}
@@ -334,7 +332,7 @@ void Manager::printGraph() {
 		int x = myGraph.getVertexSet().at(i)->getInfo().getX();
 		int y = myGraph.getVertexSet().at(i)->getInfo().getY();
 
-		gv->addNode(idNo, x * 5 + 50, -(y * 5) +800);
+		gv->addNode(idNo, x * 5 + 50, -(y * 5) + 800);
 
 		if (isParkingLot(idNo)) {
 
@@ -398,7 +396,7 @@ void Manager::printGraph() {
 			//string weight = std::to_string(adj.at(j).getWeight());
 			string weight = doubleToString(adj.at(j).getWeight());
 
-			if(weight.find(".") != string::npos){
+			if (weight.find(".") != string::npos) {
 				for (size_t i = weight.find(".") + 2; i < weight.size(); i++)
 					weight.erase(i);
 			}
@@ -622,6 +620,22 @@ bool Manager::verifyChoice(const vector<int> st, int id) {
 	return false;
 }
 
+vector<Node> Manager::insertStrings() {
+	vector<Node> woops;
+
+	displayTowns();
+
+	return woops;
+}
+
+void Manager::displayTowns() {
+
+	for (unsigned int i = 0; i < vecTowns.size(); i++) {
+		cout << setw(2) << vecTowns.at(i).getName() << setw(5) << vecTowns.at(i + 1).getName()
+		<< setw(5) << vecTowns.at(i + 2).getName();
+	}
+}
+
 vector<Node> Manager::insertValues() {
 
 	int source, dest, Cheap_Near;
@@ -826,8 +840,8 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 		pathSource1 = myGraph.getPath(source, petrolNearSource); //path mais curto da origem � bomba
 
 		myGraph.dijkstraShortestPath(petrolNearSource); //disjkstra para a bomba
-		partSource2 = myGraph.getVertex(dest)->getDist();  //distancia mais curta da bomba ao destino
-		pathSource2 = myGraph.getPath(petrolNearSource, dest);//path mais curto da bomba ao destino
+		partSource2 = myGraph.getVertex(dest)->getDist(); //distancia mais curta da bomba ao destino
+		pathSource2 = myGraph.getPath(petrolNearSource, dest); //path mais curto da bomba ao destino
 
 		pathSource2.erase(pathSource2.begin()); //apaga o primeiro elemento de pathSource2 pois vai ser o mesmo que pathSource1, ou seja, a bomba de gasolina
 		pathSource1.insert(pathSource1.end(), pathSource2.begin(),
@@ -892,47 +906,48 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 }
 
-void Manager::askTownAndStreet(){
+void Manager::askTownAndStreet() {
 
 	string town, street;
 
 	cout << "> TOWN: ";
-		cin >> town;
-		cout << endl;
+	cin >> town;
+	cout << endl;
 
 	cout << "> STREET: ";
-		cin >> street;
-		cout << endl;
+	cin >> street;
+	cout << endl;
 
 	stringMatching(town, street);
 	//aproxStringMatching(town, street);
 }
 
-void Manager::stringMatching(string town, string street){
+void Manager::stringMatching(string town, string street) {
 
-	bool foundTown=false;
-	bool foundStreet=false;
+	bool foundTown = false;
+	bool foundStreet = false;
 
-	for(int i =0; i < vecTowns.size(); i++){
-		if(KMP(town, vecTowns.at(i).getName())==true){
-			cout << "TOWN FOUND"<<endl;
-			foundTown=true;
+	for (unsigned int i = 0; i < vecTowns.size(); i++) {
+		if (KMP(town, vecTowns.at(i).getName()) == true) {
+			cout << "TOWN FOUND" << endl;
+			foundTown = true;
 			break;
 		}
 	}
 
-	if(!foundTown) cout << "TOWN NOT FOUND." <<endl;
+	if (!foundTown)
+		cout << "TOWN NOT FOUND." << endl;
 
-	for(int i =0; i < vecStreets.size(); i++){
-			if(KMP(street, vecStreets.at(i).getName())==true){
-				cout << "STREET FOUND"<<endl;
-				foundStreet=true;
-				break;
-			}
+	for (unsigned int i = 0; i < vecStreets.size(); i++) {
+		if (KMP(street, vecStreets.at(i).getName()) == true) {
+			cout << "STREET FOUND" << endl;
+			foundStreet = true;
+			break;
 		}
+	}
 
-	if(!foundStreet) cout << "STREET NOT FOUND." <<endl;
-
+	if (!foundStreet)
+		cout << "STREET NOT FOUND." << endl;
 
 }
 

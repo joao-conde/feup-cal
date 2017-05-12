@@ -5,8 +5,6 @@
 #include "Node.h"
 #include "Graph.h"
 
-using namespace std;
-
 class ParkingLot {
 private:
 
@@ -18,10 +16,6 @@ private:
 	int capacity;
 
 public:
-	/**
-	 * Construtor default.
-	 */
-	ParkingLot();
 
 	/**
 	 * Destrutor default.
@@ -36,7 +30,7 @@ public:
 	 * @param price float do preço do parque de estacionamento.
 	 * @param isGarage int que representa se o parque é garagem ou parque de rua. Se 0 é parque de rua, se o 1 é garagem.
 	 */
-	ParkingLot(int id, Vertex<Node> *node, string name, float price,
+	ParkingLot(int id, Vertex<Node>& node, string name, float price,
 			int isGarage);
 
 	/**

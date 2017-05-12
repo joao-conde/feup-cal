@@ -1,8 +1,5 @@
 #include "Street.h"
 
-Street::Street() {
-}
-
 Street::Street(int id, string name, vector<Vertex<Node>*> vertexs, int way) {
 	this->id = id;
 	this->name = name;

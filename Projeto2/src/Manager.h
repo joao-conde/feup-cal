@@ -13,6 +13,7 @@
 #include "UtilFunctions.h"
 #include "Town.h"
 #include "StringAlgorithm.h"
+#include <iomanip>
 
 class Manager {
 
@@ -179,6 +180,8 @@ public:
 	 */
 	void addPetrolToPath(vector<Node> &path);
 
+	vector<Node> insertStrings();
+	void displayTowns();
 
 	void askTownAndStreet();
 	void stringMatching(string town, string street);

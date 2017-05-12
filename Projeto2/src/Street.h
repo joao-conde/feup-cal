@@ -5,8 +5,6 @@
 #include "Graph.h"
 #include "Node.h"
 
-using namespace std;
-
 class Street {
 private:
 	int id;
@@ -16,10 +14,6 @@ private:
 	string location;
 
 public:
-	/**
-	 * Construtor default.
-	 */
-	Street();
 
 	/**
 	 * Destrutor default.
