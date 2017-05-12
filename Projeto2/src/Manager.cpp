@@ -118,7 +118,7 @@ void Manager::loadParkingLot() {
 			string name;
 			float price;
 			int garagem;
-			int capacity;
+			int lotation;
 
 			linestream >> id;
 
@@ -131,7 +131,7 @@ void Manager::loadParkingLot() {
 			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 			linestream >> garagem;
 			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-			linestream >> capacity;
+			linestream >> lotation;
 
 			Vertex<Node> *vert = NULL;
 
@@ -142,7 +142,8 @@ void Manager::loadParkingLot() {
 				}
 			}
 
-			ParkingLot plot = ParkingLot(id, vert, name, price, garagem, capacity);
+			ParkingLot plot = ParkingLot(id, *vert, name, price, garagem,
+					lotation);
 			vecParking.push_back(plot);
 
 		}
@@ -634,8 +635,9 @@ vector<Node> Manager::insertStrings() {
 void Manager::displayTowns() {
 
 	for (unsigned int i = 0; i < vecTowns.size(); i++) {
-		cout << setw(2) << vecTowns.at(i).getName() << setw(5) << vecTowns.at(i + 1).getName()
-		<< setw(5) << vecTowns.at(i + 2).getName();
+		cout << setw(2) << vecTowns.at(i).getName() << setw(5)
+				<< vecTowns.at(i + 1).getName() << setw(5)
+				<< vecTowns.at(i + 2).getName();
 	}
 }
 

@@ -186,6 +186,5 @@ public:
 	void askTownAndStreet();
 	void stringMatching(string town, string street);
 
-
 };
 

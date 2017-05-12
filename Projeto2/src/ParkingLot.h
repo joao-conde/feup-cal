@@ -13,7 +13,7 @@ private:
 	string name;
 	float price;
 	bool isGarage;
-	int capacity;
+	int lotation;
 
 public:
 
@@ -31,7 +31,7 @@ public:
 	 * @param isGarage int que representa se o parque é garagem ou parque de rua. Se 0 é parque de rua, se o 1 é garagem.
 	 */
 	ParkingLot(int id, Vertex<Node>& node, string name, float price,
-			int isGarage);
+			int isGarage, int lotation);
 
 	/**
 	 * Função que retorna o ID do parking lot.
@@ -63,8 +63,8 @@ public:
 	 */
 	bool getIsGarage();
 
-	int getCapacity();
+	int getLotation();
 
-	void setCapacity(int num);
+	void setLotation(int num);
 };
 
