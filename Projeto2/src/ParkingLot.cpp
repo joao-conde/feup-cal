@@ -4,11 +4,12 @@ ParkingLot::ParkingLot() {
 }
 
 ParkingLot::ParkingLot(int id, Vertex<Node> *node, string name, float price,
-		int isGarage) {
+		int isGarage, int lotation) {
 	this->id = id;
 	this->node = node;
 	this->name = name;
 	this->price = price;
+	this->lotation = lotation;
 
 	if (isGarage)
 		this->isGarage = true;
