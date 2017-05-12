@@ -11,6 +11,7 @@ private:
 	vector<Street*> streets;
 
 public:
+	Town();
 	Town(int id, string name, vector<Street*> streets);
 	int getId();
 	string getName();

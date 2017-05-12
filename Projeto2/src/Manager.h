@@ -182,9 +182,10 @@ public:
 
 	vector<Node> insertStrings();
 	void displayTowns();
+	Town chooseTown();
 
 	void askTownAndStreet();
-	void stringMatching(string town, string street);
+	int stringMatching(string name, bool town);
 
 };
 

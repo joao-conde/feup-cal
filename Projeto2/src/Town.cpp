@@ -7,6 +7,15 @@
 
 #include "Town.h"
 
+Town::Town() {
+	vector<Street*> streets;
+
+	this->id = 0;
+	this->name = "";
+	this->streets = streets;
+
+}
+
 Town::Town(int id, string name, vector<Street*> streets) {
 	this->id = id;
 	this->name = name;

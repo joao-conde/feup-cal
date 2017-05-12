@@ -625,20 +625,71 @@ bool Manager::verifyChoice(const vector<int> st, int id) {
 }
 
 vector<Node> Manager::insertStrings() {
-	vector<Node> woops;
+	vector<Node> failed;
+	Town currentTown;
+
+	// LOCALIZACAO ATUAL
 
 	displayTowns();
 
-	return woops;
+	currentTown = chooseTown();
+
+	if (currentTown.getId() == 0)
+		return failed;
+
+	return failed;
 }
 
 void Manager::displayTowns() {
 
+	int counter = 1;
+
+	cout << " > TOWNS\n\n";
+
 	for (unsigned int i = 0; i < vecTowns.size(); i++) {
-		cout << setw(2) << vecTowns.at(i).getName() << setw(5)
-				<< vecTowns.at(i + 1).getName() << setw(5)
-				<< vecTowns.at(i + 2).getName();
+		cout << setw(20) << vecTowns.at(i).getName();
+
+		if (counter % 3 == 0)
+			cout << endl;
+
+		counter++;
 	}
+}
+
+Town Manager::chooseTown() {
+	Town currentTown;
+	string input;
+
+	cout << "\n > Where are you? Type the town's name: ";
+	getline(cin, input);
+
+	if (stringMatching(input, true) == 0) {
+
+		for (unsigned int i = 0; i < vecTowns.size(); i++) {
+			if (vecTowns.at(i).getName() == input)
+				currentTown = vecTowns.at(i);
+		}
+
+	}
+
+	return currentTown;
+
+}
+
+void Manager::askTownAndStreet() {
+
+	string town, street;
+
+	cout << "> TOWN: ";
+	cin >> town;
+	cout << endl;
+
+	cout << "> STREET: ";
+	cin >> street;
+	cout << endl;
+
+	//stringMatching(town, street);
+	//aproxStringMatching(town, street);
 }
 
 vector<Node> Manager::insertValues() {
@@ -911,48 +962,43 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 }
 
-void Manager::askTownAndStreet() {
-
-	string town, street;
-
-	cout << "> TOWN: ";
-	cin >> town;
-	cout << endl;
-
-	cout << "> STREET: ";
-	cin >> street;
-	cout << endl;
-
-	stringMatching(town, street);
-	//aproxStringMatching(town, street);
-}
-
-void Manager::stringMatching(string town, string street) {
+int Manager::stringMatching(string name, bool town) {
 
 	bool foundTown = false;
 	bool foundStreet = false;
 
-	for (unsigned int i = 0; i < vecTowns.size(); i++) {
-		if (KMP(town, vecTowns.at(i).getName()) == true) {
-			cout << "TOWN FOUND" << endl;
-			foundTown = true;
-			break;
+	if (town) {
+
+		for (unsigned int i = 0; i < vecTowns.size(); i++) {
+			if (KMP(name, vecTowns.at(i).getName()) == true) {
+				cout << " > TOWN FOUND" << endl;
+				foundTown = true;
+				break;
+			}
 		}
+
+		if (!foundTown) {
+			cout << " > TOWN NOT FOUND." << endl;
+			return -1;
+		}
+
+	} else {
+
+		for (unsigned int i = 0; i < vecStreets.size(); i++) {
+			if (KMP(name, vecStreets.at(i).getName()) == true) {
+				cout << " > STREET FOUND" << endl;
+				foundStreet = true;
+				break;
+			}
+		}
+
+		if (!foundStreet) {
+			cout << " > STREET NOT FOUND." << endl;
+			return -1;
+		}
+
 	}
 
-	if (!foundTown)
-		cout << "TOWN NOT FOUND." << endl;
-
-	for (unsigned int i = 0; i < vecStreets.size(); i++) {
-		if (KMP(street, vecStreets.at(i).getName()) == true) {
-			cout << "STREET FOUND" << endl;
-			foundStreet = true;
-			break;
-		}
-	}
-
-	if (!foundStreet)
-		cout << "STREET NOT FOUND." << endl;
-
+	return 0;
 }
 
