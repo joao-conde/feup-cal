@@ -81,17 +81,22 @@ void Manager::loadNodes() {
 			int x;
 			int y;
 			string name;
+			string town;
 
 			linestream >> id;
 
 			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 			linestream >> x;
+
 			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
 			linestream >> y;
-			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
-			linestream >> name;
 
-			Node node = Node(id, x, y, name);
+			std::getline(linestream, data, ';'); // read up-to the first ; (discard ;).
+			std::getline(linestream, name, ';');
+
+			std::getline(linestream, town, ';');
+
+			Node node = Node(id, x, y, name, town);
 
 			myGraph.addVertex(node);
 		}
@@ -540,111 +545,91 @@ Node Manager::petrolNear(int id) {
 
 }
 
-string Manager::mainMenu(bool source) {
-	int option;
+int Manager::searchMenu() {
+
 	string input;
+	int search;
 
-	if (source)
-		cout << "> WHERE ARE YOU ?\n";
-	else
-		cout << "> WHERE DO YOU WANT TO GO ?\n";
+	cout << "> TYPES OF SEARCH:\n";
+	cout << "[1] Exact" << endl << "[2] Approximate" << endl;
 
-	cout << "[1]Mall           [4]Restaurant\n"
-			<< "[2]Cinema         [5]University\n"
-			<< "[3]Gas Station    [6]Parking Lot\n" << "[0]Other\n\n";
+	cout << "\n> Type your choice: ";
 
-	cout << "> Option: ";
-	cin >> option;
-	cout << endl;
+	getline(cin, input);
+	search = stoi(input);
 
-	if (option >= 0 && option <= 6) {
-
-		switch (option) {
-		case 0:
-			input = "null";
-			break;
-		case 1:
-			input = "mall";
-			break;
-		case 2:
-			input = "cinema";
-			break;
-		case 3:
-			input = "gas";
-			break;
-		case 4:
-			input = "food";
-			break;
-		case 5:
-			input = "uni";
-			break;
-		case 6:
-			input = "park";
-			break;
-		default:
-			break;
-		}
-	}
-
-	return input;
+	return search;
 }
 
-vector<int> Manager::getStreets(bool source) {
-	vector<int> streets;
-	string input = mainMenu(source);
+vector<int> Manager::getInformation() {
+	vector<int> failed, success;
+	Town currentTown, destTown;
+	Street *currentStreet, *destStreet;
 
-	if (!input.empty()) {
+	// TIPO DE PESQUISA: exata ou aproximada
 
-		cout << " ID      Street\n-----------------\n";
+	int typeSearch = searchMenu();
 
-		for (size_t i = 0; i < vecStreets.size(); i++) {
-			for (size_t j = 0; j < vecStreets.at(i).getVertexs().size(); j++) {
-				int id = vecStreets.at(i).getVertexs().at(j)->getInfo().getID();
-				string name = vecStreets.at(i).getName();
-				string local =
-						vecStreets.at(i).getVertexs().at(j)->getInfo().getName();
-
-				if (input == local) {
-					cout << id << "  :  " << name << endl;
-					streets.push_back(id);
-				}
-			}
-		}
-		cout << endl;
-	}
-
-	return streets;
-}
-
-bool Manager::verifyChoice(const vector<int> st, int id) {
-	for (size_t i = 0; i < st.size(); i++) {
-		if (id == st.at(i))
-			return true;
-	}
-	return false;
-}
-
-vector<Node> Manager::insertStrings() {
-	vector<Node> failed;
-	Town currentTown;
+	if (typeSearch > 2 || typeSearch < 1)
+		return failed;
 
 	// LOCALIZACAO ATUAL
 
 	displayTowns();
 
-	currentTown = chooseTown();
+	currentTown = chooseTown(true);
 
 	if (currentTown.getId() == 0)
 		return failed;
 
-	return failed;
+	displayStreets(currentTown);
+
+	currentStreet = chooseStreet(currentTown, true);
+
+	if (currentStreet == NULL)
+		return failed;
+
+	int source = getNodeID(*currentStreet, currentTown.getName());
+
+	if (source == -1)
+		return failed;
+
+	cout << "\n> Current location valid.\n\n";
+
+	// DESTINO
+
+	displayTowns();
+
+	destTown = chooseTown(false);
+
+	if (destTown.getId() == 0)
+		return failed;
+
+	displayStreets(destTown);
+
+	destStreet = chooseStreet(destTown, false);
+
+	if (destStreet == NULL)
+		return failed;
+
+	int dest = getNodeID(*destStreet, destTown.getName());
+
+	if (dest == -1)
+		return failed;
+
+	cout << "\n> Destination location valid.\n\n";
+
+	success.push_back(source);
+	success.push_back(dest);
+
+	return success;
 }
 
 void Manager::displayTowns() {
 
 	int counter = 1;
 
-	cout << " > TOWNS\n\n";
+	cout << "\n > TOWNS\n\n";
 
 	for (unsigned int i = 0; i < vecTowns.size(); i++) {
 		cout << setw(20) << vecTowns.at(i).getName();
@@ -656,11 +641,15 @@ void Manager::displayTowns() {
 	}
 }
 
-Town Manager::chooseTown() {
+Town Manager::chooseTown(bool source) {
 	Town currentTown;
 	string input;
 
-	cout << "\n > Where are you? Type the town's name: ";
+	if (source)
+		cout << "\n> Where are you? Type the town's name: ";
+	else
+		cout << "\n> Where do you want to go? Type the town's name: ";
+
 	getline(cin, input);
 
 	if (stringMatching(input, true) == 0) {
@@ -676,62 +665,99 @@ Town Manager::chooseTown() {
 
 }
 
-void Manager::askTownAndStreet() {
+void Manager::displayStreets(Town town) {
 
-	string town, street;
+	cout << "\n > STREETS OF: " << town.getName() << "\n\n";
 
-	cout << "> TOWN: ";
-	cin >> town;
-	cout << endl;
-
-	cout << "> STREET: ";
-	cin >> street;
-	cout << endl;
-
-	//stringMatching(town, street);
-	//aproxStringMatching(town, street);
+	for (unsigned int i = 0; i < town.getStreets().size(); i++) {
+		cout << town.getStreets().at(i)->getName() << endl;
+	}
 }
 
-vector<Node> Manager::insertValues() {
+Street* Manager::chooseStreet(Town town, bool source) {
+	Street *currentStreet = NULL;
+	string input;
+
+	if (source)
+		cout << "\n> Where are you? Type the street's name: ";
+	else
+		cout << "\n> Where do you want to go? Type the street's name: ";
+
+	getline(cin, input);
+
+	if (stringMatching(input, false) == 0) {
+
+		for (unsigned int i = 0; i < town.getStreets().size(); i++) {
+			if (town.getStreets().at(i)->getName() == input)
+				currentStreet = town.getStreets().at(i);
+		}
+
+	}
+
+	return currentStreet;
+}
+
+int Manager::getNodeID(Street& st, string town) {
+
+	vector<Node> nodes;
+
+	for (unsigned int i = 0; i < st.getVertexs().size(); i++) {
+		if (st.getVertexs().at(i)->getInfo().getTown() == town)
+			nodes.push_back(st.getVertexs().at(i)->getInfo());
+	}
+
+	if (nodes.size() == 1)
+		return nodes.at(0).getID();
+	else {
+		string input;
+		int id;
+		bool flag = false;
+
+		cout << "\n> This street has more than one node in this town." << endl
+				<< "> Choose more precisely.\n";
+
+		cout << " ID      Place\n-----------------\n";
+
+		for (size_t j = 0; j < nodes.size(); j++)
+			cout << nodes.at(j).getID() << "  :  " << nodes.at(j).getName()
+					<< endl;
+
+		cout << "\n> Insert the ID: ";
+
+		getline(cin, input);
+		id = stoi(input);
+
+		for (size_t k = 0; k < nodes.size(); k++) {
+			if (id == nodes.at(k).getID())
+				flag = true;
+		}
+
+		if (flag) {
+			return id;
+		} else {
+			cerr << "\n> Not a valid ID!\n";
+			return -1;
+		}
+
+	}
+
+}
+
+vector<Node> Manager::producePath() {
 
 	int source, dest, Cheap_Near;
 	float maxDistance;
 	char passPetrolStation;
-	vector<int> options;
 	vector<Node> failed;
+	vector<int> information;
 
-	options = getStreets(true);
+	information = getInformation();
 
-	if (options.empty()) {
-		cerr << "Invalid option.\n";
+	if (information.size() == 0)
 		return failed;
-	}
 
-	cout << "> CHOOSE YOUR CURRENT LOCATION'S ID: ";
-	cin >> source;
-	cout << endl;
-
-	if (!verifyChoice(options, source)) {
-		cerr << "Invalid option.\n";
-		return failed;
-	}
-
-	options.clear();
-	options = getStreets(false);
-
-	if (options.empty()) {
-		cerr << "Invalid option.\n";
-		return failed;
-	}
-
-	cout << "> CHOOSE YOUR DESTINATION'S ID: ";
-	cin >> dest;
-	cout << endl;
-
-	if (!verifyChoice(options, dest)) {
-		cerr << "Invalid option.\n";
-		return failed;
-	}
+	source = information.at(0);
+	dest = information.at(1);
 
 	cout << "> MAX DISTANCE (m): ";
 	cin >> maxDistance;
@@ -772,22 +798,22 @@ vector<Node> Manager::insertValues() {
 		}
 	}
 
-	//time--------------------------------------------
+//time--------------------------------------------
 	int nTimeElapsed = GetMilliSpan(nTimeStart);
 	cout << endl << endl;
 	cout << "> EXECUTION TIME (ms): " << nTimeElapsed << endl;
-	//------------------------------------------------
+//------------------------------------------------
 
-	//connection--------------------------------------
+//connection--------------------------------------
 	cout << "> IS GRAPH STRONGLY CONNECTED: ";
 	if (myGraph.isStronglyConnected())
 		cout << "yes" << endl;
 	else
 		cout << "no" << endl;
-	//------------------------------------------------
+//------------------------------------------------
 
 	return path;
-	//TODO: falta fazer o falhanco da coisa
+//TODO: falta fazer o falhanco da coisa
 }
 
 //retorna vetor vazio se nao encontroou nenhum path
@@ -971,14 +997,14 @@ int Manager::stringMatching(string name, bool town) {
 
 		for (unsigned int i = 0; i < vecTowns.size(); i++) {
 			if (KMP(name, vecTowns.at(i).getName()) == true) {
-				cout << " > TOWN FOUND" << endl;
+				cout << "> TOWN FOUND" << endl;
 				foundTown = true;
 				break;
 			}
 		}
 
 		if (!foundTown) {
-			cout << " > TOWN NOT FOUND." << endl;
+			cerr << "> TOWN NOT FOUND." << endl;
 			return -1;
 		}
 
@@ -986,14 +1012,14 @@ int Manager::stringMatching(string name, bool town) {
 
 		for (unsigned int i = 0; i < vecStreets.size(); i++) {
 			if (KMP(name, vecStreets.at(i).getName()) == true) {
-				cout << " > STREET FOUND" << endl;
+				cout << "> STREET FOUND" << endl;
 				foundStreet = true;
 				break;
 			}
 		}
 
 		if (!foundStreet) {
-			cout << " > STREET NOT FOUND." << endl;
+			cerr << "> STREET NOT FOUND." << endl;
 			return -1;
 		}
 

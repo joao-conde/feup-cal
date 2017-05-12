@@ -39,6 +39,6 @@
 39;Rua do Bonfim;1;39,40,41;
 40;Rua de Barros Lima;1;36,41;
 41;Rua de Justino Teixeira;1;36,42;
-42;A20;1;28,32;
+42;Rua Manuel Pereira da Silva;1;28,32;
 43;Rua da Cerca;0;7,6;
 44;Rua Antero Quental;1;14,15,16,17;

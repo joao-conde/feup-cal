@@ -138,29 +138,12 @@ public:
 	Node petrolNear(int id);
 
 	/**
-	 * Funcao mostra o menu com opcoes
-	 * @return int opcao, escolhido pelo user
-	 */
-	string mainMenu(bool source);
-
-	/**
-	 * Funcao mostra e retorna o vetor de ids dos nodes de um certo local
-	 * @return Vetor de IDs dos nodes
-	 */
-	vector<int> getStreets(bool source);
-
-	/**
-	 * Funcao que verifica se o node escolhido pelo user
-	 * @return verdadeiro ou falso
-	 */
-	bool verifyChoice(const vector<int> st, int id);
-
-	/**
 	 * Funcao que pede os valores ao user e chama as funçoes para calcular o path, retornando esse path.
 	 * Se o retorno for um vetor vazio, algum valor inserido nao foi valido.
 	 * @return Vetor de Nodes com o path pretendido.
 	 */
-	vector<Node> insertValues();
+	//TODO: alterar documentacao disto
+	vector<Node> producePath();
 
 	/**
 	 * Funcao que calcula o path final pretendido.
@@ -180,11 +163,15 @@ public:
 	 */
 	void addPetrolToPath(vector<Node> &path);
 
-	vector<Node> insertStrings();
-	void displayTowns();
-	Town chooseTown();
+	int searchMenu();
 
-	void askTownAndStreet();
+	vector<int> getInformation();
+	void displayTowns();
+	Town chooseTown(bool source);
+	void displayStreets(Town town);
+	Street* chooseStreet(Town town, bool source);
+	int getNodeID(Street& st, string town);
+
 	int stringMatching(string name, bool town);
 
 };

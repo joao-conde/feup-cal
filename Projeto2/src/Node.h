@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -9,6 +10,7 @@ private:
 	int id; ///< Node's ID
 	string name; //< Node's name
 	pair<int, int> coords;  ///< Node's coordinates (x,y)
+	string town;
 
 public:
 	/**
@@ -28,7 +30,7 @@ public:
 	 * @param y int que representa a coordenada Y do node.
 	 * @param name string que representa o nome do local do node.
 	 */
-	Node(int id, int x, int y, string name);
+	Node(int id, int x, int y, string name, string town);
 
 	/**
 	 * Função que retorna o ID do node
@@ -65,5 +67,7 @@ public:
 	 * @param n2 Noode ao qual queremos comparar a instancia que chama esta função.
 	 */
 	bool operator==(const Node & n2) const;
+
+	string getTown();
 };
 

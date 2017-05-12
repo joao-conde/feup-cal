@@ -11,24 +11,14 @@ int main() {
 
 	Manager::instance()->loadData();
 
-	//PROJECT 1
-
-	/*vector<Node> path;
-	path = Manager::instance()->insertValues();
+	vector<Node> path;
+	path = Manager::instance()->producePath();
 
 	if (path.size() != 0) {
 		Manager::instance()->printGraph();
 		Manager::instance()->paintPath(path);
 	} else
-		cerr << "Program ended.\n";*/
-
-	//PROJECT 2
-
-	//Manager::instance()->askTownAndStreet();
-
-	Manager::instance()->insertStrings();
-
-	//Manager::instance()->printGraph();
+		cerr << "Program ended.\n";
 
 	getchar();
 	getchar();

@@ -4,11 +4,12 @@ Node::Node() {
 	this->id = 0;
 }
 
-Node::Node(int id, int x, int y, string name) {
+Node::Node(int id, int x, int y, string name, string town) {
 	this->id = id;
 	this->coords.first = x;
 	this->coords.second = y;
 	this->name = name;
+	this->town = town;
 }
 
 Node::~Node() {
@@ -36,4 +37,8 @@ string Node::getName() const {
 
 bool Node::operator ==(const Node &n2) const {
 	return (id == n2.id);
+}
+
+string Node::getTown() {
+	return this->town;
 }
