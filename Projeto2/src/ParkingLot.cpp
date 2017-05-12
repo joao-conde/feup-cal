@@ -9,7 +9,7 @@ ParkingLot::ParkingLot(int id, Vertex<Node> *node, string name, float price,
 	this->node = node;
 	this->name = name;
 	this->price = price;
-	this->lotation = lotation;
+	this->capacity = lotation;
 
 	if (isGarage)
 		this->isGarage = true;
