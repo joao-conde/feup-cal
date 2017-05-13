@@ -5,10 +5,10 @@
 -sofia: menu: mostrar freguesias e escolher freguesia (check)
 -sofia: menu: mostrar ruas(dizendo se tem parque ou nao) e escolher rua (check)
 
+-sofia: pesquisa aproximada (check)
+
 POR FAZER: 
 -ju: menu: escolher parque dizer lotaçao, se disponivel fica esse se nao atribuir mais perto
 -conde: relatorio
-
--pesquisa aproximada
 
 

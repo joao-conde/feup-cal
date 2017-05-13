@@ -168,11 +168,16 @@ public:
 	vector<int> getInformation();
 	void displayTowns();
 	Town chooseTown(bool source);
+	Town chooseApproxTown(bool source);
 	void displayStreets(Town town);
 	Street* chooseStreet(Town town, bool source);
+	Street* chooseApproxStreet(Town town, bool source);
 	int getNodeID(Street& st, string town);
 
 	int stringMatching(string name, bool town);
+	vector<Town> approximateStringMatchingTown(string name);
+	vector<Street*> approximateStringMatchingStreet(string name, Town town);
+	int wordDistance(string pattern, string text);
 
 };
 
