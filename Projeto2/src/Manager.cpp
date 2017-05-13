@@ -1147,7 +1147,7 @@ vector<Town> Manager::approximateStringMatchingTown(string name) {
 	for (unsigned int i = 0; i < vecTowns.size(); i++) {
 		num = wordDistance(name, vecTowns.at(i).getName());
 
-		if (num < 5) {
+		if (num < 6) {
 			foundTown = true;
 			approxTowns.push_back(vecTowns.at(i));
 		}
@@ -1171,7 +1171,7 @@ vector<Street*> Manager::approximateStringMatchingStreet(string name,
 	for (unsigned int i = 0; i < town.getStreets().size(); i++) {
 		num = wordDistance(name, town.getStreets().at(i)->getName());
 
-		if (num < 10) {
+		if (num < 6) {
 			foundStreet = true;
 			approxStreets.push_back(town.getStreets().at(i));
 		}
