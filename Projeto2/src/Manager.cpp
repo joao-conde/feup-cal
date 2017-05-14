@@ -356,7 +356,7 @@ void Manager::printGraph() {
 			}
 
 			nodeLabel = intToString(idNo) + " (" + floatToString(price)
-					+ " â‚¬/h)";
+					+ " €/h)";
 
 			gv->setVertexIcon(idNo, "res/parkIcon.png");
 			gv->setVertexLabel(idNo, nodeLabel);
@@ -556,7 +556,7 @@ int Manager::searchMenu() {
 	cout << "\n> Type your choice: ";
 
 	getline(cin, input);
-	search = stoi(input);
+	search = atoi(input.c_str());
 
 	return search;
 }
@@ -578,9 +578,9 @@ vector<int> Manager::getInformation() {
 	displayTowns();
 
 	if (toSearch == 1)
-		currentTown = chooseTown(true);
+		currentTown = chooseTown(true, false);
 	else
-		currentTown = chooseApproxTown(true);
+		currentTown = chooseTown(true, true);
 
 	if (currentTown.getId() == 0)
 		return failed;
@@ -588,9 +588,9 @@ vector<int> Manager::getInformation() {
 	displayStreets(currentTown);
 
 	if (toSearch == 1)
-		currentStreet = chooseStreet(currentTown, true);
+		currentStreet = chooseStreet(currentTown, true, false);
 	else
-		currentStreet = chooseApproxStreet(currentTown, true);
+		currentStreet = chooseStreet(currentTown, true, true);
 
 	if (currentStreet == NULL)
 		return failed;
@@ -607,9 +607,9 @@ vector<int> Manager::getInformation() {
 	displayTowns();
 
 	if (toSearch == 1)
-		destTown = chooseTown(false);
+		destTown = chooseTown(false, false);
 	else
-		destTown = chooseApproxTown(false);
+		destTown = chooseTown(false, true);
 
 	if (destTown.getId() == 0)
 		return failed;
@@ -617,9 +617,9 @@ vector<int> Manager::getInformation() {
 	displayStreets(destTown);
 
 	if (toSearch == 1)
-		destStreet = chooseStreet(destTown, false);
+		destStreet = chooseStreet(destTown, false, false);
 	else
-		destStreet = chooseApproxStreet(destTown, false);
+		destStreet = chooseStreet(destTown, false, true);
 
 	if (destStreet == NULL)
 		return failed;
@@ -653,9 +653,11 @@ void Manager::displayTowns() {
 	}
 }
 
-Town Manager::chooseTown(bool source) {
+Town Manager::chooseTown(bool source, bool approx) {
 	Town currentTown;
+	vector<Town> matchTowns;
 	string input;
+
 
 	if (source)
 		cout << "\n> Where are you? Type the town's name: ";
@@ -664,42 +666,17 @@ Town Manager::chooseTown(bool source) {
 
 	getline(cin, input);
 
-	if (stringMatching(input, true) == 0) {
+	if(approx) matchTowns = approximateStringMatchingTown(input);
+		else matchTowns = stringMatchingTown(input);
 
-		for (unsigned int i = 0; i < vecTowns.size(); i++) {
-			if (vecTowns.at(i).getName() == input)
-				currentTown = vecTowns.at(i);
-		}
+	if (matchTowns.size() != 0) {
 
-	}
+		cout << "\n> WE FOUND THESE TOWNS:\n\nID - TOWN\n-------------\n";
 
-	return currentTown;
+		for (unsigned int i = 0; i < matchTowns.size(); i++) {
 
-}
-
-Town Manager::chooseApproxTown(bool source) {
-	Town currentTown;
-	vector<Town> approxTowns;
-	string input;
-
-	if (source)
-		cout << "\n> Where are you? Type the town's name: ";
-	else
-		cout << "\n> Where do you want to go? Type the town's name: ";
-
-	getline(cin, input);
-
-	approxTowns = approximateStringMatchingTown(input);
-
-	if (approxTowns.size() != 0) {
-
-		cout
-				<< "\n> WE FOUND THESE SIMILAR TOWNS:\n\nID - TOWN\n-------------\n";
-
-		for (unsigned int i = 0; i < approxTowns.size(); i++) {
-
-			cout << approxTowns.at(i).getId() << " : "
-					<< approxTowns.at(i).getName() << endl;
+			cout << matchTowns.at(i).getId() << " : "
+					<< matchTowns.at(i).getName() << endl;
 		}
 
 		cout << "\n> Type the town's ID: ";
@@ -709,11 +686,11 @@ Town Manager::chooseApproxTown(bool source) {
 
 		getline(cin, input2);
 
-		id = stoi(input2);
+		id = atoi(input2.c_str());
 
-		for (unsigned int j = 0; j < approxTowns.size(); j++) {
-			if (id == approxTowns.at(j).getId()) {
-				currentTown = approxTowns.at(j);
+		for (unsigned int j = 0; j < matchTowns.size(); j++) {
+			if (id == matchTowns.at(j).getId()) {
+				currentTown = matchTowns.at(j);
 				flag = true;
 				break;
 			}
@@ -724,6 +701,7 @@ Town Manager::chooseApproxTown(bool source) {
 	}
 
 	return currentTown;
+
 }
 
 void Manager::displayStreets(Town town) {
@@ -735,8 +713,9 @@ void Manager::displayStreets(Town town) {
 	}
 }
 
-Street* Manager::chooseStreet(Town town, bool source) {
+Street* Manager::chooseStreet(Town town, bool source, bool approx) {
 	Street *currentStreet = NULL;
+	vector<Street*> matchStreets;
 	string input;
 
 	if (source)
@@ -746,41 +725,18 @@ Street* Manager::chooseStreet(Town town, bool source) {
 
 	getline(cin, input);
 
-	if (stringMatching(input, false) == 0) {
+	if(approx) matchStreets = approximateStringMatchingStreet(input, town);
+		else matchStreets = stringMatchingStreet(input, town);
 
-		for (unsigned int i = 0; i < town.getStreets().size(); i++) {
-			if (town.getStreets().at(i)->getName() == input)
-				currentStreet = town.getStreets().at(i);
-		}
 
-	}
+	if (matchStreets.size() != 0) {
 
-	return currentStreet;
-}
+		cout << "\n> WE FOUND THESE STREETS:\n\nID - STREET\n-------------\n";
 
-Street* Manager::chooseApproxStreet(Town town, bool source) {
-	Street *currentStreet = NULL;
-	vector<Street*> approxStreets;
-	string input;
+		for (unsigned int i = 0; i < matchStreets.size(); i++) {
 
-	if (source)
-		cout << "\n> Where are you? Type the street's name: ";
-	else
-		cout << "\n> Where do you want to go? Type the street's name: ";
-
-	getline(cin, input);
-
-	approxStreets = approximateStringMatchingStreet(input, town);
-
-	if (approxStreets.size() != 0) {
-
-		cout
-				<< "\n> WE FOUND THESE SIMILAR STREETS:\n\nID - STREET\n-------------\n";
-
-		for (unsigned int i = 0; i < approxStreets.size(); i++) {
-
-			cout << approxStreets.at(i)->getID() << " : "
-					<< approxStreets.at(i)->getName() << endl;
+			cout << matchStreets.at(i)->getID() << " : "
+					<< matchStreets.at(i)->getName() << endl;
 		}
 
 		cout << "\n> Type the streets's ID: ";
@@ -790,11 +746,11 @@ Street* Manager::chooseApproxStreet(Town town, bool source) {
 
 		getline(cin, input2);
 
-		id = stoi(input2);
+		id = atoi(input2.c_str());
 
-		for (unsigned int j = 0; j < approxStreets.size(); j++) {
-			if (id == approxStreets.at(j)->getID()) {
-				currentStreet = approxStreets.at(j);
+		for (unsigned int j = 0; j < matchStreets.size(); j++) {
+			if (id == matchStreets.at(j)->getID()) {
+				currentStreet = matchStreets.at(j);
 				flag = true;
 				break;
 			}
@@ -806,6 +762,7 @@ Street* Manager::chooseApproxStreet(Town town, bool source) {
 
 	return currentStreet;
 }
+
 
 int Manager::getNodeID(Street& st, string town) {
 
@@ -835,7 +792,7 @@ int Manager::getNodeID(Street& st, string town) {
 		cout << "\n> Insert the ID: ";
 
 		getline(cin, input);
-		id = stoi(input);
+		id = atoi(input.c_str());
 
 		for (size_t k = 0; k < nodes.size(); k++) {
 			if (id == nodes.at(k).getID())
@@ -1098,45 +1055,88 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 
 }
 
-int Manager::stringMatching(string name, bool town) {
+//Pesquisa Exata
 
-	bool foundTown = false;
-	bool foundStreet = false;
+vector<Town> Manager::stringMatchingTown(string name) {
 
-	if (town) {
+	vector<Town> towns;
+	bool foundTown=false;
 
-		for (unsigned int i = 0; i < vecTowns.size(); i++) {
-			if (KMP(name, vecTowns.at(i).getName()) == true) {
-				cout << "> TOWN FOUND" << endl;
-				foundTown = true;
-				break;
-			}
-		}
-
-		if (!foundTown) {
-			cerr << "> TOWN NOT FOUND." << endl;
-			return -1;
-		}
-
-	} else {
-
-		for (unsigned int i = 0; i < vecStreets.size(); i++) {
-			if (KMP(name, vecStreets.at(i).getName()) == true) {
-				cout << "> STREET FOUND" << endl;
-				foundStreet = true;
-				break;
-			}
-		}
-
-		if (!foundStreet) {
-			cerr << "> STREET NOT FOUND." << endl;
-			return -1;
+	for (unsigned int i = 0; i < vecTowns.size(); i++) {
+		if (kpm(name, vecTowns.at(i).getName()) == true) {
+			towns.push_back(vecTowns.at(i));
+			foundTown=true;
 		}
 
 	}
 
+	if (foundTown)
+		cout << "\n> TOWN(S) FOUND." << endl;
+	else
+		cerr << "\n> TOWN(S) NOT FOUND." << endl;
+
+	return towns;
+}
+
+vector<Street*> Manager::stringMatchingStreet(string name, Town town) {
+
+	vector<Street*> streets;
+	bool foundStreet=false;
+
+	for (unsigned int i = 0; i < town.getStreets().size(); i++) {
+			if (kpm(name, town.getStreets().at(i)->getName()) == true) {
+				streets.push_back(town.getStreets().at(i));
+				foundStreet=true;
+			}
+	}
+
+	if (foundStreet)
+		cout << "\n> STREET(S) FOUND." << endl;
+	else
+		cerr << "\n> STREET(S) NOT FOUND." << endl;
+
+
+	return streets;
+}
+
+void Manager::prekpm(string pattern, int f[]) {
+	int m = pattern.length(), k;
+	f[0] = -1;
+	for (int i = 1; i < m; i++) {
+		k = f[i - 1];
+		while (k >= 0) {
+			if (pattern[k] == pattern[i - 1])
+				break;
+			else
+				k = f[k];
+		}
+		f[i] = k + 1;
+	}
+}
+
+bool Manager::kpm(string pattern, string target) {
+	int m = pattern.length();
+	int n = target.length();
+	int f[m];
+	prekpm(pattern, f);
+	int i = 0;
+	int k = 0;
+	while (i < n) {
+		if (k == -1) {
+			i++;
+			k = 0;
+		} else if (target[i] == pattern[k]) {
+			i++;
+			k++;
+			if (k == m)
+				return 1;
+		} else
+			k = f[k];
+	}
 	return 0;
 }
+
+//Pesquisa Aproximada
 
 vector<Town> Manager::approximateStringMatchingTown(string name) {
 
@@ -1210,3 +1210,4 @@ int Manager::wordDistance(string pattern, string text) {
 	}
 	return d[n];
 }
+

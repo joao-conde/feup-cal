@@ -167,14 +167,17 @@ public:
 
 	vector<int> getInformation();
 	void displayTowns();
-	Town chooseTown(bool source);
-	Town chooseApproxTown(bool source);
+	Town chooseTown(bool source, bool approx);
 	void displayStreets(Town town);
-	Street* chooseStreet(Town town, bool source);
-	Street* chooseApproxStreet(Town town, bool source);
+	Street* chooseStreet(Town town, bool source, bool approx);
 	int getNodeID(Street& st, string town);
 
-	int stringMatching(string name, bool town);
+	vector<Town> stringMatchingTown(string name);
+	vector<Street*> stringMatchingStreet(string name,  Town town);
+	void prekpm(string pattern, int f[]);
+	bool kpm(string pattern, string target);
+
+
 	vector<Town> approximateStringMatchingTown(string name);
 	vector<Street*> approximateStringMatchingStreet(string name, Town town);
 	int wordDistance(string pattern, string text);
