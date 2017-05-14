@@ -12,7 +12,6 @@
 #include "graphviewer.h"
 #include "UtilFunctions.h"
 #include "Town.h"
-#include "StringAlgorithm.h"
 #include <iomanip>
 
 class Manager {
