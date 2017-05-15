@@ -592,6 +592,7 @@ vector<int> Manager::getInformation() {
 	else
 		currentStreet = chooseStreet(currentTown, true, true);
 
+
 	if (currentStreet == NULL)
 		return failed;
 
@@ -658,7 +659,6 @@ Town Manager::chooseTown(bool source, bool approx) {
 	vector<Town> matchTowns;
 	string input;
 
-
 	if (source)
 		cout << "\n> Where are you? Type the town's name: ";
 	else
@@ -666,8 +666,10 @@ Town Manager::chooseTown(bool source, bool approx) {
 
 	getline(cin, input);
 
-	if(approx) matchTowns = approximateStringMatchingTown(input);
-		else matchTowns = stringMatchingTown(input);
+	if (approx)
+		matchTowns = approximateStringMatchingTown(input);
+	else
+		matchTowns = stringMatchingTown(input);
 
 	if (matchTowns.size() != 0) {
 
@@ -725,9 +727,11 @@ Street* Manager::chooseStreet(Town town, bool source, bool approx) {
 
 	getline(cin, input);
 
-	if(approx) matchStreets = approximateStringMatchingStreet(input, town);
-		else matchStreets = stringMatchingStreet(input, town);
 
+	if (approx)
+		matchStreets = approximateStringMatchingStreet(input, town);
+	else
+		matchStreets = stringMatchingStreet(input, town);
 
 	if (matchStreets.size() != 0) {
 
@@ -762,7 +766,6 @@ Street* Manager::chooseStreet(Town town, bool source, bool approx) {
 
 	return currentStreet;
 }
-
 
 int Manager::getNodeID(Street& st, string town) {
 
@@ -1060,12 +1063,12 @@ void Manager::addPetrolToPath(vector<Node> &path) {
 vector<Town> Manager::stringMatchingTown(string name) {
 
 	vector<Town> towns;
-	bool foundTown=false;
+	bool foundTown = false;
 
 	for (unsigned int i = 0; i < vecTowns.size(); i++) {
 		if (kpm(name, vecTowns.at(i).getName()) == true) {
 			towns.push_back(vecTowns.at(i));
-			foundTown=true;
+			foundTown = true;
 		}
 
 	}
@@ -1081,20 +1084,19 @@ vector<Town> Manager::stringMatchingTown(string name) {
 vector<Street*> Manager::stringMatchingStreet(string name, Town town) {
 
 	vector<Street*> streets;
-	bool foundStreet=false;
+	bool foundStreet = false;
 
 	for (unsigned int i = 0; i < town.getStreets().size(); i++) {
-			if (kpm(name, town.getStreets().at(i)->getName()) == true) {
-				streets.push_back(town.getStreets().at(i));
-				foundStreet=true;
-			}
+		if (kpm(name, town.getStreets().at(i)->getName()) == true) {
+			streets.push_back(town.getStreets().at(i));
+			foundStreet = true;
+		}
 	}
 
 	if (foundStreet)
 		cout << "\n> STREET(S) FOUND." << endl;
 	else
 		cerr << "\n> STREET(S) NOT FOUND." << endl;
-
 
 	return streets;
 }
@@ -1209,5 +1211,100 @@ int Manager::wordDistance(string pattern, string text) {
 		}
 	}
 	return d[n];
+}
+
+vector<string> Manager::manageWords(string sentence) {
+
+	string buf;
+	stringstream ss(sentence);
+	vector<string> words;
+
+	while (ss >> buf)
+		words.push_back(buf);
+
+	return words;
+}
+
+void Manager::abc(string stringInput){
+
+	vector<string> stringVecs;
+
+	/*for(int i = 0; i < town.getStreets().size(); i++){
+		stringVecs.push_back(town.getStreets().at(i)->getName());
+	}*/
+
+	for (int i =0; i < vecStreets.size(); i++){
+		stringVecs.push_back(vecStreets.at(i).getName());
+	}
+
+
+	findTopFiveMatchingStrings(stringInput, stringVecs);
+
+}
+
+
+vector<string> Manager::findTopFiveMatchingStrings(string userInput,
+		vector<string> sentencesVec) {
+
+	vector<string> userInputVec = manageWords(userInput);
+
+
+	vector<map<string, int>> mapVecs;
+
+	for (int i = 0; i < userInputVec.size(); i++) {
+
+		map<string, int> mapWord;
+
+
+		for (int j = 0; j < sentencesVec.size(); j++) {
+
+
+			vector<string> sentenceInWordsVec = manageWords(sentencesVec.at(j));
+			int difference = -1;
+
+
+			for (int k = 0; k < sentenceInWordsVec.size(); k++) {
+
+
+				int differenceTemp = wordDistance(userInputVec.at(i),
+						sentenceInWordsVec.at(k));
+
+				if (difference == -1 || differenceTemp < difference) {
+					difference = differenceTemp;
+				}
+			}
+
+			cout <<endl;
+
+			pair<string, int> differenceSentence = make_pair(sentencesVec.at(j), difference);
+			mapWord.insert(differenceSentence);
+		}
+
+		mapVecs.push_back(mapWord);
+	}
+
+	multimap<int, string> finalMultiMap;
+
+	for (int i = 0; i < sentencesVec.size(); i++) {
+
+		int difference = 0;
+
+		for (int j = 0; j < mapVecs.size(); j++) {
+			difference += mapVecs[j][sentencesVec.at(i)];
+
+		}
+		pair<int, string> p = make_pair(difference, sentencesVec.at(i));
+		finalMultiMap.insert(p);
+
+	}
+
+
+	 for (multimap<int,string>::iterator it=finalMultiMap.begin(); it!=finalMultiMap.end(); it++){
+		 cout << it->first << " => " << it->second << '\n';
+	 }
+
+	 vector<string> ret;
+
+	 return ret;
 }
 

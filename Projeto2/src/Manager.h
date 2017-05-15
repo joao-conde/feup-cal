@@ -13,6 +13,7 @@
 #include "UtilFunctions.h"
 #include "Town.h"
 #include <iomanip>
+#include <map>
 
 class Manager {
 
@@ -180,6 +181,10 @@ public:
 	vector<Town> approximateStringMatchingTown(string name);
 	vector<Street*> approximateStringMatchingStreet(string name, Town town);
 	int wordDistance(string pattern, string text);
+
+	vector <string> manageWords(string sentence);
+	void abc(string stringInput);
+	vector <string> findTopFiveMatchingStrings( string userInput, vector <string> stringsToAnalyse);
 
 };
 
