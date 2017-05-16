@@ -172,19 +172,23 @@ public:
 	Street* chooseStreet(Town town, bool source, bool approx);
 	int getNodeID(Street& st, string town);
 
+	//Pesquisa Exata
 	vector<Town> stringMatchingTown(string name);
 	vector<Street*> stringMatchingStreet(string name,  Town town);
 	void prekpm(string pattern, int f[]);
 	bool kpm(string pattern, string target);
 
+	//Pesquisa Aproximada
 
-	vector<Town> approximateStringMatchingTown(string name);
-	vector<Street*> approximateStringMatchingStreet(string name, Town town);
-	int wordDistance(string pattern, string text);
+	//vector<Town> approximateStringMatchingTown(string name);
+	//vector<Street*> approximateStringMatchingStreet(string name, Town town);
 
+	vector<Street*> JUapproximateStringMatchingStreet(string name,
+			Town town);
+	vector<Town> JUapproximateStringMatchingTown(string name);
 	vector <string> manageWords(string sentence);
-	void abc(string stringInput);
-	vector <string> findTopFiveMatchingStrings( string userInput, vector <string> stringsToAnalyse);
+	vector <string> findApproxMatchingStrings(string userInput, vector<string> sentencesVec);
+	int wordDistance(string pattern, string text);
 
 };
 

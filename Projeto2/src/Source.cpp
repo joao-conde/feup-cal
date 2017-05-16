@@ -11,18 +11,18 @@ int main() {
 
 	Manager::instance()->loadData();
 
-	/*vector<Node> path;
+	vector<Node> path;
 	path = Manager::instance()->producePath();
 
 	if (path.size() != 0) {
 		Manager::instance()->printGraph();
 		Manager::instance()->paintPath(path);
 	} else
-		cerr << "Program ended.\n";*/
+		cerr << "Program ended.\n";
 
-	string a = "iav";
+	/*string a = "rua clement";
 
-	Manager::instance()->abc(a);
+	Manager::instance()->testar(a);*/
 
 
 	getchar();
