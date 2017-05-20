@@ -666,7 +666,7 @@ Town Manager::chooseTown(bool source, bool approx) {
 	getline(cin, input);
 
 	if (approx)
-		matchTowns = JUapproximateStringMatchingTown(input);
+		matchTowns = approximateStringMatchingTown(input);
 	else
 		matchTowns = stringMatchingTown(input);
 
@@ -727,7 +727,7 @@ Street* Manager::chooseStreet(Town town, bool source, bool approx) {
 	getline(cin, input);
 
 	if (approx)
-		matchStreets = JUapproximateStringMatchingStreet(input, town);
+		matchStreets = approximateStringMatchingStreet(input, town);
 	else
 		matchStreets = stringMatchingStreet(input, town);
 
@@ -1145,7 +1145,7 @@ bool Manager::kpm(string pattern, string target) {
  vector<Town> approxTowns;
 
  for (unsigned int i = 0; i < vecTowns.size(); i++) {
- num = wordDistance(name, vecTowns.at(i).getName());
+ num = editDistance(name, vecTowns.at(i).getName());
 
  if (num < 6) {
  foundTown = true;
@@ -1169,7 +1169,7 @@ bool Manager::kpm(string pattern, string target) {
  vector<Street*> approxStreets;
 
  for (unsigned int i = 0; i < town.getStreets().size(); i++) {
- num = wordDistance(name, town.getStreets().at(i)->getName());
+ num = editDistance(name, town.getStreets().at(i)->getName());
 
  if (num < 6) {
  foundStreet = true;
@@ -1186,7 +1186,7 @@ bool Manager::kpm(string pattern, string target) {
  }
  */
 
-vector<Town> Manager::JUapproximateStringMatchingTown(string name) {
+vector<Town> Manager::approximateStringMatchingTown(string name) {
 
 	bool foundTown = false;
 	vector<string> townsStrings;
@@ -1216,7 +1216,7 @@ vector<Town> Manager::JUapproximateStringMatchingTown(string name) {
 	return approxTowns;
 }
 
-vector<Street*> Manager::JUapproximateStringMatchingStreet(string name,
+vector<Street*> Manager::approximateStringMatchingStreet(string name,
 		Town town) {
 
 	bool foundStreet = false;
@@ -1283,7 +1283,7 @@ vector<string> Manager::findApproxMatchingStrings(string userInput,
 					continue;
 				}
 
-				int differenceTemp = wordDistance(userInputVec.at(i),
+				int differenceTemp = editDistance(userInputVec.at(i),
 						sentenceInWordsVec.at(k));
 
 				if (difference == -1 || differenceTemp < difference) {
@@ -1318,16 +1318,16 @@ vector<string> Manager::findApproxMatchingStrings(string userInput,
 
 	for (multimap<int, string>::iterator it = finalMultiMap.begin();
 			it != finalMultiMap.end(); it++) {
-		cout << it->first << " => " << it->second << '\n';
+		//cout << it->first << " => " << it->second << '\n';
 
-		if (it->first < (4 * userInputVec.size()))
+		if (it->first <= (4 * userInputVec.size()))
 			finalVec.push_back(it->second);
 	}
 
 	return finalVec;
 }
 
-int Manager::wordDistance(string pattern, string text) {
+int Manager::editDistance(string pattern, string text) {
 
 	int n = text.length();
 	vector<int> d(n + 1);

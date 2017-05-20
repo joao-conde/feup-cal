@@ -183,12 +183,12 @@ public:
 	//vector<Town> approximateStringMatchingTown(string name);
 	//vector<Street*> approximateStringMatchingStreet(string name, Town town);
 
-	vector<Street*> JUapproximateStringMatchingStreet(string name,
+	vector<Street*> approximateStringMatchingStreet(string name,
 			Town town);
-	vector<Town> JUapproximateStringMatchingTown(string name);
+	vector<Town> approximateStringMatchingTown(string name);
 	vector <string> manageWords(string sentence);
 	vector <string> findApproxMatchingStrings(string userInput, vector<string> sentencesVec);
-	int wordDistance(string pattern, string text);
+	int editDistance(string pattern, string text);
 
 };
 
