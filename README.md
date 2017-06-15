@@ -14,9 +14,7 @@ Considere a possibilidade de utilizar mapas reais, extraídos do OpenStreetMaps 
 **[ Parte 2 ]**<br><br>
 Para a segunda parte deste trabalho, considere que as ruas têm nomes, por exemplo “Rua de Dr Roberto Frias”, e que pertencem a um dado distrito, por exemplo, “Porto”. Estenda o trabalho realizado com funcionalidades apropriadas que permitem ao automobilista selecionar uma rua, pelo seu nome, na tentativa de lá encontrar lugares vagos de estacionamento. Implemente esta funcionalidade, considerando tanto pesquisa exata, assim como pesquisa aproximada, das strings identificativas dos nomes de rua e distrito. Para pesquisa exata, caso o distrito ou o nome de rua não existam, deverá retornar mensagem de destino inexistente. Para a pesquisa aproximada, deverá retornar os distritos e nomes de ruas mais próximos.<br><br>
 Estas novas funcionalidades deverão ser integradas no trabalho já realizado para a primeira parte. Avalie a complexidade (teórica e empiricamente) dos algoritmos implementados em função dos dados de input usados. <br><br>
-
-<br> <br>
- 
+<br><br>
 ### Relatório
 O relatório, a ser entregue em formato PDF, deverá incluir:
 
