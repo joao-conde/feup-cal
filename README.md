@@ -2,7 +2,7 @@
 Projects for the Conception and Analysis of Algorithms (CAL) class of the Master in Informatics and Computer Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP). 
 <br><br>
 Made in colaboration with [Julieta Frade](https://github.com/julietafrade97) and [João Conde](https://github.com/JC13).<br>
-**Completed in ____.**
+**Completed in 21/05/2017.**
 <br><br>
 ### Tema 1: À procura de estacionamento
 **[ Parte 1 ]**<br><br>
@@ -14,9 +14,6 @@ Considere a possibilidade de utilizar mapas reais, extraídos do OpenStreetMaps 
 **[ Parte 2 ]**<br><br>
 Para a segunda parte deste trabalho, considere que as ruas têm nomes, por exemplo “Rua de Dr Roberto Frias”, e que pertencem a um dado distrito, por exemplo, “Porto”. Estenda o trabalho realizado com funcionalidades apropriadas que permitem ao automobilista selecionar uma rua, pelo seu nome, na tentativa de lá encontrar lugares vagos de estacionamento. Implemente esta funcionalidade, considerando tanto pesquisa exata, assim como pesquisa aproximada, das strings identificativas dos nomes de rua e distrito. Para pesquisa exata, caso o distrito ou o nome de rua não existam, deverá retornar mensagem de destino inexistente. Para a pesquisa aproximada, deverá retornar os distritos e nomes de ruas mais próximos.<br><br>
 Estas novas funcionalidades deverão ser integradas no trabalho já realizado para a primeira parte. Avalie a complexidade (teórica e empiricamente) dos algoritmos implementados em função dos dados de input usados. <br><br>
-
-> Entrega Segundo Trabalho (via Moodle, no dia **19/Maio**, até às 24:00) <br>
->> *Nota Mínima:* 8 valores
 
 <br> <br>
  
