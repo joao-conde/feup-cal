@@ -1,7 +1,7 @@
 # feup-cal
 Projects for the Conception and Analysis of Algorithms (CAL) class of the Master in Informatics and Computer Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP). 
 <br><br>
-Made in colaboration with [Julieta Frade](https://github.com/julietafrade97) and [João Conde](https://github.com/JC13).<br>
+Made in colaboration with [Julieta Frade](https://github.com/julietafrade97) and [João Conde](https://github.com/joao-conde).<br>
 **Completed in 21/05/2017.**
 <br><br>
 ### Tema 1: À procura de estacionamento
