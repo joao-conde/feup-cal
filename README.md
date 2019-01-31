@@ -1,9 +1,8 @@
 # feup-cal
-Projects for the Conception and Analysis of Algorithms (CAL) class of the Master in Informatics and Computer Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP). 
-<br><br>
-Made in colaboration with [Julieta Frade](https://github.com/julietafrade97) and [João Conde](https://github.com/joao-conde).<br>
-**Completed in 21/05/2017.**
-<br><br>
+Projects for the Conception and Analysis of Algorithms (CAL) course of the Master in Informatics and Computer Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP). 
+
+
+
 ### Tema 1: À procura de estacionamento
 **[ Parte 1 ]**<br><br>
 Numa cidade, existem diversos locais de estacionamento público: lugares em estrada (parquímetro) ou garagens. O valor do estacionamento varia de local para local.<br>
@@ -27,6 +26,3 @@ O relatório, a ser entregue em formato PDF, deverá incluir:
 * Indicação do esforço dedicado por cada elemento do grupo, incluindo tarefas realizadas;
 * Conclusão do relatório, com análise crítica dos resultados obtidos e principais considerações;
 * Sempre que necessário, citar e fornecer as referências da bibliografia utilizada.
-
-<br><br>
-Mais informações: https://moodle.up.pt/course/view.php?id=1311
